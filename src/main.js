@@ -3,13 +3,23 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './store'
+import ElementUi from 'element-ui'
+import './assets/scss'
+import * as filters from './filters'
+
+Vue.use(ElementUi)
+
+Object.keys(filters).forEach(k => Vue.filter(k, filters(k)))
 
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
-new Vue({
+const app = new Vue({
   el: '#app',
   router,
-  template: '<App/>',
-  components: { App }
+  store,
+  ...App
 })
+
+export default app

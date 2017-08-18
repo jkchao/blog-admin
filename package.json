@@ -14,7 +14,11 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "element-ui": "^1.4.2",
+    "node-sass": "^4.5.3",
+    "nprogress": "^0.2.0",
+    "sass-loader": "^6.0.6",
     "vue": "^2.3.3",
     "vue-router": "^2.6.0",
     "vuex": "^2.3.1"
