@@ -1,6 +1,6 @@
 <template>
   <div class="tags">
-    
+    标签
   </div>
 </template>
 

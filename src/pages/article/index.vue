@@ -1,6 +1,6 @@
 <template>
   <div class="article">
-    
+    文章列表
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="release">
-    
+    发布
   </div>
 </template>
 

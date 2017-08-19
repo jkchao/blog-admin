@@ -6,13 +6,13 @@
       </div>
       <div class="user">
         <el-badge :value="2" :max="99" class="item">
-          <el-button 
+          <el-button
             size="mini" 
             type="text">
             <i class="iconfont icon-notice"></i></el-button>
         </el-badge>
         <el-badge :value="6" :max="10" class="item">
-          <el-button 
+          <el-button
             size="mini" 
             type="text">
             <i class="el-icon-message"></i></el-button>
@@ -22,27 +22,109 @@
         </span>
       </div>
     </header>
+    <section>
+      <aside class="nav">
+          <div class="toggle-size"></div>
+          <el-menu
+            class="el-menu-vertical-demo"
+            theme="dark"
+            unique-opened
+            router
+            :collapse="collapse">
+            <template v-for="(item,index) in $router.options.routes">
+              <el-submenu :index="index+''" v-if="!item.leaf">
+                <template slot="title">
+                  <i :class="item.icon"  class="iconfont" ></i>
+                  <span class="title">{{item.name}}</span>
+                </template>
+                <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path">
+                  <i :class="child.icon"  class="iconfont" ></i>
+                  <span class="text">
+                  {{child.name}}
+                  </span>
+                </el-menu-item>
+              </el-submenu>
+              <el-menu-item v-else :index="item.children[0].path">
+                <i :class="item.icon"  class="iconfont" ></i>
+                <span>{{item.name}}</span>
+              </el-menu-item>
+            </template>
+          </el-menu>
+      </aside>
+
+      <article>
+        <transition-group tag="span" name="list">
+          <el-col :span="24" key="1">
+            <el-breadcrumb v-show="$route.path !== '/home'">
+              <transition-group tag="div" name="list" class="el-breadcrumb">
+                <el-breadcrumb-item :to="{ path: '/home' }" :key="indexPath">{{ indexPath }}</el-breadcrumb-item>
+                <el-breadcrumb-item v-if="currentPathNameParent !== indexPath " :key="currentPathNameParent">{{ currentPathNameParent }}</el-breadcrumb-item>
+                <el-breadcrumb-item v-if="currentPathName !== currentPathNameParent " :key="currentPathName">{{ currentPathName }}</el-breadcrumb-item>
+              </transition-group>
+            </el-breadcrumb>
+          </el-col>
+          <el-col :span="24" key="2">
+            <transition :name="transition" mode="out-in">
+              <router-view></router-view>
+            </transition>
+          </el-col>
+        </transition-group>
+      </article>
+
+    </section>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'index'
+  name: 'index',
+
+  data () {
+    return {
+      indexPath: '我的面板',
+      defaultPath: '',
+      currentPathName: '',
+      currentPathNameParent: '',
+      page: ['home', 'article', 'heros', 'set', 'analytics'],
+      transition: 'fade',
+      collapse: false
+    }
+  },
+
+  watch: {
+    '$route' (to, from) { // 监听路由改变
+      this.defaultPath = to.path
+      this.currentPathName = to.name
+      this.currentPathNameParent = to.matched[0].name
+      console.log(to)
+      const toPageInd = this.page.indexOf(to.meta.page)
+      const fromPageInd = this.page.indexOf(from.meta.page)
+      this.transition = toPageInd === fromPageInd
+                        ? 'fade'
+                        : toPageInd > fromPageInd
+                          ? 'slide-down'
+                          : 'slide-up'
+    }
+  }
 
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 
 @import '../assets/scss/variable.scss';
 @import '../assets/scss/mixin.scss';
+
+.index {
+  height: 100%;
+}
 
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: $header-height;
-  padding: 0 $normal-pad;
+  padding: 0 20px;
   line-height: $header-height;
   background: $admin-bg;
 
@@ -75,6 +157,32 @@ header {
       border-radius: 50%;
       width: 36px;
     }
+  }
+}
+
+section {
+  display: grid;
+  grid-template-columns: 220px auto;
+  height: calc(100% - 4rem);
+
+  >aside {
+    height: 100%;
+    background: $black;
+
+    .el-menu {
+      background: $black;
+
+      .el-submenu .el-menu {
+        background: $black;
+      }
+
+      .is-active {
+        color: $white;
+      }
+    }
+  }
+  >article {
+    padding: $lg-pad;
   }
 }
 </style>

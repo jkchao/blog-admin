@@ -33,12 +33,20 @@ body.mobile {
                       filter .25s linear,
                       visibility .25s linear,
                       transform .25s linear,
-                      border-color .25s linear);
+                      border-color .25s linear,
+                      width .34s linear);
 }
 
 .container {
   width: $container-width;
   margin: 0 auto;
+}
+
+.el-breadcrumb__separator {
+  margin: 6px !important;
+  &:after {
+    content: '/'
+  }
 }
 
 .font-futura {
