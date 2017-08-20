@@ -12,7 +12,9 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import '../assets/scss/variable.scss';
+
 #app {
   position: absolute;
   top: 0px;

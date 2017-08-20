@@ -5,8 +5,8 @@ import App from './layout/App.vue'
 import router from './router'
 import store from './store'
 import ElementUi from 'element-ui'
-import './assets/scss/index.scss'
 import '../static/theme/index.css'
+import './assets/scss/index.scss'
 // import * as filters from './filters'
 
 Vue.use(ElementUi)

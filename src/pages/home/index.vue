@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    首页
+    我的面板
   </div>
 </template>
 

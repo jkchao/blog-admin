@@ -26,26 +26,27 @@
       <aside class="nav">
           <div class="toggle-size"></div>
           <el-menu
+            :default-active="defaultPath"
             class="el-menu-vertical-demo"
             theme="dark"
             unique-opened
-            router
-            :collapse="collapse">
+            :default-openeds="defaultOpen"
+            router>
             <template v-for="(item,index) in $router.options.routes">
               <el-submenu :index="index+''" v-if="!item.leaf">
                 <template slot="title">
-                  <i :class="item.icon"  class="iconfont" ></i>
+                  <i :class="item.icon"  class="iconfont mar" ></i>
                   <span class="title">{{item.name}}</span>
                 </template>
                 <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path">
-                  <i :class="child.icon"  class="iconfont" ></i>
+                  <i :class="child.icon"  class="iconfont mar" ></i>
                   <span class="text">
                   {{child.name}}
                   </span>
                 </el-menu-item>
               </el-submenu>
               <el-menu-item v-else :index="item.children[0].path">
-                <i :class="item.icon"  class="iconfont" ></i>
+                <i :class="item.icon"  class="iconfont mar" ></i>
                 <span>{{item.name}}</span>
               </el-menu-item>
             </template>
@@ -54,8 +55,8 @@
 
       <article>
         <transition-group tag="span" name="list">
-          <el-col :span="24" key="1">
-            <el-breadcrumb v-show="$route.path !== '/home'">
+          <el-col :span="24" key="1" v-if="$route.path !== '/home'" class="breadcrumb">
+            <el-breadcrumb>
               <transition-group tag="div" name="list" class="el-breadcrumb">
                 <el-breadcrumb-item :to="{ path: '/home' }" :key="indexPath">{{ indexPath }}</el-breadcrumb-item>
                 <el-breadcrumb-item v-if="currentPathNameParent !== indexPath " :key="currentPathNameParent">{{ currentPathNameParent }}</el-breadcrumb-item>
@@ -83,6 +84,7 @@ export default {
     return {
       indexPath: '我的面板',
       defaultPath: '',
+      defaultOpen: [],
       currentPathName: '',
       currentPathNameParent: '',
       page: ['home', 'article', 'heros', 'set', 'analytics'],
@@ -105,6 +107,14 @@ export default {
                           ? 'slide-down'
                           : 'slide-up'
     }
+  },
+
+  created () {
+    this.defaultPath = this.$route.path
+    this.currentPathName = this.$route.name
+    this.currentPathNameParent = this.$route.matched[0].name
+    const index = this.page.indexOf(this.$route.meta.page)
+    this.defaultOpen.push((index - 1).toString())
   }
 
 }
@@ -126,7 +136,7 @@ header {
   height: $header-height;
   padding: 0 20px;
   line-height: $header-height;
-  background: $admin-bg;
+  background: darken($admin-bg, 0%);
 
   >.logo {
     font-size: $font-size-logo;
@@ -176,13 +186,18 @@ section {
         background: $black;
       }
 
-      .is-active {
+      .el-menu-item.is-active {
         color: $white;
+        background: $darkBlack;
       }
     }
   }
   >article {
     padding: $lg-pad;
+
+    .breadcrumb {
+      margin-bottom: 1rem;
+    }
   }
 }
 </style>

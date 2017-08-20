@@ -14,6 +14,8 @@ $admin-bg: #24292e;
 // color
 $white: #fff;
 $black: #24292e;
+$darkBlack: darken($black, 3%);
+$lightBlack: lighten($black, 3);
 $blue: #20A0FF;
 $green: #5ab95c;
 $gyey: #efefef;

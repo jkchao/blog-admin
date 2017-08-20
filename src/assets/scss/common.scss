@@ -3,8 +3,9 @@ body {
   margin: 0;
   color: $text;
   letter-spacing: 0.5px;
-  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  font-family: 'Futura', "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
   font-size: $font-size-base;
+  background: #f2f2f2;  
   font-weight: 400;
   line-height: 1.4;
   -webkit-font-smoothing: antialiased;
@@ -53,6 +54,9 @@ body.mobile {
   font-family: Futura;
 }
 
+.iconfont.mar {
+  margin-right: 4px;
+}
 
 // 清除浮动
 .clearfix {
