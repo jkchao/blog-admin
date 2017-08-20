@@ -33,6 +33,9 @@
           :width="320"
           label-class-name="head"
           show-overflow-tooltip>
+          <template scope="scope">
+              {{ scope.row.title }}
+          </template>
         </el-table-column>
         <el-table-column
           label="标签"
@@ -40,9 +43,7 @@
           label-class-name="head">
           <template scope="scope">
             <i class="iconfont icon-tag mar"></i>
-            <span>
-            {{ scope.row.tag }}
-            </span>
+              {{ scope.row.tag }}
           </template>
         </el-table-column>
         <el-table-column
@@ -52,9 +53,7 @@
           label-class-name="head">
           <template scope="scope">
             <i class="iconfont icon-date mar"></i>
-            <span>
             {{ scope.row.date }}
-            </span>
           </template>
         </el-table-column>
         <el-table-column
@@ -69,15 +68,24 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="250"
+          width="220"
           label-class-name="head">
           <template scope="scope">
-            <el-button @click="" type="info" size="small">查看</el-button>
-            <el-button type="danger" size="small">删除</el-button>
+            <el-button type="info" size="small">查看</el-button>
             <el-button type="success" size="small">发布</el-button>
+            <el-button type="danger" size="small">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
+
+      <div class="pagination">
+        <el-pagination
+          layout="prev, pager, next"
+          :page-size="6"
+          @current-change="pageChange"
+          :total="total">
+        </el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -91,6 +99,7 @@ export default {
   data () {
     return {
       width: '48px', // text 宽度
+      total: 10,
       type: [
         {
           name: '标签',
@@ -145,6 +154,42 @@ export default {
         tag: 'Javascript',
         viewState: '公开',
         state: '发布'
+      }, {
+        title: '爱你就像爱生命',
+        date: '2016-05-02',
+        tag: 'Javascript',
+        viewState: '公开',
+        state: '发布'
+      }, {
+        title: '爱你就像爱生命',
+        date: '2016-05-02',
+        tag: 'Javascript',
+        viewState: '公开',
+        state: '发布'
+      }, {
+        title: '爱你就像爱生命',
+        date: '2016-05-02',
+        tag: 'Javascript',
+        viewState: '公开',
+        state: '发布'
+      }, {
+        title: '爱你就像爱生命',
+        date: '2016-05-02',
+        tag: 'Javascript',
+        viewState: '公开',
+        state: '发布'
+      }, {
+        title: '爱你就像爱生命',
+        date: '2016-05-02',
+        tag: 'Javascript',
+        viewState: '公开',
+        state: '发布'
+      }, {
+        title: '爱你就像爱生命',
+        date: '2016-05-02',
+        tag: 'Javascript',
+        viewState: '公开',
+        state: '发布'
       }],
       keyword: ''
     }
@@ -154,7 +199,11 @@ export default {
 
     changeType () {},
 
-    getData () {}
+    getData () {},
+
+    pageChange (val) {
+      console.log(val)
+    }
 
   },
 
@@ -162,23 +211,14 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 
 @import '../../assets/scss/variable.scss';
 @import '../../assets/scss/mixin.scss';
 
-.table {
-  margin-top: $md-pad;
-  padding: $normal-pad;
-  background: $white;
-
-  .head {
-    background: #f2f2f2;
+.article {
+  >.el-card {
+    margin-bottom: $normal-pad;
   }
-
-  .el-table--enable-row-hover .el-table__body tr:hover>td {
-    background: #f2f2f2;
-  }
-
 }
 </style>

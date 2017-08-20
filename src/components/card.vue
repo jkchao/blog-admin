@@ -66,6 +66,7 @@ export default {
 
       .item {
         display: flex;
+        flex-wrap: wrap;
         position: relative;
         padding-bottom: 10px;
         margin-bottom: 10px;
@@ -73,7 +74,6 @@ export default {
         border-bottom: 1px dashed rgb(210, 210, 210);
 
         .text {
-          display: inline-block;
           text-align: right;
           font-size: 14px;
         }

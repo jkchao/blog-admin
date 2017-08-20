@@ -34,8 +34,7 @@ body.mobile {
                       filter .25s linear,
                       visibility .25s linear,
                       transform .25s linear,
-                      border-color .25s linear,
-                      width .34s linear);
+                      border-color .25s linear);
 }
 
 .container {
@@ -56,6 +55,57 @@ body.mobile {
 
 .iconfont.mar {
   margin-right: 4px;
+}
+
+// 内容表格
+
+
+.table {
+  padding: $normal-pad;
+  background: $white;
+
+  .head {
+    background: #f2f2f2;
+  }
+
+  .el-table--enable-row-hover .el-table__body tr:hover>td {
+    background: #f2f2f2;
+  }
+
+  >.pagination {
+    margin-top: 1rem;
+    text-align: right;
+  }
+}
+
+// 水波纹效果
+
+
+.waves-ripple {
+  position: absolute;
+  border-radius: 100%;
+  background-color: rgba(0, 0, 0, 0.15);
+  background-clip: padding-box;
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-transform: scale(0);
+  -ms-transform: scale(0);
+  transform: scale(0);
+  opacity: 1;
+}
+
+.waves-ripple.z-active {
+  opacity: 0;
+  -webkit-transform: scale(2);
+  -ms-transform: scale(2);
+  transform: scale(2);
+  -webkit-transition: opacity 1.2s ease-out, -webkit-transform 0.6s ease-out;
+  transition: opacity 1.2s ease-out, -webkit-transform 0.6s ease-out;
+  transition: opacity 1.2s ease-out, transform 0.6s ease-out;
+  transition: opacity 1.2s ease-out, transform 0.6s ease-out, -webkit-transform 0.6s ease-out;
 }
 
 // 清除浮动
