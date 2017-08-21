@@ -15,8 +15,7 @@
       <el-table
         :data="tableData"
         style="width: 100%"
-        border
-        >
+        border>
         <el-table-column
           prop="title"
           label="名称"

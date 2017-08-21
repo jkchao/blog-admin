@@ -17,6 +17,7 @@
     "babel-polyfill": "^6.26.0",
     "element-theme": "^0.7.2",
     "element-ui": "^1.4.2",
+    "mavon-editor": "^2.2.4",
     "node-sass": "^4.5.3",
     "nprogress": "^0.2.0",
     "sass-loader": "^6.0.6",

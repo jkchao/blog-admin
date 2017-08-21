@@ -71,13 +71,13 @@
           </el-col>
         </transition-group>
       </article>
-
     </section>
   </div>
 </template>
 
 <script>
 export default {
+
   name: 'index',
 
   data () {
@@ -98,7 +98,6 @@ export default {
       this.defaultPath = to.path
       this.currentPathName = to.name
       this.currentPathNameParent = to.matched[0].name
-      console.log(to)
       const toPageInd = this.page.indexOf(to.meta.page)
       const fromPageInd = this.page.indexOf(from.meta.page)
       this.transition = toPageInd === fromPageInd
@@ -116,7 +115,6 @@ export default {
     const index = this.page.indexOf(this.$route.meta.page)
     this.defaultOpen.push((index - 1).toString())
   }
-
 }
 </script>
 
@@ -127,6 +125,8 @@ export default {
 
 .index {
   height: 100%;
+  min-width: 1400px;
+  overflow: auto;
 }
 
 header {
@@ -194,6 +194,7 @@ section {
   }
   >article {
     padding: $lg-pad;
+
 
     .breadcrumb {
       margin-bottom: 1rem;
