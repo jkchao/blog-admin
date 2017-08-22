@@ -27,7 +27,13 @@
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="文章内容：">
-          <el-input v-model="form.descript" :maxlength="20"></el-input>
+          <markdown-editor 
+            v-model="form.content" 
+            ref="markdownEditor"
+            :configs="configs"
+            preview-class="markdown-body"></markdown-editor>
+            
+          <!-- <el-input v-model="form.descript" :maxlength="20"></el-input> -->
         </el-form-item>
       </el-form>
     </el-col>
@@ -35,11 +41,28 @@
 </template>
 
 <script>
+
+import { markdownEditor } from 'vue-simplemde'
+// import 'github-markdown-css'
+require.ensure([], () => require('github-markdown-css'), 'markdown-style')
+
 export default {
   name: 'release',
 
+  components: {
+    markdownEditor
+  },
+
   data () {
     return {
+      configs: {
+        status: false, // 禁用底部状态栏
+        initialValue: 'hellow', // 设置初始值
+        renderingConfig: {
+          codeSyntaxHighlighting: true, // 开启代码高亮
+          highlightingTheme: 'atom-one-light' // 自定义代码高亮主题，可选列表(https://github.com/isagalaev/highlight.js/tree/master/src/styles)
+        }
+      },
       form: {
         title: '',
         keyword: '',

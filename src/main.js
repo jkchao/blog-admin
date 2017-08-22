@@ -7,10 +7,12 @@ import store from './store'
 import ElementUi from 'element-ui'
 import '../static/theme/index.css'
 import './assets/scss/index.scss'
+// import VueSimplemde from 'vue-simplemde'
 // import vueWaves from './directive'// 水波纹指令
 // import * as filters from './filters'
 
 Vue.use(ElementUi)
+// Vue.use(VueSimplemde)
 // Vue.use(vueWaves)
 
 // Object.keys(filters).forEach(k => Vue.filter(k, filters(k)))
