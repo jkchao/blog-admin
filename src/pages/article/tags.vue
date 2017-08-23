@@ -142,6 +142,9 @@ export default {
 @import '../../assets/scss/mixin.scss';
 
 .tags {
+  height: 100%;
+  background: $white;
+
   >.btn {
     display: flex;
     justify-content: space-between;

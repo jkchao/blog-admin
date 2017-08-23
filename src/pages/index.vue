@@ -64,7 +64,7 @@
               </transition-group>
             </el-breadcrumb>
           </el-col>
-          <el-col :span="24" key="2">
+          <el-col :span="24" key="2" class="right-content">
             <transition :name="transition" mode="out-in">
               <router-view></router-view>
             </transition>
@@ -195,9 +195,12 @@ section {
   >article {
     padding: $lg-pad;
 
-
     .breadcrumb {
       margin-bottom: 1rem;
+    }
+
+    .right-content {
+      height: calc(100% - 20px);
     }
   }
 }

@@ -217,6 +217,8 @@ export default {
 @import '../../assets/scss/mixin.scss';
 
 .article {
+  height: 100%;
+
   >.el-card {
     margin-bottom: $normal-pad;
   }
