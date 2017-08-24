@@ -62,9 +62,10 @@
             
           <!-- <el-input v-model="form.descript" :maxlength="20"></el-input> -->
         </el-form-item>
-      <div class="btn">
-        <el-button @click="submitForm('form')">发布</el-button>
-      </div>
+        <el-form-item style="margin-bottom: 0">
+           <el-button @click="submitForm('form')">发布</el-button>
+        </el-form-item>
+
     </el-col>
 
       <el-col :span="8" class="right">
@@ -84,12 +85,23 @@
         </div>
 
         <div class="right-form" style="margin-top: 24px;">
-          <el-form-item label="缩略图：" label-width="90px" class="img-item">
+          <el-form-item 
+            label="缩略图：" 
+            label-width="90px" 
+            class="img-item"
+            prop="img"
+              :rules="[
+                { required: true, message: '请上传图片', trigger: 'change' }
+              ]">
+
             <el-upload
               action="https://jsonplaceholder.typicode.com/posts/"
               list-type="picture-card"
+              :file-list="fileList"
               :on-preview="handlePictureCardPreview"
-              :on-remove="handleRemove">
+              :on-remove="handleRemove"
+              :on-change="handleChange"
+              :on-success="handleSuccess">
               <i class="el-icon-plus"></i>
             </el-upload>
           </el-form-item>
@@ -129,6 +141,7 @@ export default {
           highlightingTheme: 'atom-one-light' // 自定义代码高亮主题，可选列表(https://github.com/isagalaev/highlight.js/tree/master/src/styles)
         }
       },
+      fileList: [],
       form: {
         title: '',
         keyword: '',
@@ -155,6 +168,12 @@ export default {
   },
 
   methods: {
+    handleSuccess (res, file) {
+      console.log(res)
+      this.form.img = URL.createObjectURL(file.raw)
+      // this.form.img =
+    },
+
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -166,11 +185,17 @@ export default {
       })
     },
 
+    handleChange (file, fileList) {
+      this.fileList = fileList.slice(-1)
+    },
+
     handlePictureCardPreview () {
       this.dialogVisible = true
     },
 
-    handleRemove () {}
+    handleRemove () {
+      this.form.img = ''
+    }
   }
 }
 </script>
