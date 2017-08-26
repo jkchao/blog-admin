@@ -125,8 +125,6 @@ export default {
 
 .index {
   height: 100%;
-  min-width: 1400px;
-  overflow: auto;
 }
 
 header {
@@ -134,6 +132,7 @@ header {
   justify-content: space-between;
   align-items: center;
   height: $header-height;
+  width: 100%;
   padding: 0 20px;
   line-height: $header-height;
   background: darken($admin-bg, 0%);
@@ -171,13 +170,21 @@ header {
 }
 
 section {
-  display: grid;
-  grid-template-columns: 220px auto;
+  position: absolute;
+  top: 4rem;
+  width: 100%;
   height: calc(100% - 4rem);
 
   >aside {
-    height: 100%;
+    position: fixed;
+    top: 4rem;
+    left: 0;
+    bottom: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 200px;
     background: $black;
+    z-index: 999;
 
     .el-menu {
       background: $black;
@@ -193,14 +200,21 @@ section {
     }
   }
   >article {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    left: 200px;
+    overflow-y: auto;
     padding: $lg-pad;
+    min-width: 1000px;
 
     .breadcrumb {
       margin-bottom: 1rem;
     }
 
     .right-content {
-      height: calc(100% - 20px);
+      height: calc(100% - 2rem);
     }
   }
 }

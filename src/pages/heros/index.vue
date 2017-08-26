@@ -93,7 +93,8 @@
         <el-table-column
           label="操作"
           width="180"
-          label-class-name="head">
+          label-class-name="head"
+          fixed="right">
           <template scope="scope">
             <el-button type="success" size="small">通过</el-button>
             <el-button type="danger" size="small">不通过</el-button>
