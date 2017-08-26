@@ -172,8 +172,9 @@ header {
 section {
   position: absolute;
   top: 4rem;
+  bottom: 0;
   width: 100%;
-  height: calc(100% - 4rem);
+  overflow: hidden;
 
   >aside {
     position: fixed;
@@ -199,15 +200,16 @@ section {
       }
     }
   }
+
   >article {
     position: absolute;
     right: 0px;
     top: 0px;
     bottom: 0px;
     left: 200px;
-    overflow-y: auto;
     padding: $lg-pad;
     min-width: 1000px;
+    overflow-y: auto;
 
     .breadcrumb {
       margin-bottom: 1rem;
@@ -215,6 +217,7 @@ section {
 
     .right-content {
       height: calc(100% - 2rem);
+      min-width: 1100px;
     }
   }
 }

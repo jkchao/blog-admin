@@ -1,6 +1,6 @@
 <template>
   <div class="set">
-    <el-col :span="15">
+    <el-col :span="17">
       <el-form
         :model="form"
         label-width="120px"
