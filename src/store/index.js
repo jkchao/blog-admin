@@ -4,6 +4,7 @@ import * as actions from './actions'
 import * as getters from './getters'
 import mutations from './mutations'
 import 'babel-polyfill'
+
 Vue.use(Vuex)
 
 const state = {}
