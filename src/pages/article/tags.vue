@@ -57,6 +57,7 @@
 </template>
 
 <script>
+
 import Sortable from 'sortablejs'
 
 export default {

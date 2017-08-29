@@ -4,6 +4,8 @@ import Router from 'vue-router'
 import NProgress from 'nprogress'  // 页面顶部进度条
 import 'nprogress/nprogress.css'
 
+const login = () => import(/* webpackChunkName: "login" */ '../pages/login')
+
 const index = () => import(/* webpackChunkName: "index" */ '../pages/index')
 
 const home = () => import(/* webpackChunkName: "home" */ '../pages/home/index')
@@ -71,11 +73,18 @@ const routes = [
     children: [
       { path: '/analytics', component: analytics, name: 'Google Analytics', meta: { page: 'analytics' } }
     ]
+  },
+  {
+    path: '/login',
+    name: '登陆',
+    component: login,
+    leaf: true,
+    icon: 'icon-count'
   }
 ]
 
 const router = new Router({
-  mode: 'history',
+  mode: 'hash',
   base: __dirname,
   routes
 })

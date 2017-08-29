@@ -45,7 +45,7 @@
                   </span>
                 </el-menu-item>
               </el-submenu>
-              <el-menu-item v-else :index="item.children[0].path">
+              <el-menu-item v-if="item.leaf && item.children" :index="item.children[0].path">
                 <i :class="item.icon"  class="iconfont mar" ></i>
                 <span>{{item.name}}</span>
               </el-menu-item>

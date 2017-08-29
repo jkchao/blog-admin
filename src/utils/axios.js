@@ -1,5 +1,6 @@
 import axios from 'axios'
 import * as config from '../config.js'
+import router from '../router'
 
 const service = axios.create({
   baseURL: config.API_ROOT
@@ -13,6 +14,7 @@ service.interceptors.request.use(config => {
 })
 
 service.interceptors.response.use(response => {
+  if (response.data.code === 2) router.push('/login')
   return response
 }, error => {
   return Promise.reject(error)

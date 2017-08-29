@@ -28,3 +28,4 @@ export function format (time, format) {
   }
   return format
 }
+

@@ -99,7 +99,6 @@
                 label="头像"
                 label-width="70px" 
                 class="img-item">
-
                 <el-upload
                   action="https://jsonplaceholder.typicode.com/posts/"
                   list-type="picture-card"

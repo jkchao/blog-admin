@@ -7,8 +7,16 @@
 </template>
 
 <script>
+// import server from '../utils/axios'
+
 export default {
   name: 'app'
+  // created () {
+  //   server.get('/tag')
+  //   .then(res => {
+  //     console.log(res.data)
+  //   })
+  // }
 }
 </script>
 

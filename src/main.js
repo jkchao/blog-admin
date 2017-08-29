@@ -11,16 +11,15 @@ import * as filters from './filters'
 
 Vue.use(ElementUi)
 
-Object.keys(filters).forEach(k => Vue.filter(k, filters(k)))
+Object.keys(filters).forEach(k => Vue.filter(k, filters[k]))
 
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
-const app = new Vue({
+
+new Vue({
   el: '#app',
   router,
   store,
   ...App
 })
-
-export default app

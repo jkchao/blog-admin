@@ -21,6 +21,7 @@
     "github-markdown-css": "^2.8.0",
     "node-sass": "^4.5.3",
     "nprogress": "^0.2.0",
+    "particles.js": "^2.0.0",
     "sass-loader": "^6.0.6",
     "sortablejs": "^1.6.0",
     "vue": "^2.3.3",
