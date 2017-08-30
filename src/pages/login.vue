@@ -7,16 +7,18 @@
         <el-form-item 
           prop="username"
           :rules="[
-            { required: true, message: '用户名', trigger: 'blur' }
+            { required: true, message: '用户名', trigger: 'blur' },
+            { min: 5, message: '用户名至少6位', trigger: 'blur' }
           ]">
-          <el-input placeholder="账号" v-model="username" :maxlength="40"></el-input>
+          <el-input placeholder="账号" v-model="form.username" :maxlength="40"></el-input>
         </el-form-item>
         <el-form-item 
           prop="password"
           :rules="[
-            { required: true, message: '密码', trigger: 'blur' }
+            { required: true, message: '密码', trigger: 'blur' },
+            { min: 6, message: '秘密至少6位', trigger: 'blur' }
           ]">
-          <el-input placeholder="密码" v-model="password" :maxlength="40"></el-input>
+          <el-input placeholder="密码" v-model="form.password" :maxlength="40" type="password"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button @click.native="submit('form')">Submit</el-button>
@@ -28,6 +30,8 @@
 
 <script>
 import 'particles.js'
+import server from '../utils/axios'
+import querystring from 'querystring'
 export default {
   name: 'login',
 
@@ -45,7 +49,8 @@ export default {
     submit (formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          console.log(111)
+          const { data } = await server.post('/login', querystring.stringify({...this.form}))
+          console.log(data)
         } else {
           return false
         }

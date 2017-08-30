@@ -8,6 +8,9 @@ const service = axios.create({
 
 // 拦截器
 service.interceptors.request.use(config => {
+  if (window.localStorage.getItem('TOKEN')) {
+    config.headers.Authorization = `token ${window.localStorage.getItem('TOKEN')}`
+  }
   return config
 }, error => {
   return Promise.reject(error)

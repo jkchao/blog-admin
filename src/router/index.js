@@ -30,7 +30,7 @@ const routes = [
     leaf: true,
     icon: 'icon-home',
     children: [
-      { path: '/home', component: home, name: '我的面板', meta: { page: 'home' } }
+      { path: '/home', component: home, name: '我的面板', meta: { page: 'home', requiresAuth: true } }
     ]
   },
   {
@@ -39,9 +39,9 @@ const routes = [
     component: index,
     icon: 'icon-article',
     children: [
-      { path: '/article/index', component: article, name: '文章列表', icon: 'icon-list', meta: { page: 'article' } },
-      { path: '/article/tag', component: tag, name: '文章标签', icon: 'icon-tag', meta: { page: 'article' } },
-      { path: '/article/release', component: release, name: '发布文章', icon: 'icon-write', meta: { page: 'article' } }
+      { path: '/article/index', component: article, name: '文章列表', icon: 'icon-list', meta: { page: 'article', requiresAuth: true } },
+      { path: '/article/tag', component: tag, name: '文章标签', icon: 'icon-tag', meta: { page: 'article', requiresAuth: true } },
+      { path: '/article/release', component: release, name: '发布文章', icon: 'icon-write', meta: { page: 'article', requiresAuth: true } }
     ]
   },
   {
@@ -51,7 +51,7 @@ const routes = [
     leaf: true,
     icon: 'icon-hero',
     children: [
-      { path: '/heros', component: heros, name: '英雄榜', meta: { page: 'heros' } }
+      { path: '/heros', component: heros, name: '英雄榜', meta: { page: 'heros', requiresAuth: true } }
     ]
   },
   {
@@ -61,7 +61,7 @@ const routes = [
     leaf: true,
     icon: 'icon-set',
     children: [
-      { path: '/set', component: set, name: '全局设置', meta: { page: 'set' } }
+      { path: '/set', component: set, name: '全局设置', meta: { page: 'set', requiresAuth: true } }
     ]
   },
   {
@@ -71,7 +71,7 @@ const routes = [
     leaf: true,
     icon: 'icon-count',
     children: [
-      { path: '/analytics', component: analytics, name: 'Google Analytics', meta: { page: 'analytics' } }
+      { path: '/analytics', component: analytics, name: 'Google Analytics', meta: { page: 'analytics', requiresAuth: true } }
     ]
   },
   {
@@ -84,7 +84,7 @@ const routes = [
 ]
 
 const router = new Router({
-  mode: 'hash',
+  mode: 'history',
   base: __dirname,
   routes
 })
