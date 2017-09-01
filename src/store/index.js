@@ -7,7 +7,9 @@ import 'babel-polyfill'
 
 Vue.use(Vuex)
 
-const state = {}
+const state = {
+  user: ''
+}
 
 export default new Vuex.Store({
   state,

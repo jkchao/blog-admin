@@ -30,8 +30,6 @@
 
 <script>
 import 'particles.js'
-import server from '../utils/axios'
-import querystring from 'querystring'
 export default {
   name: 'login',
 
@@ -49,8 +47,8 @@ export default {
     submit (formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          const { data } = await server.post('/login', querystring.stringify({...this.form}))
-          console.log(data)
+          this.$store.dispatch('login', { ...this.form })
+          .then(res => console.log(res))
         } else {
           return false
         }

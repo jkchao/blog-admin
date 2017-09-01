@@ -7,15 +7,11 @@
 </template>
 
 <script>
-import server from '../utils/axios'
 
 export default {
   name: 'app',
   created () {
-    server.get('/')
-    .then(res => {
-      console.log(res.data)
-    })
+    this.$router.push('/login')
   }
 }
 </script>

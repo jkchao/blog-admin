@@ -78,8 +78,7 @@ const routes = [
     path: '/login',
     name: '登陆',
     component: login,
-    leaf: true,
-    icon: 'icon-count'
+    meta: { requiresAuth: false }
   }
 ]
 
@@ -91,7 +90,18 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   NProgress.start()
-  next()
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!window.localStorage.getItem('TOKEN')) {
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      })
+    } else {
+      next()
+    }
+  } else {
+    next() // 确保一定要调用 next()
+  }
 })
 
 router.afterEach(transition => {
