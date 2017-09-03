@@ -16,7 +16,7 @@
           prop="password"
           :rules="[
             { required: true, message: '密码', trigger: 'blur' },
-            { min: 6, message: '秘密至少6位', trigger: 'blur' }
+            { min: 6, message: '密码至少6位', trigger: 'blur' }
           ]">
           <el-input placeholder="密码" v-model="form.password" :maxlength="40" type="password"></el-input>
         </el-form-item>
@@ -30,7 +30,7 @@
 
 <script>
 import 'particles.js'
-import { error } from '../api/res'
+import { error } from '../api/response'
 export default {
   name: 'login',
 
@@ -50,7 +50,10 @@ export default {
         if (valid) {
           const data = await this.$store.dispatch('login', { ...this.form })
           if (data.code !== 1) error(data.message)
-          else this.$router.push('/home')
+          else {
+            if (!this.$route.query.redirect) this.$router.push('/home')
+            else this.$router.push(this.$route.query.redirect)
+          }
         } else {
           return false
         }

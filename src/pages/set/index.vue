@@ -13,7 +13,7 @@
             :rules="[
               { required: true, message: '请输入文章标题', trigger: 'blur' }
             ]">
-            <el-input v-model="baseForm.title" :maxlength="20" style="width: 300px"></el-input>
+            <el-input v-model="baseForm.title" :maxlength="40" style="width: 300px"></el-input>
           </el-form-item>
           <el-form-item 
             label="副标题："
@@ -21,13 +21,23 @@
             :rules="[
               { required: true, message: '请输入站点副标题', trigger: 'blur' }
             ]">
-            <el-input v-model="baseForm.sub_title" :maxlength="20" style="width: 300px"></el-input>
+            <el-input v-model="baseForm.sub_title" :maxlength="40" style="width: 300px"></el-input>
           </el-form-item>
           <el-form-item 
             label="关键词："
             prop="keyword">
             <el-input 
               v-model="baseForm.keyword" 
+              :maxlength="40"></el-input>
+          </el-form-item>
+          <el-form-item
+            label="站点地址："
+            prop="url"
+            :rules="[
+              { required: true, message: '请输入站点地址', trigger: 'blur' }
+            ]">
+            <el-input 
+              v-model="baseForm.url" 
               :maxlength="20"></el-input>
           </el-form-item>
           <el-form-item 
@@ -41,16 +51,6 @@
               :maxlength="200" 
               type="textarea"
               :rows="5"></el-input>
-          </el-form-item>
-          <el-form-item
-            label="站点地址："
-            prop="adress"
-            :rules="[
-              { required: true, message: '请输入站点地址', trigger: 'blur' }
-            ]">
-            <el-input 
-              v-model="baseForm.adress" 
-              :maxlength="20"></el-input>
           </el-form-item>
           <el-form-item
             label="电子邮件："
@@ -69,18 +69,18 @@
               v-model="baseForm.icp" 
               :maxlength="50"></el-input>
           </el-form-item>
-          <el-form-item
+          <!-- <el-form-item
             label="SEO更新服务："
-            prop="seo"
+            prop="ping_sites"
             :rules="[
               { required: true, message: '请输入SEO更新服务', trigger: 'blur' }
             ]">
             <el-input 
-              v-model="baseForm.seo" 
+              v-model="baseForm.ping_sites" 
               :maxlength="200"
               type="textarea"
               :rows="5"></el-input>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item style="margin-bottom: 0">
               <el-button @click="submitForm('form')">保存</el-button>
           </el-form-item>
@@ -127,27 +127,33 @@
                 label="原密码" 
                 prop="oldPassword"
                 :rules="[
-                  { required: true, message: '请输入原密码', trigger: 'blur' }
+                  { required: true, message: '请输入原密码', trigger: 'blur' },
+                  { min: 6, message: '密码至少6位', trigger: 'blur' }
                 ]">
                 <el-input 
                   type="password" 
                   v-model="userForm.oldPassword" 
                   auto-complete="off"
-                  :maxlength="20"></el-input>
+                  :maxlength="20"
+                  placeholder="原密码"
+                  @keyup.enter.native="submit('userForm')"></el-input>
               </el-form-item>
               <el-form-item label="新密码" prop="newPassword">
                 <el-input
                   type="password" 
                   v-model="userForm.newPassword" 
                   auto-complete="off"
-                  :maxlength="20"></el-input>
+                  :maxlength="20"
+                  placeholder="新密码"></el-input>
               </el-form-item>
               <el-form-item label="确认密码" prop="checkPass"> 
                 <el-input 
                   type="password" 
                   v-model="userForm.checkPass" 
                   auto-complete="off"
-                  :maxlength="20"></el-input>
+                  :maxlength="20"
+                  placeholder="确认密码"
+                  @keyup.enter.native="submit('userForm')"></el-input>
               </el-form-item>
               <el-form-item style="margin-bottom: 0;">
                 <el-button  @click="submit('userForm')">更改</el-button>
@@ -161,29 +167,33 @@
 <script>
 import { mapGetters } from 'vuex'
 import server from '../../utils/axios'
+import { success, error } from '../../api/response'
 export default {
   name: 'set',
 
   data () {
     var validateNewPassword = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入密码'))
-      } else {
-        if (this.userForm.checkPass !== '') {
-          this.$refs.userForm.validateField('checkPass')
+      if (value !== '') {
+        if (value.length < 6) {
+          callback(new Error('密码至少6位'))
+        } else {
+          if (this.userForm.checkPass !== '') {
+            this.$refs.userForm.validateField('checkPass')
+          }
+          callback()
         }
-        callback()
       }
+      callback()
     }
 
     var validateCheckPass = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请再次输入密码'))
-      } else if (value !== this.userForm.newPassword) {
-        callback(new Error('两次输入密码不一致!'))
-      } else {
+      if (value !== '') {
+        if (value !== this.userForm.newPassword) {
+          callback(new Error('两次输入密码不一致!'))
+        }
         callback()
       }
+      callback()
     }
 
     return {
@@ -193,11 +203,11 @@ export default {
         title: '',
         sub_title: '',
         keyword: '',
-        adress: '',
-        des: '',
+        descript: '',
+        url: '',
         email: '',
-        icp: '',
-        ping_sites: ''
+        icp: ''
+        // ping_sites: ''
       },
       userForm: {
         _id: '',
@@ -234,9 +244,12 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          const { data } = server.put('/option', { ...this.baseForm })
-          console.log(data)
-          alert('submit!')
+          const { data } = await server.put('/option', { ...this.baseForm })
+          if (data.code !== 1) error(data.message)
+          else {
+            success(data.message)
+            this.baseForm._id = data.result
+          }
         } else {
           console.log('error submit!!')
           return false
@@ -245,9 +258,21 @@ export default {
     },
 
     submit (formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          alert('submit!')
+          if (this.userForm.oldPassword === this.userForm.newPassword) {
+            error('新旧密码不可一致')
+            return
+          }
+          const { data } = await server.put('/auth', { ...this.userForm })
+          if (data.code !== 1) error(data.message)
+          else {
+            success(data.message)
+            this.userForm.oldPassword = ''
+            this.userForm.newPassword = ''
+            this.userForm.checkPass = ''
+            this.$store.dispatch('init', data.result)
+          }
         } else {
           console.log('error submit!!')
           return false
@@ -276,6 +301,7 @@ export default {
     }
     const { data } = await server.get('/option')
     if (data.code === 1 && data.result) this.baseForm = { ...data.result }
+    console.log(this.baseForm)
   }
 }
 </script>

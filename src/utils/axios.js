@@ -1,7 +1,8 @@
 import axios from 'axios'
 import * as config from '../config.js'
-import router from '../router'
 import querystring from 'querystring'
+import { loginIn } from '../utils/loginIn'
+import app from '../main'
 
 const service = axios.create({
   baseURL: config.API_ROOT
@@ -16,7 +17,7 @@ service.interceptors.request.use(config => {
   ) {
     config.data = querystring.stringify(config.data)
     if (window.localStorage.getItem('TOKEN')) {
-      config.headers.Authorization = JSON.parse(window.localStorage.getItem('TOKEN')).token
+      config.headers.Authorization = `Bearer ${JSON.parse(window.localStorage.getItem('TOKEN')).token}`
     }
   }
   return config
@@ -25,9 +26,17 @@ service.interceptors.request.use(config => {
 })
 
 service.interceptors.response.use(response => {
-  if (response.data.code === -2) router.push('/login')
   return response
 }, error => {
+  if (!loginIn()) {
+    app.$alert('用户信息已过期，请点击确定后重新登录。', '提示', {
+      confirmButtonText: '确定',
+      callback: action => app.$router.push({
+        path: '/login',
+        query: { redirect: app.$route.fullPath }
+      })
+    })
+  }
   return Promise.reject(error)
 })
 

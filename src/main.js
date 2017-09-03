@@ -17,9 +17,11 @@ Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 
-new Vue({
+const app = new Vue({
   el: '#app',
   router,
   store,
   ...App
 })
+
+export default app

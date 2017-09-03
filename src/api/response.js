@@ -6,3 +6,11 @@ export function error (message) {
     message
   })
 }
+
+export function success (message) {
+  Notification.success({
+    title: '成功',
+    duration: 2000,
+    message
+  })
+}
