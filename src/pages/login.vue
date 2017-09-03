@@ -30,6 +30,7 @@
 
 <script>
 import 'particles.js'
+import { error } from '../api/res'
 export default {
   name: 'login',
 
@@ -47,8 +48,9 @@ export default {
     submit (formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          this.$store.dispatch('login', { ...this.form })
-          .then(res => console.log(res))
+          const data = await this.$store.dispatch('login', { ...this.form })
+          if (data.code !== 1) error(data.message)
+          else this.$router.push('/home')
         } else {
           return false
         }

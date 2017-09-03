@@ -1,18 +1,19 @@
 <template>
   <div class="set">
-    <el-col :span="17">
+    <div>
       <el-form
-        :model="form"
+        :model="baseForm"
         label-width="120px"
         label-position="left"
         ref="form">
+        <p class="title">基本信息</p>
           <el-form-item
             label="标题："
             prop="title"
             :rules="[
               { required: true, message: '请输入文章标题', trigger: 'blur' }
             ]">
-            <el-input v-model="form.title" :maxlength="20" style="width: 300px"></el-input>
+            <el-input v-model="baseForm.title" :maxlength="20" style="width: 300px"></el-input>
           </el-form-item>
           <el-form-item 
             label="副标题："
@@ -20,16 +21,13 @@
             :rules="[
               { required: true, message: '请输入站点副标题', trigger: 'blur' }
             ]">
-            <el-input v-model="form.sub_title" :maxlength="20" style="width: 300px"></el-input>
+            <el-input v-model="baseForm.sub_title" :maxlength="20" style="width: 300px"></el-input>
           </el-form-item>
           <el-form-item 
             label="关键词："
-            prop="keyword"
-            :rules="[
-              { required: true, message: '请输入站点关键词', trigger: 'blur' }
-            ]">
+            prop="keyword">
             <el-input 
-              v-model="form.keyword" 
+              v-model="baseForm.keyword" 
               :maxlength="20"></el-input>
           </el-form-item>
           <el-form-item 
@@ -39,7 +37,7 @@
               { required: true, message: '请输入站点描述', trigger: 'blur' }
             ]">
             <el-input 
-              v-model="form.descript" 
+              v-model="baseForm.descript" 
               :maxlength="200" 
               type="textarea"
               :rows="5"></el-input>
@@ -51,7 +49,7 @@
               { required: true, message: '请输入站点地址', trigger: 'blur' }
             ]">
             <el-input 
-              v-model="form.adress" 
+              v-model="baseForm.adress" 
               :maxlength="20"></el-input>
           </el-form-item>
           <el-form-item
@@ -61,17 +59,14 @@
               { required: true, message: '请输入电子邮件', trigger: 'blur' }
             ]">
             <el-input
-              v-model="form.email" 
+              v-model="baseForm.email" 
               :maxlength="20"></el-input>
           </el-form-item>
           <el-form-item
             label="ICP备案号："
-            prop="icp"
-            :rules="[
-              { required: true, message: '请输入ICP备案号', trigger: 'blur' }
-            ]">
+            prop="icp">
             <el-input
-              v-model="form.icp" 
+              v-model="baseForm.icp" 
               :maxlength="50"></el-input>
           </el-form-item>
           <el-form-item
@@ -81,20 +76,26 @@
               { required: true, message: '请输入SEO更新服务', trigger: 'blur' }
             ]">
             <el-input 
-              v-model="form.seo" 
+              v-model="baseForm.seo" 
               :maxlength="200"
               type="textarea"
               :rows="5"></el-input>
           </el-form-item>
           <el-form-item style="margin-bottom: 0">
-              <el-button @click="submitForm('form')">更新</el-button>
+              <el-button @click="submitForm('form')">保存</el-button>
           </el-form-item>
         </el-form>
-    </el-col>
+    </div>
       
-      <el-col :span="9" class="right">
+      <div class="right">
           <div class="right-form head">
-            <el-form>
+            <p class="title">个人信息</p>
+            <el-form 
+            :model="userForm"  
+            :rules="passwordRule" 
+            ref="userForm" 
+            label-width="80px"
+            label-position="left">
               <el-form-item
                 label="头像"
                 label-width="70px" 
@@ -110,10 +111,18 @@
                   <i class="el-icon-plus"></i>
                 </el-upload>
               </el-form-item>
-            </el-form>
-          </div>
-          <div class="right-form" style="margin-top: 20px">
-            <el-form :model="passwordForm"  :rules="passwordRule" ref="passwordForm" label-width="80px">
+              <el-form-item
+                label="用户名">
+                {{ userForm.username }}
+              </el-form-item>
+              <el-form-item
+                label="姓名">
+                <el-input v-model="userForm.name" :maxlength="20"></el-input>
+              </el-form-item>
+              <el-form-item
+                label="个性签名">
+                <el-input v-model="userForm.slogan" :maxlength="20"></el-input>
+              </el-form-item>
               <el-form-item 
                 label="原密码" 
                 prop="oldPassword"
@@ -122,53 +131,46 @@
                 ]">
                 <el-input 
                   type="password" 
-                  v-model="passwordForm.oldPassword" 
+                  v-model="userForm.oldPassword" 
                   auto-complete="off"
                   :maxlength="20"></el-input>
               </el-form-item>
               <el-form-item label="新密码" prop="newPassword">
                 <el-input
                   type="password" 
-                  v-model="passwordForm.newPassword" 
+                  v-model="userForm.newPassword" 
                   auto-complete="off"
                   :maxlength="20"></el-input>
               </el-form-item>
               <el-form-item label="确认密码" prop="checkPass"> 
                 <el-input 
                   type="password" 
-                  v-model="passwordForm.checkPass" 
+                  v-model="userForm.checkPass" 
                   auto-complete="off"
                   :maxlength="20"></el-input>
               </el-form-item>
               <el-form-item style="margin-bottom: 0;">
-                <el-button  @click="submit('passwordForm')">更改</el-button>
+                <el-button  @click="submit('userForm')">更改</el-button>
               </el-form-item>
             </el-form>
           </div>
-      </el-col>
+      </div>
   </div>
 </template>
 
 <script>
-
-import { markdownEditor } from 'vue-simplemde'
-// import 'github-markdown-css'
-require.ensure([], () => require('github-markdown-css'), 'markdown-style')
-
+import { mapGetters } from 'vuex'
+import server from '../../utils/axios'
 export default {
   name: 'set',
-
-  components: {
-    markdownEditor
-  },
 
   data () {
     var validateNewPassword = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入密码'))
       } else {
-        if (this.passwordForm.checkPass !== '') {
-          this.$refs.passwordForm.validateField('checkPass')
+        if (this.userForm.checkPass !== '') {
+          this.$refs.userForm.validateField('checkPass')
         }
         callback()
       }
@@ -177,7 +179,7 @@ export default {
     var validateCheckPass = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请再次输入密码'))
-      } else if (value !== this.passwordForm.newPassword) {
+      } else if (value !== this.userForm.newPassword) {
         callback(new Error('两次输入密码不一致!'))
       } else {
         callback()
@@ -187,7 +189,7 @@ export default {
     return {
       dialogVisible: false,
       fileList: [],
-      form: {
+      baseForm: {
         title: '',
         sub_title: '',
         keyword: '',
@@ -195,10 +197,14 @@ export default {
         des: '',
         email: '',
         icp: '',
-        seo: '',
-        img: ''
+        ping_sites: ''
       },
-      passwordForm: {
+      userForm: {
+        _id: '',
+        name: '',
+        username: '',
+        slogan: '',
+        gravatar: '',
         oldPassword: '',
         newPassword: '',
         checkPass: ''
@@ -210,25 +216,26 @@ export default {
         checkPass: [
           { validator: validateCheckPass, trigger: 'blur' }
         ]
-      },
-      ops: [
-        { name: '发布', id: 1 },
-        { name: '保存草稿', id: 2 }
-      ]
+      }
     }
+  },
+
+  computed: {
+    ...mapGetters([
+      'user'
+    ])
   },
 
   methods: {
     handleSuccess (res, file) {
-      this.form.img = URL.createObjectURL(file.raw)
+
     },
 
     submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          console.log(formName)
-          if (formName === 'form') console.log(formName)
-          else console.log(formName)
+          const { data } = server.put('/option', { ...this.baseForm })
+          console.log(data)
           alert('submit!')
         } else {
           console.log('error submit!!')
@@ -249,7 +256,7 @@ export default {
     },
 
     handleChange (file, fileList) {
-      this.fileList = fileList.slice(-1)
+
     },
 
     handlePictureCardPreview () {
@@ -257,8 +264,18 @@ export default {
     },
 
     handleRemove () {
-      this.form.img = ''
     }
+  },
+
+  async created () {
+    this.userForm = {
+      ...this.user,
+      oldPassword: '',
+      newPassword: '',
+      checkPass: ''
+    }
+    const { data } = await server.get('/option')
+    if (data.code === 1 && data.result) this.baseForm = { ...data.result }
   }
 }
 </script>
@@ -272,12 +289,19 @@ export default {
   display: flex;
   justify-content: space-between;
 
-  >.el-col {
+  >div {
+    width: calc(100% - 420px);    
     background: $white;
     padding: $lg-pad;
+
+    .title {
+      font-size: 1.3rem;
+      margin-bottom: $md-pad;
+    }
   }
 
-  >.el-col.right {
+  >div.right {
+    width: 400px;
     padding: 0;
     background: transparent;
     margin-left: $lg-pad;
@@ -287,15 +311,16 @@ export default {
       padding: $lg-pad;
     }
 
-    .right-form.head{
+    .right-form.head .img-item {
       .el-form-item__label {
         float: none;
       }
-    }
-  }
 
-  .markdown-editor .CodeMirror {
-    height: 300px;
+      .el-form-item__content {
+        text-align: center;
+        margin: 0 !important;
+      }
+    }
   }
 }
 </style>

@@ -10,7 +10,8 @@
 export default {
   name: 'app',
   created () {
-    this.$router.push('/login')
+    this.$store.dispatch('init')
+    // if (this.$route.path === '/') this.$router.push('/home')
   }
 }
 </script>

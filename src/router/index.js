@@ -4,6 +4,8 @@ import Router from 'vue-router'
 import NProgress from 'nprogress'  // 页面顶部进度条
 import 'nprogress/nprogress.css'
 
+import { loginIn } from '../utils/loginIn'
+
 const login = () => import(/* webpackChunkName: "login" */ '../pages/login')
 
 const index = () => import(/* webpackChunkName: "index" */ '../pages/index')
@@ -29,6 +31,7 @@ const routes = [
     component: index,
     leaf: true,
     icon: 'icon-home',
+    redirect: '/home',
     children: [
       { path: '/home', component: home, name: '我的面板', meta: { page: 'home', requiresAuth: true } }
     ]
@@ -91,7 +94,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   NProgress.start()
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!window.localStorage.getItem('TOKEN')) {
+    if (!loginIn()) {
       next({
         path: '/login',
         query: { redirect: to.fullPath }

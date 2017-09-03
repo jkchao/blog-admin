@@ -33,7 +33,7 @@
             :default-openeds="defaultOpen"
             router>
             <template v-for="(item,index) in $router.options.routes">
-              <el-submenu :index="index+''" v-if="!item.leaf">
+              <el-submenu :index="index+''" v-if="!item.leaf && item.children" :key="index">
                 <template slot="title">
                   <i :class="item.icon"  class="iconfont mar" ></i>
                   <span class="title">{{item.name}}</span>
@@ -45,7 +45,7 @@
                   </span>
                 </el-menu-item>
               </el-submenu>
-              <el-menu-item v-if="item.leaf && item.children" :index="item.children[0].path">
+              <el-menu-item v-if="item.leaf && item.children" :index="item.children[0].path" :key="index">
                 <i :class="item.icon"  class="iconfont mar" ></i>
                 <span>{{item.name}}</span>
               </el-menu-item>
@@ -74,8 +74,8 @@
     </section>
   </div>
 </template>
-
 <script>
+
 export default {
 
   name: 'index',
