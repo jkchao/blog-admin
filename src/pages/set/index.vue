@@ -100,16 +100,18 @@
                 label="头像"
                 label-width="70px" 
                 class="img-item">
-                <el-upload
-                  action="https://jsonplaceholder.typicode.com/posts/"
-                  list-type="picture-card"
-                  :file-list="fileList"
-                  :on-preview="handlePictureCardPreview"
-                  :on-remove="handleRemove"
-                  :on-change="handleChange"
-                  :on-success="handleSuccess">
-                  <i class="el-icon-plus"></i>
-                </el-upload>
+                  <el-upload
+                    class="avatar-uploader"
+                    action="https://jsonplaceholder.typicode.com/posts/"
+                    :show-file-list="false"
+
+                    :on-success="handleSuccess"
+                    :before-upload="beforeUpload"
+                    :on-progress="handlePro">
+                    <img v-if="userForm.gravatar" :src="userForm.gravatar" class="avatar">
+                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                  </el-upload>
+                  <el-progress :percentage="percent"></el-progress>
               </el-form-item>
               <el-form-item
                 label="用户名">
@@ -226,7 +228,9 @@ export default {
         checkPass: [
           { validator: validateCheckPass, trigger: 'blur' }
         ]
-      }
+      },
+      token: '',
+      percent: 0
     }
   },
 
@@ -238,7 +242,24 @@ export default {
 
   methods: {
     handleSuccess (res, file) {
+      console.log(res)
+    },
 
+    handlePro (e, file, fileList) {
+      this.percent = ~~e.percent
+    },
+
+    beforeUpload (file) {
+      const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
+      const isLt10M = file.size / 1024 / 1024 < 10
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG/PNG 格式!')
+      }
+      if (!isLt10M) {
+        this.$message.error('上传头像图片大小不能超过 10MB!')
+      }
+      return isJPG && isLt10M
     },
 
     submitForm (formName) {
@@ -278,17 +299,6 @@ export default {
           return false
         }
       })
-    },
-
-    handleChange (file, fileList) {
-
-    },
-
-    handlePictureCardPreview () {
-      this.dialogVisible = true
-    },
-
-    handleRemove () {
     }
   },
 
@@ -299,9 +309,16 @@ export default {
       newPassword: '',
       checkPass: ''
     }
+
+    // 基本信息
     const { data } = await server.get('/option')
     if (data.code === 1 && data.result) this.baseForm = { ...data.result }
-    console.log(this.baseForm)
+
+    // 七牛token
+    const token = await server.get('/qiniu')
+    if (token.data.code === 1) {
+      this.token = token.data.result.token
+    }
   }
 }
 </script>
@@ -346,6 +363,35 @@ export default {
         text-align: center;
         margin: 0 !important;
       }
+    }
+
+    .avatar-uploader {
+
+      .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .el-upload:hover {
+        border-color: $black;
+      }
+
+    }
+    .avatar-uploader-icon {
+      font-size: 28px;
+      color: #8c939d;
+      width: 178px;
+      height: 178px;
+      line-height: 178px;
+      text-align: center;
+    }
+    .avatar {
+      width: 178px;
+      height: 178px;
+      display: block;
     }
   }
 }

@@ -1,7 +1,6 @@
-
 import server from '../utils/axios'
-// import querystring from 'querystring'
 
+// 用户信息初始化
 export const init = async ({ state, commit }, user) => {
   if (!state.user) {
     const { data } = await server.get('/auth')
@@ -9,6 +8,7 @@ export const init = async ({ state, commit }, user) => {
   } else commit('INIT', { ...user })
 }
 
+// 登录
 export const login = async ({ commit }, user) => {
   const { data } = await server.post('/login', {...user})
   if (data.code === 1) {
