@@ -18,7 +18,12 @@
             { required: true, message: '密码', trigger: 'blur' },
             { min: 6, message: '密码至少6位', trigger: 'blur' }
           ]">
-          <el-input placeholder="密码" v-model="form.password" :maxlength="40" type="password"></el-input>
+          <el-input 
+          placeholder="密码" 
+          v-model="form.password" 
+          :maxlength="40" 
+          type="password"
+          @keyup.enter.native="submit('form')"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button @click.native="submit('form')">Submit</el-button>

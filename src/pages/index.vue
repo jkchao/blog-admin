@@ -18,7 +18,7 @@
             <i class="el-icon-message"></i></el-button>
         </el-badge>
         <span class="user-face-box">
-          <img src="../assets/images/muserFace.jpeg" class="user-face">
+          <img :src="user.gravatar" class="user-face">
         </span>
       </div>
     </header>
@@ -76,6 +76,8 @@
 </template>
 <script>
 
+import { mapGetters } from 'vuex'
+
 export default {
 
   name: 'index',
@@ -91,6 +93,12 @@ export default {
       transition: 'fade',
       collapse: false
     }
+  },
+
+  computed: {
+    ...mapGetters([
+      'user'
+    ])
   },
 
   watch: {

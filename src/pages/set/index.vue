@@ -102,16 +102,17 @@
                 class="img-item">
                   <el-upload
                     class="avatar-uploader"
-                    action="https://jsonplaceholder.typicode.com/posts/"
+                    action="http://upload.qiniu.com/"
+                    :data="qn"
                     :show-file-list="false"
-
                     :on-success="handleSuccess"
                     :before-upload="beforeUpload"
-                    :on-progress="handlePro">
+                    :on-progress="handlePro"
+                    :on-error="handleError">
                     <img v-if="userForm.gravatar" :src="userForm.gravatar" class="avatar">
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                   </el-upload>
-                  <el-progress :percentage="percent"></el-progress>
+                  <el-progress :percentage="percent" v-if="percent !== 0 && percent !== 100"></el-progress>
               </el-form-item>
               <el-form-item
                 label="用户名">
@@ -229,7 +230,10 @@ export default {
           { validator: validateCheckPass, trigger: 'blur' }
         ]
       },
-      token: '',
+      qn: {
+        token: '',
+        key: ''
+      },
       percent: 0
     }
   },
@@ -242,14 +246,19 @@ export default {
 
   methods: {
     handleSuccess (res, file) {
-      console.log(res)
+      this.userForm.gravatar = 'http://ovshyp9zv.bkt.clouddn.com/' + this.qn.key
     },
 
     handlePro (e, file, fileList) {
       this.percent = ~~e.percent
     },
 
+    handleError (res) {
+      error(this, res.error, 2000)
+    },
+
     beforeUpload (file) {
+      this.qn.key = file.name
       const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
       const isLt10M = file.size / 1024 / 1024 < 10
 
@@ -317,7 +326,7 @@ export default {
     // 七牛token
     const token = await server.get('/qiniu')
     if (token.data.code === 1) {
-      this.token = token.data.result.token
+      this.qn.token = token.data.result.token
     }
   }
 }
@@ -333,7 +342,8 @@ export default {
   justify-content: space-between;
 
   >div {
-    width: calc(100% - 420px);    
+    width: calc(100% - 420px);
+    height: 100%;
     background: $white;
     padding: $lg-pad;
 
@@ -390,7 +400,7 @@ export default {
     }
     .avatar {
       width: 178px;
-      height: 178px;
+      // height: 178px;
       display: block;
     }
   }
