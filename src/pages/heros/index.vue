@@ -117,7 +117,7 @@
 
 <script>
 import card from '../../components/card'
-
+import server from '../../utils/axios'
 export default {
   name: 'heros',
 
@@ -129,7 +129,7 @@ export default {
         {
           name: '状态',
           list: [
-            { name: '全部', id: '-1' },
+            { name: '全部', id: '' },
             { name: '待审核', id: '1' },
             { name: '审核通过', id: '2' },
             { name: '审核不通过', id: '3' }
@@ -248,7 +248,8 @@ export default {
         bower: 'QQ浏览器 | 6.2',
         system: 'Android'
       }],
-      keyword: ''
+      keyword: '',
+      state: ''
     }
   },
 
@@ -256,7 +257,10 @@ export default {
 
     changeType () {},
 
-    getData () {},
+    async getData () {
+      const { data } = await server.get(`/heros?keyword=${this.keyword}&state=${this.state}`)
+      console.log(data)
+    },
 
     pageChange (val) {
       console.log(val)
@@ -264,7 +268,11 @@ export default {
 
   },
 
-  components: { card }
+  components: { card },
+
+  created () {
+    this.getData()
+  }
 }
 </script>
 
