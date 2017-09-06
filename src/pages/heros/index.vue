@@ -34,7 +34,7 @@
                 <span>{{ props.row.ip }}</span>
               </el-form-item>
               <el-form-item label="地址：">
-                <span>{{ props.row.place }}</span>
+                <span>{{props.row.country}}{{ props.row.city }}</span>
               </el-form-item>
               <el-form-item label="浏览器：">
                 <span>{{ props.row.bower }}</span>
@@ -81,14 +81,22 @@
           label-class-name="head">
           <template scope="scope">
             <i class="iconfont icon-date mar"></i>
-            {{ scope.row.date }}
+            {{ scope.row.create_time | format('yyyy-MM-dd')}}
           </template>
         </el-table-column>
         <el-table-column
-          prop="state"
           label="状态"
           width="120"
           label-class-name="head">
+          <template scope="scope">
+            {{
+               scope.row.state === 0
+               ? '待审核'
+               : scope.row.state === 1
+                 ? '通过'
+                 : '不通过'
+            }}
+          </template>
         </el-table-column>
         <el-table-column
           label="操作"
@@ -118,6 +126,7 @@
 <script>
 import card from '../../components/card'
 import server from '../../utils/axios'
+import { error } from '../../api/response'
 export default {
   name: 'heros',
 
@@ -137,117 +146,7 @@ export default {
           default: { name: '全部' }
         }
       ],
-      tableData: [{
-        name: 'jkchao',
-        content: '想起来我的爱就不能停止,南京的雨不停地下不停地下,有些人却注定要相遇,你是一片光荣的叶子,落在我卑贱的心',
-        github: 'https://github.com/jkchao',
-        blog: 'https://github.com/jkchao',
-        date: '2016-05-02',
-        state: '审核通过',
-        ip: '223.21.52.121',
-        place: 'CNBeijing',
-        bower: 'QQ浏览器 | 6.2',
-        system: 'Android'
-      }, {
-        name: 'jkchao',
-        content: '想起来我的爱就不能停止,南京的雨不停地下不停地下,有些人却注定要相遇,你是一片光荣的叶子,落在我卑贱的心',
-        github: 'https://github.com/jkchao',
-        blog: 'https://github.com/jkchao',
-        date: '2016-05-02',
-        state: '审核通过',
-        ip: '223.21.52.121',
-        place: 'CNBeijing',
-        bower: 'QQ浏览器 | 6.2',
-        system: 'Android'
-      }, {
-        name: 'jkchao',
-        content: '想起来我的爱就不能停止,南京的雨不停地下不停地下,有些人却注定要相遇,你是一片光荣的叶子,落在我卑贱的心',
-        github: 'https://github.com/jkchao',
-        blog: 'https://github.com/jkchao',
-        date: '2016-05-02',
-        state: '审核通过',
-        ip: '223.21.52.121',
-        place: 'CNBeijing',
-        bower: 'QQ浏览器 | 6.2',
-        system: 'Android'
-      }, {
-        name: 'jkchao',
-        content: '想起来我的爱就不能停止,南京的雨不停地下不停地下,有些人却注定要相遇,你是一片光荣的叶子,落在我卑贱的心',
-        github: 'https://github.com/jkchao',
-        blog: 'https://github.com/jkchao',
-        date: '2016-05-02',
-        state: '审核通过',
-        ip: '223.21.52.121',
-        place: 'CNBeijing',
-        bower: 'QQ浏览器 | 6.2',
-        system: 'Android'
-      }, {
-        name: 'jkchao',
-        content: '想起来我的爱就不能停止,南京的雨不停地下不停地下,有些人却注定要相遇,你是一片光荣的叶子,落在我卑贱的心',
-        github: 'https://github.com/jkchao',
-        blog: 'https://github.com/jkchao',
-        date: '2016-05-02',
-        state: '审核通过',
-        ip: '223.21.52.121',
-        place: 'CNBeijing',
-        bower: 'QQ浏览器 | 6.2',
-        system: 'Android'
-      }, {
-        name: 'jkchao',
-        content: '想起来我的爱就不能停止,南京的雨不停地下不停地下,有些人却注定要相遇,你是一片光荣的叶子,落在我卑贱的心',
-        github: 'https://github.com/jkchao',
-        blog: 'https://github.com/jkchao',
-        date: '2016-05-02',
-        state: '审核通过',
-        ip: '223.21.52.121',
-        place: 'CNBeijing',
-        bower: 'QQ浏览器 | 6.2',
-        system: 'Android'
-      }, {
-        name: 'jkchao',
-        content: '想起来我的爱就不能停止,南京的雨不停地下不停地下,有些人却注定要相遇,你是一片光荣的叶子,落在我卑贱的心',
-        github: 'https://github.com/jkchao',
-        blog: 'https://github.com/jkchao',
-        date: '2016-05-02',
-        state: '审核通过',
-        ip: '223.21.52.121',
-        place: 'CNBeijing',
-        bower: 'QQ浏览器 | 6.2',
-        system: 'Android'
-      }, {
-        name: 'jkchao',
-        content: '想起来我的爱就不能停止,南京的雨不停地下不停地下,有些人却注定要相遇,你是一片光荣的叶子,落在我卑贱的心',
-        github: 'https://github.com/jkchao',
-        blog: 'https://github.com/jkchao',
-        date: '2016-05-02',
-        state: '审核通过',
-        ip: '223.21.52.121',
-        place: 'CNBeijing',
-        bower: 'QQ浏览器 | 6.2',
-        system: 'Android'
-      }, {
-        name: 'jkchao',
-        content: '想起来我的爱就不能停止,南京的雨不停地下不停地下,有些人却注定要相遇,你是一片光荣的叶子,落在我卑贱的心',
-        github: 'https://github.com/jkchao',
-        blog: 'https://github.com/jkchao',
-        date: '2016-05-02',
-        state: '审核通过',
-        ip: '223.21.52.121',
-        place: 'CNBeijing',
-        bower: 'QQ浏览器 | 6.2',
-        system: 'Android'
-      }, {
-        name: 'jkchao',
-        content: '想起来我的爱就不能停止,南京的雨不停地下不停地下,有些人却注定要相遇,你是一片光荣的叶子,落在我卑贱的心',
-        github: 'https://github.com/jkchao',
-        blog: 'https://github.com/jkchao',
-        date: '2016-05-02',
-        state: '审核通过',
-        ip: '223.21.52.121',
-        place: 'CNBeijing',
-        bower: 'QQ浏览器 | 6.2',
-        system: 'Android'
-      }],
+      tableData: [],
       keyword: '',
       state: ''
     }
@@ -259,7 +158,12 @@ export default {
 
     async getData () {
       const { data } = await server.get(`/heros?keyword=${this.keyword}&state=${this.state}`)
-      console.log(data)
+      if (data.code !== 1) error(this, data.message, 2000)
+      else {
+        this.total = data.result.pagination.total
+        this.tableData = [...data.result.list]
+        console.log(data)
+      }
     },
 
     pageChange (val) {
