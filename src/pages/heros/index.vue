@@ -113,6 +113,7 @@
 
       <div class="pagination">
         <el-pagination
+          :current-page="currentPage"
           layout="prev, pager, next"
           :page-size="6"
           @current-change="pageChange"
@@ -139,25 +140,31 @@ export default {
           name: '状态',
           list: [
             { name: '全部', id: '' },
-            { name: '待审核', id: '1' },
-            { name: '审核通过', id: '2' },
-            { name: '审核不通过', id: '3' }
+            { name: '待审核', id: '0' },
+            { name: '审核通过', id: '1' },
+            { name: '审核不通过', id: '2' }
           ],
           default: { name: '全部' }
         }
       ],
       tableData: [],
       keyword: '',
-      state: ''
+      state: '',
+      currentPage: 1
     }
   },
 
   methods: {
 
-    changeType () {},
+    changeType (e) {
+      this.state = e.id
+      this.getData()
+    },
 
     async getData () {
-      const { data } = await server.get(`/heros?keyword=${this.keyword}&state=${this.state}`)
+      const { data } = await server.get(`/heros?` +
+                      `current_page=${this.currentPage}&page_size=10` +
+                      `&keyword=${this.keyword}&state=${this.state}`)
       if (data.code !== 1) error(this, data.message, 2000)
       else {
         this.total = data.result.pagination.total
@@ -167,7 +174,8 @@ export default {
     },
 
     pageChange (val) {
-      console.log(val)
+      this.currentPage = val
+      this.getData()
     }
 
   },
