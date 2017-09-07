@@ -12,7 +12,7 @@
         <div class="el-radio-group">
           <el-input
             v-model="keyword"
-            placeholder="姓名，内容"
+            placeholder="姓名"
             @keyup.enter.native="getData"></el-input>
           <el-button
             type="primary"
@@ -100,18 +100,31 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="180"
+          width="220"
           label-class-name="head"
           fixed="right">
           <template scope="scope">
-            <el-button type="success" size="small">通过</el-button>
-            <el-button type="danger" size="small">不通过</el-button>
-            <!-- <el-button type="danger" size="small">删除</el-button> -->
+            <transition-group tag="span" name="list">
+              <el-button
+                type="success" 
+                size="small"
+                v-if="scope.row.state === 0 || scope.row.state === 2"
+                @click="changeState(scope.row, 1)"
+                key="1">通过</el-button>
+              <el-button 
+                type="danger" 
+                size="small" 
+                v-if="scope.row.state === 0 || scope.row.state === 1"
+                @click="changeState(scope.row, 2)"
+                key="2">不通过</el-button>
+              <el-button type="danger" size="small" key="3" @click="dele(scope.row, scope.$index)">删除</el-button>
+            </transition-group>
+
           </template>
         </el-table-column>
       </el-table>
 
-      <div class="pagination">
+      <div class="pagination" v-if="totalPage > 1">
         <el-pagination
           :current-page="currentPage"
           layout="prev, pager, next"
@@ -127,7 +140,7 @@
 <script>
 import card from '../../components/card'
 import server from '../../utils/axios'
-import { error } from '../../api/response'
+import { error, success } from '../../api/response'
 export default {
   name: 'heros',
 
@@ -135,14 +148,15 @@ export default {
     return {
       width: '48px', // text 宽度
       total: 10,
+      totalPage: '',
       type: [
         {
           name: '状态',
           list: [
             { name: '全部', id: '' },
-            { name: '待审核', id: '0' },
-            { name: '审核通过', id: '1' },
-            { name: '审核不通过', id: '2' }
+            { name: '待审核', id: 0 },
+            { name: '审核通过', id: 1 },
+            { name: '审核不通过', id: 2 }
           ],
           default: { name: '全部' }
         }
@@ -161,15 +175,39 @@ export default {
       this.getData()
     },
 
+    async changeState (row, code) {
+      const { data } = await server.patch('/hero', {
+        _id: row._id,
+        state: code
+      })
+      if (data.code !== 1) error(data.message)
+      else row.state = code
+    },
+
+    dele (row, index) {
+      this.$confirm('确定删除此数据吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        const { data } = await server.delete(`/hero/${row._id}`)
+        if (data.code !== 1) error(data.message)
+        else {
+          this.tableData.splice(index, 1)
+          success(data.message)
+        }
+      }).catch(() => {})
+    },
+
     async getData () {
-      const { data } = await server.get(`/heros?` +
+      const { data } = await server.get(`/hero?` +
                       `current_page=${this.currentPage}&page_size=10` +
                       `&keyword=${this.keyword}&state=${this.state}`)
       if (data.code !== 1) error(this, data.message, 2000)
       else {
         this.total = data.result.pagination.total
+        this.totalPage = data.result.pagination.total_page
         this.tableData = [...data.result.list]
-        console.log(data)
       }
     },
 

@@ -13,7 +13,8 @@ service.interceptors.request.use(config => {
   if (
     config.method === 'post' ||
     config.method === 'put' ||
-    config.method === 'delete'
+    config.method === 'delete' ||
+    config.method === 'patch'
   ) {
     config.data = querystring.stringify(config.data)
     if (window.localStorage.getItem('TOKEN')) {
