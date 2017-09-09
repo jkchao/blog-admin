@@ -140,7 +140,7 @@
 <script>
 import card from '../../components/card'
 import server from '../../utils/axios'
-import { error, success } from '../../api/response'
+import { error, success } from '../../utils/response'
 export default {
   name: 'heros',
 

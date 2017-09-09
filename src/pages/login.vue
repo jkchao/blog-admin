@@ -35,7 +35,6 @@
 
 <script>
 import 'particles.js'
-import { error } from '../api/response'
 export default {
   name: 'login',
 
@@ -54,11 +53,9 @@ export default {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
           const data = await this.$store.dispatch('login', { ...this.form })
-          if (data.code !== 1) error(data.message)
-          else {
-            if (!this.$route.query.redirect) this.$router.push('/home')
-            else this.$router.push(this.$route.query.redirect)
-          }
+          if (!data) return
+          if (!this.$route.query.redirect) this.$router.push('/home')
+          else this.$router.push(this.$route.query.redirect)
         } else {
           return false
         }

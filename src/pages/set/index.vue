@@ -170,7 +170,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import server from '../../utils/axios'
-import { success, error } from '../../api/response'
+import { success, error } from '../../utils/response'
 export default {
   name: 'set',
 
@@ -320,14 +320,12 @@ export default {
     }
 
     // 基本信息
-    const { data } = await server.get('/option')
-    if (data.code === 1 && data.result) this.baseForm = { ...data.result }
+    const opt = await this.$store.dispatch('getOpt')
+    if (opt) this.baseForm = { ...opt }
 
     // 七牛token
-    const token = await server.get('/qiniu')
-    if (token.data.code === 1) {
-      this.qn.token = token.data.result.token
-    }
+    const qn = await this.$store.dispatch('getQiniu')
+    if (qn) this.qn.token = qn.token
   }
 }
 </script>

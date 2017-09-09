@@ -121,7 +121,6 @@ export default {
     this.currentPathName = this.$route.name
     this.currentPathNameParent = this.$route.matched[0].name
     const index = this.page.indexOf(this.$route.meta.page)
-    console.log(index)
     this.defaultOpen.push(index.toString())
   }
 }

@@ -1,11 +1,11 @@
 <template>
   <div class="tags">
     <div class="btn">
-      <el-button size="small">增加标签</el-button>
+      <el-button size="small" @click="addTag">增加标签</el-button>
       <div class="search">
         <el-input
           v-model="keyword"
-          placeholder="title..."
+          placeholder="name..."
           @keyup.enter.native="getData"
           icon="search"
           :on-icon-click="getData"></el-input>
@@ -58,12 +58,12 @@
       title="添加标签"
       :visible.sync="dialogV"
       size="tiny">
-      <el-form :model="form">
+      <el-form :model="form" ref="form" v-if="dialogV">
         <el-form-item
           label="名称"
-          porp="name"
+          prop="name"
           :rules="[
-            { required: true, message: '姓名', trigger: 'blur' }
+            { required: true, message: '名称', trigger: 'blur' }
           ]">
           <el-input v-model="form.name" :maxlength="20" placeholder="name"></el-input>
         </el-form-item>
@@ -80,7 +80,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogV = false">取 消</el-button>
-        <el-button type="primary" @click="dialogV = false">确 定</el-button>
+        <el-button type="primary" @click="submit('form')">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -95,7 +95,7 @@ export default {
 
   data () {
     return {
-      dialogV: true,
+      dialogV: false,
       sortable: null,
       total: 10,
       tagData: [],
@@ -109,6 +109,23 @@ export default {
 
   methods: {
     pageChange () {},
+
+    addTag () {
+      this.dialogV = true
+      this.form = Object.assign({}, {
+        name: '',
+        descript: ''
+      })
+    },
+
+    submit (formName) {
+      console.log(formName)
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          console.log('success')
+        } else return false
+      })
+    },
 
     getData () {},
 
