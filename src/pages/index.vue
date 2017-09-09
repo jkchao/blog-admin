@@ -89,7 +89,7 @@ export default {
       defaultOpen: [],
       currentPathName: '',
       currentPathNameParent: '',
-      page: ['home', 'article', 'heros', 'set', 'analytics'],
+      page: ['home', 'article', 'tag', 'heros', 'set', 'analytics'],
       transition: 'fade',
       collapse: false
     }
@@ -121,7 +121,8 @@ export default {
     this.currentPathName = this.$route.name
     this.currentPathNameParent = this.$route.matched[0].name
     const index = this.page.indexOf(this.$route.meta.page)
-    this.defaultOpen.push((index - 1).toString())
+    console.log(index)
+    this.defaultOpen.push(index.toString())
   }
 }
 </script>

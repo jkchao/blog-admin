@@ -28,11 +28,14 @@ body {
                       border-color .25s linear);
 }
 
+// 内容区域
+
 .container {
   width: $container-width;
   margin: 0 auto;
 }
 
+// 面包屑
 .el-breadcrumb__separator {
   margin: 6px !important;
   &:after {
@@ -40,6 +43,7 @@ body {
   }
 }
 
+// 字体
 .font-futura {
   font-family: Futura;
 }
@@ -100,7 +104,20 @@ body {
       border-radius: 4px;
     }
   }
+}
 
+// el-dialog
+
+.el-dialog--tiny {
+  width: 420px;
+
+  .el-dialog__body {
+    padding: 10px 20px 0; 
+
+    .descript {
+      margin-bottom: 10px;
+    }
+  }
 }
 
 ::-webkit-input-placeholder {

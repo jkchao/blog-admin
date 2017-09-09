@@ -13,7 +13,7 @@
     </div>
     <div class="table">
       <el-table
-        :data="tableData"
+        :data="tagData"
         style="width: 100%"
         border>
         <el-table-column
@@ -53,6 +53,36 @@
         </el-table-column>
       </el-table>
     </div>
+
+    <el-dialog 
+      title="添加标签"
+      :visible.sync="dialogV"
+      size="tiny">
+      <el-form :model="form">
+        <el-form-item
+          label="名称"
+          porp="name"
+          :rules="[
+            { required: true, message: '姓名', trigger: 'blur' }
+          ]">
+          <el-input v-model="form.name" :maxlength="20" placeholder="name"></el-input>
+        </el-form-item>
+        <el-form-item
+          label="描述" 
+          class="descript">
+          <el-input 
+            type="textarea" 
+            v-model="form.descript" 
+            :maxlength="100"
+            :rows="3"
+            placeholder="descript"></el-input>  
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogV = false">取 消</el-button>
+        <el-button type="primary" @click="dialogV = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -65,49 +95,14 @@ export default {
 
   data () {
     return {
+      dialogV: true,
       sortable: null,
       total: 10,
-      tableData: [{
-        title: 'Jacascript',
-        descript: '1',
-        articleNum: 10
-      }, {
-        title: 'Jacascript',
-        descript: '2',
-        articleNum: 10
-      }, {
-        title: 'Jacascript',
-        descript: '3',
-        articleNum: 10
-      }, {
-        title: 'Jacascript',
-        descript: '4',
-        articleNum: 10
-      }, {
-        title: 'Jacascript',
-        descript: '5',
-        articleNum: 10
-      }, {
-        title: 'Jacascript',
-        descript: '6',
-        articleNum: 10
-      }, {
-        title: 'Jacascript',
-        descript: '7',
-        articleNum: 10
-      }, {
-        title: 'Jacascript',
-        descript: '8',
-        articleNum: 10
-      }, {
-        title: 'Jacascript',
-        descript: '9',
-        articleNum: 10
-      }, {
-        title: 'Jacascript',
-        descript: '1231',
-        articleNum: 10
-      }],
+      tagData: [],
+      form: {
+        name: '',
+        descript: ''
+      },
       keyword: ''
     }
   },
@@ -133,7 +128,6 @@ export default {
   mounted () {
     this.setSort()
   }
-
 }
 </script>
 

@@ -13,8 +13,9 @@ const index = () => import(/* webpackChunkName: "index" */ '../pages/index')
 const home = () => import(/* webpackChunkName: "home" */ '../pages/home/index')
 
 const article = () => import(/* webpackChunkName: "article" */ '../pages/article/index')
-const tag = () => import(/* webpackChunkName: "article" */ '../pages/article/tags')
 const release = () => import(/* webpackChunkName: "article" */ '../pages/article/release')
+
+const tag = () => import(/* webpackChunkName: "tag" */ '../pages/tags/index')
 
 const analytics = () => import(/* webpackChunkName: "analytics" */ '../pages/analytics/index')
 
@@ -45,6 +46,16 @@ const routes = [
       { path: '/article/index', component: article, name: '文章列表', icon: 'icon-list', meta: { page: 'article', requiresAuth: true } },
       { path: '/article/tag', component: tag, name: '文章标签', icon: 'icon-tag', meta: { page: 'article', requiresAuth: true } },
       { path: '/article/release', component: release, name: '发布文章', icon: 'icon-write', meta: { page: 'article', requiresAuth: true } }
+    ]
+  },
+  {
+    path: '/',
+    name: '文章标签',
+    component: index,
+    leaf: true,
+    icon: 'icon-tag',
+    children: [
+      { path: '/tag', component: tag, name: '文章标签', icon: 'icon-tag', meta: { page: 'tag', requiresAuth: true } }
     ]
   },
   {

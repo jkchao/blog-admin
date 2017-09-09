@@ -6,7 +6,7 @@
       :width="width">
       <div class="item" style="margin-top: 10px;">
         <span
-          class="text" 
+          class="text"
           style="line-height: 38px;"
           :style="{ 'width': width }">搜索：</span>
         <div class="el-radio-group">
