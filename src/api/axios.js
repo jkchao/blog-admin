@@ -17,9 +17,9 @@ ax.interceptors.request.use(config => {
     config.method === 'patch'
   ) {
     config.data = querystring.stringify(config.data)
-    if (window.localStorage.getItem('TOKEN')) {
-      config.headers.Authorization = `Bearer ${JSON.parse(window.localStorage.getItem('TOKEN')).token}`
-    }
+  }
+  if (window.localStorage.getItem('TOKEN')) {
+    config.headers.Authorization = `Bearer ${JSON.parse(window.localStorage.getItem('TOKEN')).token}`
   }
   return config
 }, error => {

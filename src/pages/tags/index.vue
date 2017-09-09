@@ -119,7 +119,6 @@ export default {
     },
 
     submit (formName) {
-      console.log(formName)
       this.$refs[formName].validate(valid => {
         if (valid) {
           console.log('success')

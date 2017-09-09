@@ -11,7 +11,6 @@ export default {
   name: 'app',
   created () {
     this.$store.dispatch('init')
-    // if (this.$route.path === '/') this.$router.push('/home')
   }
 }
 </script>

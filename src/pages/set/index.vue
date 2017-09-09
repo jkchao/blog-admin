@@ -169,8 +169,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import server from '../../utils/axios'
-import { success, error } from '../../utils/response'
+import { error } from '../../utils/response'
 export default {
   name: 'set',
 
@@ -274,14 +273,9 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          const { data } = await server.put('/option', { ...this.baseForm })
-          if (data.code !== 1) error(data.message)
-          else {
-            success(data.message)
-            this.baseForm._id = data.result
-          }
+          const opt = await this.$store.dispatch('putOpt', { ...this.baseForm })
+          if (opt.code === 1) this.baseForm._id = opt.result
         } else {
-          console.log('error submit!!')
           return false
         }
       })
@@ -294,14 +288,11 @@ export default {
             error('新旧密码不可一致')
             return
           }
-          const { data } = await server.put('/auth', { ...this.userForm })
-          if (data.code !== 1) error(data.message)
-          else {
-            success(data.message)
+          const res = await this.$store.dispatch('putAuth', { ...this.userForm })
+          if (res.code === 1) {
             this.userForm.oldPassword = ''
             this.userForm.newPassword = ''
             this.userForm.checkPass = ''
-            this.$store.dispatch('init', data.result)
           }
         } else {
           console.log('error submit!!')
@@ -321,11 +312,11 @@ export default {
 
     // 基本信息
     const opt = await this.$store.dispatch('getOpt')
-    if (opt) this.baseForm = { ...opt }
+    if (opt.code === 1) this.baseForm = { ...opt.result }
 
     // 七牛token
     const qn = await this.$store.dispatch('getQiniu')
-    if (qn) this.qn.token = qn.token
+    if (qn.code === 1) this.qn.token = qn.result.token
   }
 }
 </script>

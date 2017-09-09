@@ -139,8 +139,6 @@
 
 <script>
 import card from '../../components/card'
-import server from '../../utils/axios'
-import { error, success } from '../../utils/response'
 export default {
   name: 'heros',
 
@@ -176,12 +174,17 @@ export default {
     },
 
     async changeState (row, code) {
-      const { data } = await server.patch('/hero', {
+      const res = await this.$store.dispatch('patchHero', {
         _id: row._id,
         state: code
       })
-      if (data.code !== 1) error(data.message)
-      else row.state = code
+      if (res.code === 1) row.state = code
+      // const { data } = await server.patch('/hero', {
+      //   _id: row._id,
+      //   state: code
+      // })
+      // if (data.code !== 1) error(data.message)
+      // else row.state = code
     },
 
     dele (row, index) {
@@ -190,24 +193,22 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(async () => {
-        const { data } = await server.delete(`/hero/${row._id}`)
-        if (data.code !== 1) error(data.message)
-        else {
-          this.tableData.splice(index, 1)
-          success(data.message)
-        }
+        const res = await this.$store.dispatch('deleteHero', { _id: row._id })
+        if (res.code === 1) this.tableData.splice(index, 1)
       }).catch(() => {})
     },
 
     async getData () {
-      const { data } = await server.get(`/hero?` +
-                      `current_page=${this.currentPage}&page_size=10` +
-                      `&keyword=${this.keyword}&state=${this.state}`)
-      if (data.code !== 1) error(this, data.message, 2000)
-      else {
-        this.total = data.result.pagination.total
-        this.totalPage = data.result.pagination.total_page
-        this.tableData = [...data.result.list]
+      const res = await this.$store.dispatch('getHero', {
+        current_page: this.currentPage,
+        page_size: 10,
+        keyword: this.keyword,
+        state: this.state
+      })
+      if (res.code === 1) {
+        this.total = res.result.pagination.total
+        this.totalPage = res.result.pagination.total_page
+        this.tableData = [...res.result.list]
       }
     },
 

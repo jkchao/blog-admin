@@ -53,7 +53,7 @@ export default {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
           const data = await this.$store.dispatch('login', { ...this.form })
-          if (!data) return
+          if (data.code !== 1) return
           if (!this.$route.query.redirect) this.$router.push('/home')
           else this.$router.push(this.$route.query.redirect)
         } else {
