@@ -17,13 +17,13 @@
         style="width: 100%"
         border>
         <el-table-column
-          prop="title"
           label="名称"
           width="160"
           label-class-name="head"
           show-overflow-tooltip>
           <template scope="scope">
-              {{ scope.row.title }}
+            <i class="iconfont icon-tag mar"></i>
+            {{ scope.row.name }}
           </template>
         </el-table-column>
         <el-table-column
@@ -31,7 +31,7 @@
           min-width="320"
           label-class-name="head">
           <template scope="scope">
-            <i class="iconfont icon-tag mar"></i>
+            <i class="iconfont icon-descript mar"></i>
               {{ scope.row.descript }}
           </template>
         </el-table-column>
@@ -46,16 +46,26 @@
           width="180"
           label-class-name="head">
           <template scope="scope">
-            <el-button type="info" size="small">修改</el-button>
-            <el-button type="danger" size="small">删除</el-button>
+            <el-button type="info" size="small" @click="edit(scope.row)">修改</el-button>
+            <el-button type="danger" size="small" @click="dele(scope.row)">删除</el-button>
             <el-button type="text" class="darg"><i class="iconfont icon-list"></i></el-button>
           </template>
         </el-table-column>
       </el-table>
+
+      <div class="pagination" v-if="totalPage > 1">
+        <el-pagination
+          :current-page="currentPage"
+          layout="prev, pager, next"
+          :page-size="16"
+          @current-change="pageChange"
+          :total="total">
+        </el-pagination>
+      </div>
     </div>
 
     <el-dialog 
-      title="添加标签"
+      :title="title"
       :visible.sync="dialogV"
       size="tiny">
       <el-form :model="form" ref="form" v-if="dialogV">
@@ -95,38 +105,85 @@ export default {
 
   data () {
     return {
+      title: '增加标签',
       dialogV: false,
       sortable: null,
-      total: 10,
       tagData: [],
       form: {
         name: '',
         descript: ''
       },
-      keyword: ''
+      keyword: '',
+      currentPage: 1,
+      total: 10,
+      totalPage: ''
     }
   },
 
   methods: {
-    pageChange () {},
 
     addTag () {
       this.dialogV = true
+      this.title = '增加标签'
       this.form = Object.assign({}, {
         name: '',
         descript: ''
       })
     },
 
+    edit (row) {
+      this.title = '修改标签'
+      this.dialogV = true
+      this.form = { ...row }
+    },
+
+    dele (row, index) {
+      this.$confirm('确定删除此数据吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        const res = await this.$store.dispatch('deleteTag', { _id: row._id })
+        if (res.code === 1) this.getData()
+      }).catch(() => {})
+    },
+
     submit (formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate(async valid => {
         if (valid) {
-          console.log('success')
+          let res
+          if (this.form._id) {
+            res = await this.$store.dispatch('putTag', {
+              _id: this.form._id,
+              name: this.form.name,
+              descript: this.form.descript
+            })
+          } else res = await this.$store.dispatch('postTag', { ...this.form })
+          if (res.code === 1) {
+            this.dialogV = false
+            this.getData()
+          }
         } else return false
       })
     },
 
-    getData () {},
+    pageChange (val) {
+      this.currentPage = val
+      this.getData()
+    },
+
+    async getData () {
+      const res = await this.$store.dispatch('getTag', {
+        current_page: this.currentPage,
+        page_size: 16,
+        keyword: this.keyword
+      })
+      if (res.code === 1) {
+        this.total = res.result.pagination.total
+        this.totalPage = res.result.pagination.total_page
+        this.tagData = [...res.result.list]
+      }
+    },
 
     setSort () {
       const el = document.querySelectorAll('.el-table__body-wrapper > table > tbody')[0]
@@ -141,9 +198,13 @@ export default {
     }
   },
 
-  mounted () {
-    this.setSort()
+  created () {
+    this.getData()
   }
+
+  // mounted () {
+  //   this.setSort()
+  // }
 }
 </script>
 

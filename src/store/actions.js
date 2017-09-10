@@ -62,8 +62,39 @@ export const deleteHero = async ({ commit }, data) => {
   return res
 }
 
+//  改变英雄版状态
 export const patchHero = async ({ commit }, data) => {
   const res = await service.patchHero(data)
   if (res.code !== 1) error(res.message)
+  return res
+}
+
+// 标签列表
+export const getTag = async ({ commit }, data) => {
+  const res = await service.getTag(data)
+  return res
+}
+
+// 增加标签
+export const postTag = async ({ commit }, data) => {
+  const res = await service.postTag(data)
+  if (res.code !== 1) error(res.message)
+  else success('发布标签成功')
+  return res
+}
+
+// 修改标签
+export const putTag = async ({ commit }, data) => {
+  const res = await service.putTag(data)
+  if (res.code !== 1) error(res.message)
+  else success('修改标签成功')
+  return res
+}
+
+// 删除标签
+export const deleteTag = async ({ commit }, data) => {
+  const res = await service.deleteTag(data)
+  if (res.code !== 1) error(res.message)
+  else success('删除标签成功')
   return res
 }

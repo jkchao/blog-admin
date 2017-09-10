@@ -128,7 +128,7 @@
         <el-pagination
           :current-page="currentPage"
           layout="prev, pager, next"
-          :page-size="6"
+          :page-size="10"
           @current-change="pageChange"
           :total="total">
         </el-pagination>
@@ -145,8 +145,6 @@ export default {
   data () {
     return {
       width: '48px', // text 宽度
-      total: 10,
-      totalPage: '',
       type: [
         {
           name: '状态',
@@ -162,7 +160,9 @@ export default {
       tableData: [],
       keyword: '',
       state: '',
-      currentPage: 1
+      currentPage: 1,
+      total: 10,
+      totalPage: ''
     }
   },
 
@@ -194,7 +194,7 @@ export default {
         type: 'warning'
       }).then(async () => {
         const res = await this.$store.dispatch('deleteHero', { _id: row._id })
-        if (res.code === 1) this.tableData.splice(index, 1)
+        if (res.code === 1) this.getData()
       }).catch(() => {})
     },
 

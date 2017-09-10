@@ -55,3 +55,27 @@ export function patchHero (data) {
         .then(res => res.data)
 }
 
+// 标签列表
+export function getTag (params) {
+  return ax.get('/tag', { params })
+        .then(res => res.data)
+}
+
+// 增加标签
+export function postTag (data) {
+  return ax.post('/tag', { ...data })
+        .then(res => res.data)
+}
+
+// 修改标签
+export function putTag (data) {
+  return ax.put(`/tag/${data._id}`, { ...data })
+        .then(res => res.data)
+}
+
+// 删除标签
+export function deleteTag (data) {
+  return ax.delete(`/tag/${data._id}`)
+        .then(res => res.data)
+}
+
