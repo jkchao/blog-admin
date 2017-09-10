@@ -91,6 +91,13 @@ export const putTag = async ({ commit }, data) => {
   return res
 }
 
+// 修改标签排序
+export const patchTag = async ({ commit }, data) => {
+  const res = await service.patchTag(data)
+  if (res.code !== 1) error(res.message)
+  return res
+}
+
 // 删除标签
 export const deleteTag = async ({ commit }, data) => {
   const res = await service.deleteTag(data)

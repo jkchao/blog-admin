@@ -109,6 +109,7 @@ export default {
       dialogV: false,
       sortable: null,
       tagData: [],
+      list: [],
       form: {
         name: '',
         descript: ''
@@ -182,6 +183,10 @@ export default {
         this.total = res.result.pagination.total
         this.totalPage = res.result.pagination.total_page
         this.tagData = [...res.result.list]
+        this.list = this.tagData.map(item => item._id)
+        this.$nextTick(() => {
+          this.setSort()
+        })
       }
     },
 
@@ -191,8 +196,11 @@ export default {
         animation: 150,
         // handle: '.drag-handler',
         onEnd: evt => {
-          // const tempIndex = this.tableData.splice(evt.oldIndex, 1)[0]
-          // this.tableData.splice(evt.newIndex, 0, tempIndex)
+          const tempIndex = this.list.splice(evt.oldIndex, 1)[0]
+          this.list.splice(evt.newIndex, 0, tempIndex)
+          this.$store.dispatch('patchTag', {
+            ids: this.list
+          })
         }
       })
     }

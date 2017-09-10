@@ -40,7 +40,8 @@
         <el-table-column
           label="标签"
           width="180"
-          label-class-name="head">
+          label-class-name="head"
+          show-overflow-tooltip>
           <template scope="scope">
             <i class="iconfont icon-tag mar"></i>
               {{ scope.row.tag }}

@@ -67,6 +67,12 @@ export function postTag (data) {
         .then(res => res.data)
 }
 
+// 标签排序
+export function patchTag (data) {
+  return ax.patch(`/tag`, { ...data })
+        .then(res => res.data)
+}
+
 // 修改标签
 export function putTag (data) {
   return ax.put(`/tag/${data._id}`, { ...data })
