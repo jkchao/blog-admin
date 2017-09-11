@@ -111,3 +111,11 @@ export const getArt = async ({ commit }, data) => {
   const res = await service.getArt(data)
   return res
 }
+
+// 添加文章
+export const postArt = async({ commit }, data) => {
+  const res = await service.postArt(data)
+  if (res.code !== 1) error(res.message)
+  else success('发布文章成功')
+  return res
+}

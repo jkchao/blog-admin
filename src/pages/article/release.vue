@@ -31,8 +31,8 @@
           <el-checkbox-group v-model="form.tag" fill="#324057" text-color="white">
             <el-checkbox-button 
               v-for="item in tags" 
-              :label="item.id"
-              :key="item.id">{{ item.name }}</el-checkbox-button>
+              :label="item._id"
+              :key="item._id">{{ item.name }}</el-checkbox-button>
           </el-checkbox-group>
         </el-form-item>
         <el-form-item 
@@ -204,7 +204,7 @@ export default {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
           let res
-          if (this.form._id) res = await this.$store.dispatch('postArt', { ...this.form })
+          if (!this.form._id) res = await this.$store.dispatch('postArt', { ...this.form })
           if (res.code === 1) this.$router.push('/article/index')
         } else {
           console.log('error submit!!')
@@ -223,7 +223,7 @@ export default {
       keyword: this.keyword
     })
     if (res.code === 1) {
-      this.tags = res.result.list.map(item => ({ name: item.name, id: item._id }))
+      this.tags = res.result.list.map(item => ({ name: item.name, _id: item._id }))
     }
 
     // 七牛token

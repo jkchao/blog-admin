@@ -86,7 +86,7 @@ export function deleteTag (data) {
 }
 
 // 获取文章
-export function getArt ({params}) {
+export function getArt (params) {
   return ax.get('/article', { params })
         .then(res => res.data)
 }
