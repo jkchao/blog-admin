@@ -44,7 +44,6 @@ const routes = [
     icon: 'icon-article',
     children: [
       { path: '/article/index', component: article, name: '文章列表', icon: 'icon-list', meta: { page: 'article', requiresAuth: true } },
-      { path: '/article/tag', component: tag, name: '文章标签', icon: 'icon-tag', meta: { page: 'article', requiresAuth: true } },
       { path: '/article/release', component: release, name: '发布文章', icon: 'icon-write', meta: { page: 'article', requiresAuth: true } }
     ]
   },

@@ -85,3 +85,17 @@ export function deleteTag (data) {
         .then(res => res.data)
 }
 
+// 获取文章
+export function getArt ({params}) {
+  return ax.get('/article', { params })
+        .then(res => res.data)
+}
+
+// 添加文章
+export function postArt (data) {
+  return ax.post('/article', { ...data })
+          .then(res => res.data)
+}
+
+// 修改文章
+

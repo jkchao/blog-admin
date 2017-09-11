@@ -105,3 +105,9 @@ export const deleteTag = async ({ commit }, data) => {
   else success('删除标签成功')
   return res
 }
+
+// 获取文章列表
+export const getArt = async ({ commit }, data) => {
+  const res = await service.getArt(data)
+  return res
+}
