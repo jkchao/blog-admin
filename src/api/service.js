@@ -91,11 +91,20 @@ export function getArt (params) {
         .then(res => res.data)
 }
 
+export function deleteArt (data) {
+  return ax.delete(`/article/${data._id}`)
+        .then(res => res.data)
+}
+
 // 添加文章
 export function postArt (data) {
   return ax.post('/article', { ...data })
           .then(res => res.data)
 }
 
-// 修改文章
+// 修改文章状态
+export function patchArt (data) {
+  return ax.patch(`/article/${data._id}`, { ...data })
+          .then(res => res.data)
+}
 

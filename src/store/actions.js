@@ -113,9 +113,25 @@ export const getArt = async ({ commit }, data) => {
 }
 
 // 添加文章
-export const postArt = async({ commit }, data) => {
+export const postArt = async ({ commit }, data) => {
   const res = await service.postArt(data)
   if (res.code !== 1) error(res.message)
   else success('发布文章成功')
+  return res
+}
+
+// 删除文章
+export const deleteArt = async ({ commit }, data) => {
+  const res = await service.deleteArt(data)
+  if (res.code !== 1) error(res.message)
+  else success('删除文章成功')
+  return res
+}
+
+// 修改文章状态
+export const patchArt = async ({ commit }, data) => {
+  const res = await service.patchArt(data)
+  if (res.code !== 1) error(res.message)
+  else success('修改文章状态成功')
   return res
 }

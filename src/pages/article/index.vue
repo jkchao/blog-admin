@@ -100,16 +100,18 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="280"
+          width="250"
           label-class-name="head"
           fixed="right">
           <template scope="scope">
-            <el-button type="info" size="small">查看</el-button>
-            <el-button type="success" size="small" v-if="scope.row.state === 2">发布</el-button>
-            <el-button type="danger" size="small" v-else>草稿</el-button>
-            <el-button type="success" size="small" v-if="scope.row.publish === 1">私密</el-button>
-            <el-button type="danger" size="small" v-else>发布</el-button>
-            <el-button type="danger" size="small">删除</el-button>
+            <transition-group name="list" tag="span">
+              <el-button type="info" size="small" key="1">查看</el-button>
+              <el-button type="danger" size="small" key="2" v-if="scope.row.publish === 1"  @click="changeState(scope.row, 'publish', 2)">私密</el-button>
+              <el-button type="success" size="small" key="3" v-else  @click="changeState(scope.row, 'publish', 1)">公开</el-button>
+              <el-button type="success" size="small" key="4" v-if="scope.row.state === 2" @click="changeState(scope.row, 'state', 1)">发布</el-button>
+              <el-button type="danger" size="small" key="5" v-else  @click="changeState(scope.row, 'state', 2)">草稿</el-button>
+              <el-button type="danger" size="small" key="6" v-if="scope.row.state === 2" @click="dele(scope.row)">删除</el-button>
+            </transition-group>
           </template>
         </el-table-column>
       </el-table>
@@ -198,6 +200,26 @@ export default {
       this.getData()
     },
 
+    async changeState (row, type, code) {
+      const querys = {}
+      querys._id = row._id
+      querys[type] = code
+      const res = await this.$store.dispatch('patchArt', {...querys})
+      console.log(res)
+      if (res) row[type] = code
+    },
+
+    dele (row, index) {
+      this.$confirm('确定删除此文章吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        const res = await this.$store.dispatch('deleteArt', { _id: row._id })
+        if (res.code === 1) this.getData()
+      }).catch(() => {})
+    },
+
     async getData () {
       const res = await this.$store.dispatch('getArt', {
         tag: this.para[0].id,
@@ -207,16 +229,15 @@ export default {
         keyword: this.keyword
       })
       if (res.code === 1) {
-        console.log(res)
         this.total = res.result.pagination.total
         this.totalPage = res.result.pagination.total_page
         this.tableData = [...res.result.list]
       }
-      console.log(res)
     },
 
     pageChange (val) {
-      console.log(val)
+      this.currentPage = val
+      this.getData()
     }
 
   },
