@@ -66,7 +66,7 @@ export default {
       particlesJS ('particles-background', {
         "particles": {
           "number": {
-            "value": 16,
+            "value": 30,
             "density": {
               "enable": true,
               "value_area": 1000

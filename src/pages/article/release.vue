@@ -52,7 +52,8 @@
           prop="content"
           :rules="[
             { required: true, message: '请输入文章内容', trigger: 'blur, change' }
-          ]">
+          ]"
+          class="markdown">
           <markdown-editor 
             v-model="form.content" 
             ref="markdownEditor"
@@ -112,10 +113,6 @@
           </el-form-item>
         </div>
 
-        <el-dialog v-model="dialogVisible" size="tiny">
-          <img width="100%" :src="form.img" alt="">
-        </el-dialog>
-
       </el-col>
     </el-form>
   </div>
@@ -138,7 +135,6 @@ export default {
 
   data () {
     return {
-      dialogVisible: false,
       configs: {
         status: false, // 禁用底部状态栏
         spellChecker: false,
@@ -239,6 +235,7 @@ export default {
 @import '../../assets/scss/mixin.scss';
 
 .release {
+  margin-bottom: $lg-pad;
 
   >.el-form {
     display: flex;
@@ -264,10 +261,6 @@ export default {
           line-height: 1
         }
 
-        // .el-radio__label {
-        //   vertical-align: middle;
-        // }
-
         .img-item {
           display: flex;
           flex-wrap: wrap;
@@ -280,10 +273,17 @@ export default {
         }
       }
     }
-  }
 
-  .markdown-editor .CodeMirror {
-    height: 300px;
+    .markdown {
+
+      .el-form-item__content {
+         line-height: 1.4;
+      }
+
+      .markdown-editor .CodeMirror {
+        height: 400px;
+      }
+    }
   }
 }
 </style>

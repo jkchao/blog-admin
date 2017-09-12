@@ -29,8 +29,11 @@
         >
         <el-table-column type="expand" label-class-name="head">
           <template scope="props">
-            <el-form label-position="left" inline class="table-expand">
-              <el-form-item label="描述：">
+            <el-form label-position="left" class="table-expand">
+              <el-form-item label="关键字">
+                <span>{{ props.row.keyword }}</span>
+              </el-form-item>
+              <el-form-item label="描述">
                 <span>{{ props.row.descript }}</span>
               </el-form-item>
             </el-form>
@@ -105,7 +108,7 @@
           fixed="right">
           <template scope="scope">
             <transition-group name="list" tag="span">
-              <el-button type="info" size="small" key="1">查看</el-button>
+              <el-button type="info" size="small" key="1" @click="edit(scope.row)">修改</el-button>
               <el-button type="danger" size="small" key="2" v-if="scope.row.publish === 1"  @click="changeState(scope.row, 'publish', 2)">私密</el-button>
               <el-button type="success" size="small" key="3" v-else  @click="changeState(scope.row, 'publish', 1)">公开</el-button>
               <el-button type="success" size="small" key="4" v-if="scope.row.state === 2" @click="changeState(scope.row, 'state', 1)">发布</el-button>
@@ -200,6 +203,8 @@ export default {
       this.getData()
     },
 
+    edit (row) {},
+
     async changeState (row, type, code) {
       const querys = {}
       querys._id = row._id
@@ -221,7 +226,7 @@ export default {
     },
 
     async getData () {
-      const res = await this.$store.dispatch('getArt', {
+      const res = await this.$store.dispatch('getArts', {
         tag: this.para[0].id,
         type: this.para[1].id,
         publish: this.para[2].id,
@@ -282,7 +287,6 @@ export default {
   .table-expand .el-form-item {
     margin-right: 0;
     margin-bottom: 0;
-    width: 40%;
   }
 }
 </style>

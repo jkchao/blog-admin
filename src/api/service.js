@@ -85,12 +85,19 @@ export function deleteTag (data) {
         .then(res => res.data)
 }
 
-// 获取文章
-export function getArt (params) {
+// 获取文章列表
+export function getArts (params) {
   return ax.get('/article', { params })
         .then(res => res.data)
 }
 
+// 获取单个文章
+export function getArt (data) {
+  return ax.get(`/article/${data._id}`)
+        .then(res => res.data)
+}
+
+// 删除文章
 export function deleteArt (data) {
   return ax.delete(`/article/${data._id}`)
         .then(res => res.data)

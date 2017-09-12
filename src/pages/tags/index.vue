@@ -36,9 +36,9 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="articleNum"
+          prop="count"
           label="文章"
-          width="180"
+          width="80"
           label-class-name="head">
         </el-table-column>
         <el-table-column
@@ -183,6 +183,7 @@ export default {
         this.total = res.result.pagination.total
         this.totalPage = res.result.pagination.total_page
         this.tagData = [...res.result.list]
+        console.log(this.tagData)
         this.list = this.tagData.map(item => item._id)
         this.$nextTick(() => {
           this.setSort()

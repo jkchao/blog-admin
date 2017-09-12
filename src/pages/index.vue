@@ -193,7 +193,7 @@ section {
     overflow-y: auto;
     width: 200px;
     background: $black;
-    z-index: 999;
+    z-index: 8;
 
     .el-menu {
       background: $black;
