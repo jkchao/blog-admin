@@ -96,9 +96,9 @@ export function getArt (data) {
         .then(res => res.data)
 }
 
-// 获取单个文章
+// 修改单个文章
 export function putArt (data) {
-  return ax.get(`/article/${data._id}`, { ...data })
+  return ax.put(`/article/${data._id}`, { ...data })
         .then(res => res.data)
 }
 

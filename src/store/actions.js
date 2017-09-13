@@ -121,9 +121,9 @@ export const postArt = async ({ commit }, data) => {
   return res
 }
 
-// 添加文章
+// 修改
 export const putArt = async ({ commit }, data) => {
-  const res = await service.postArt(data)
+  const res = await service.putArt(data)
   if (res.code !== 1) error(res.message)
   else success('修改文章成功')
   return res

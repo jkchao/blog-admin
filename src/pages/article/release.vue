@@ -43,7 +43,7 @@
           ]">
           <el-input 
             v-model="form.descript" 
-            :maxlength="20" 
+            :maxlength="200" 
             type="textarea"
             :rows="4"></el-input>
         </el-form-item>
@@ -201,6 +201,7 @@ export default {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
           let res
+          console.log(this.form)
           if (!this.form._id) res = await this.$store.dispatch('postArt', { ...this.form })
           else res = await this.$store.dispatch('putArt', { ...this.form })
           if (res.code === 1) this.$router.push('/article/index')
@@ -245,7 +246,6 @@ export default {
     // 文章详情
     if (this.$route.query.id) {
       this.id = this.$route.query.id
-      console.log(this.id)
       const { result: content } = await this.$store.dispatch('getArt', { _id: this.id })
       if (content) {
         this.form = Object.assign({}, {

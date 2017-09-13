@@ -30,6 +30,9 @@
         <el-table-column type="expand" label-class-name="head">
           <template scope="props">
             <el-form label-position="left" class="table-expand">
+              <el-form-item label="标签">
+                <span v-for="item in props.row.tag" :key="item._id" style="margin-right: 10px;">{{ item.name }}</span>
+              </el-form-item>
               <el-form-item label="关键字">
                 <span>{{ props.row.keyword }}</span>
               </el-form-item>
@@ -47,16 +50,6 @@
           show-overflow-tooltip>
           <template scope="scope">
               {{ scope.row.title }}
-          </template>
-        </el-table-column>
-        <el-table-column
-          label="标签"
-          width="180"
-          label-class-name="head"
-          show-overflow-tooltip>
-          <template scope="scope">
-            <i class="iconfont icon-tag mar"></i>
-            <span v-for="item in scope.row.tag" :key="item._id">{{ item.name }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -266,7 +259,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
 
 @import '../../assets/scss/variable.scss';
 @import '../../assets/scss/mixin.scss';
