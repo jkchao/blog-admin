@@ -26,11 +26,11 @@
           label="文章标签"
           prop="tag"
           :rules="[
-            { required: true, type: 'array', message: '请选择文章标签', trigger: 'change' }
+            { required: true, type: 'array', message: '请选择文章标签', trigger: '' }
           ]">
           <el-checkbox-group v-model="form.tag" fill="#324057" text-color="white">
-            <el-checkbox-button 
-              v-for="item in tags" 
+            <el-checkbox-button
+              v-for="item in tags"
               :label="item._id"
               :key="item._id">{{ item.name }}</el-checkbox-button>
           </el-checkbox-group>
@@ -61,7 +61,7 @@
             preview-class="markdown-body"></markdown-editor>
         </el-form-item>
         <el-form-item style="margin-bottom: 0">
-           <el-button @click="submitForm('form')">发布</el-button>
+           <el-button @click="submitForm('form')">{{ id ? '修改' : '发布' }}</el-button>
         </el-form-item>
 
     </el-col>
@@ -144,6 +144,7 @@ export default {
           highlightingTheme: 'atom-one-light' // 自定义代码高亮主题，可选列表(https://github.com/isagalaev/highlight.js/tree/master/src/styles)
         }
       },
+      id: '',
       fileList: [],
       form: {
         title: '',
@@ -201,14 +202,29 @@ export default {
         if (valid) {
           let res
           if (!this.form._id) res = await this.$store.dispatch('postArt', { ...this.form })
+          else res = await this.$store.dispatch('putArt', { ...this.form })
           if (res.code === 1) this.$router.push('/article/index')
         } else {
-          console.log('error submit!!')
           return false
         }
       })
     }
+  },
 
+  beforeRouteUpdate (to, from, next) {
+    this.id = ''
+    this.form = {
+      title: '',
+      keyword: '',
+      descript: '',
+      tag: [],
+      content: '',
+      publish: 1,
+      state: 1,
+      type: 1,
+      thumb: ''
+    }
+    next()
   },
 
   async created () {
@@ -225,6 +241,19 @@ export default {
     // 七牛token
     const qn = await this.$store.dispatch('getQiniu')
     if (qn.code === 1) this.qn.token = qn.result.token
+
+    // 文章详情
+    if (this.$route.query.id) {
+      this.id = this.$route.query.id
+      console.log(this.id)
+      const { result: content } = await this.$store.dispatch('getArt', { _id: this.id })
+      if (content) {
+        this.form = Object.assign({}, {
+          ...content,
+          tag: content.tag.map(item => item._id)
+        })
+      }
+    }
   }
 }
 </script>

@@ -183,7 +183,6 @@ export default {
         this.total = res.result.pagination.total
         this.totalPage = res.result.pagination.total_page
         this.tagData = [...res.result.list]
-        console.log(this.tagData)
         this.list = this.tagData.map(item => item._id)
         this.$nextTick(() => {
           this.setSort()

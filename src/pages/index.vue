@@ -38,7 +38,7 @@
                   <i :class="item.icon"  class="iconfont mar" ></i>
                   <span class="title">{{item.name}}</span>
                 </template>
-                <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path">
+                <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path" v-if="!child.leaf">
                   <i :class="child.icon"  class="iconfont mar" ></i>
                   <span class="text">
                   {{child.name}}

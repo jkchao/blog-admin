@@ -144,6 +144,7 @@ export default {
       type: [
         {
           name: '标签',
+          typeName: 'tag',
           list: [
             { name: '全部', id: '-1' },
             { name: 'Javascript', id: '1' },
@@ -154,6 +155,7 @@ export default {
         },
         {
           name: '分类',
+          typeName: 'type',
           list: [
             { name: '全部', id: '-1' },
             { name: 'Code', id: '1' },
@@ -163,6 +165,7 @@ export default {
         },
         {
           name: '公开',
+          typeName: 'publish',
           list: [
             { name: '全部', id: '-1' },
             { name: '公开', id: '1' },
@@ -172,6 +175,7 @@ export default {
         },
         {
           name: '状态',
+          typeName: 'state',
           list: [
             { name: '全部', id: '-1' },
             { name: '已发布', id: '1' },
@@ -182,10 +186,10 @@ export default {
       ],
       tableData: [],
       para: [
-        { name: '标签', id: '' },
-        { name: '分类', id: '' },
-        { name: '公开', id: '' },
-        { name: '状态', id: '' }
+        { tag: '' },
+        { type: '' },
+        { publish: '' },
+        { state: '' }
       ],
       keyword: '',
       currentPage: 1,
@@ -197,13 +201,13 @@ export default {
   methods: {
 
     changeType (e) {
-      this.para.forEach(item => {
-        if (item.name === e.name) item.id = e.id
-      })
+      this.para[e.typeName] = e.id
       this.getData()
     },
 
-    edit (row) {},
+    edit (row) {
+      this.$router.push(`/article/release?id=${row._id}`)
+    },
 
     async changeState (row, type, code) {
       const querys = {}
@@ -227,10 +231,7 @@ export default {
 
     async getData () {
       const res = await this.$store.dispatch('getArts', {
-        tag: this.para[0].id,
-        type: this.para[1].id,
-        publish: this.para[2].id,
-        state: this.para[3].id,
+        ...this.para,
         keyword: this.keyword
       })
       if (res.code === 1) {

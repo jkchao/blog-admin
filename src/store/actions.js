@@ -121,6 +121,14 @@ export const postArt = async ({ commit }, data) => {
   return res
 }
 
+// 添加文章
+export const putArt = async ({ commit }, data) => {
+  const res = await service.postArt(data)
+  if (res.code !== 1) error(res.message)
+  else success('修改文章成功')
+  return res
+}
+
 // 删除文章
 export const deleteArt = async ({ commit }, data) => {
   const res = await service.deleteArt(data)

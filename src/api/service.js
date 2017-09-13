@@ -14,7 +14,6 @@ export function getAuth () {
 
 // 修改用户信息
 export function putAuth (data) {
-  console.log(data)
   return ax.put('/auth', { ...data })
         .then(res => res.data)
 }
@@ -94,6 +93,12 @@ export function getArts (params) {
 // 获取单个文章
 export function getArt (data) {
   return ax.get(`/article/${data._id}`)
+        .then(res => res.data)
+}
+
+// 获取单个文章
+export function putArt (data) {
+  return ax.get(`/article/${data._id}`, { ...data })
         .then(res => res.data)
 }
 

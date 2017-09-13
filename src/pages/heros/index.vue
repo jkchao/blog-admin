@@ -148,6 +148,7 @@ export default {
       type: [
         {
           name: '状态',
+          typeName: 'state',
           list: [
             { name: '全部', id: '' },
             { name: '待审核', id: 0 },
@@ -179,12 +180,6 @@ export default {
         state: code
       })
       if (res.code === 1) row.state = code
-      // const { data } = await server.patch('/hero', {
-      //   _id: row._id,
-      //   state: code
-      // })
-      // if (data.code !== 1) error(data.message)
-      // else row.state = code
     },
 
     dele (row, index) {
