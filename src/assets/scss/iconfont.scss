@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'iconfont';  /* project id 376001 */
-  src: url('//at.alicdn.com/t/font_376001_mgodorl2csicc8fr.eot');
-  src: url('//at.alicdn.com/t/font_376001_mgodorl2csicc8fr.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_376001_mgodorl2csicc8fr.woff') format('woff'),
-  url('//at.alicdn.com/t/font_376001_mgodorl2csicc8fr.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_376001_mgodorl2csicc8fr.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_376001_loqfwdrfxehcwhfr.eot');
+  src: url('//at.alicdn.com/t/font_376001_loqfwdrfxehcwhfr.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_376001_loqfwdrfxehcwhfr.woff') format('woff'),
+  url('//at.alicdn.com/t/font_376001_loqfwdrfxehcwhfr.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_376001_loqfwdrfxehcwhfr.svg#iconfont') format('svg');
 }
 
 .iconfont {
@@ -83,4 +83,22 @@
 
 .icon-edit:before { content: "\e66b"; }
 
+.icon-linux:before { content: "\e635"; }
+
+.icon-internet:before { content: "\e628"; }
+
+.icon-windows:before { content: "\e681"; }
+
+.icon-unix:before { content: "\e607"; }
+
+.icon-wechat:before { content: "\e694"; }
+
+.icon-phone:before { content: "\e621"; }
+
+.icon-android:before { content: "\e605"; }
+
 .icon-descript:before { content: "\e612"; }
+
+.icon-mac:before { content: "\e701"; }
+
+

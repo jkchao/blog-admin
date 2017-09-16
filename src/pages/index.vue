@@ -18,7 +18,7 @@
             <i class="el-icon-message"></i></el-button>
         </el-badge>
         <span class="user-face-box">
-          <img :src="user.gravatar" class="user-face">
+          <img :src="user.gravatar + '?imageView2/1/w/36/h/36'" class="user-face">
         </span>
       </div>
     </header>
@@ -41,7 +41,7 @@
                 <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path" v-if="!child.leaf">
                   <i :class="child.icon"  class="iconfont mar" ></i>
                   <span class="text">
-                  {{child.name}}
+                    {{child.name}}
                   </span>
                 </el-menu-item>
               </el-submenu>

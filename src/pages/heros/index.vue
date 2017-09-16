@@ -37,10 +37,10 @@
                 <span>{{props.row.country}}{{ props.row.city }}</span>
               </el-form-item>
               <el-form-item label="浏览器：">
-                <span>{{ props.row.bower }}</span>
+                <span v-html="UAParse(props.row.agent)"></span>
               </el-form-item>
               <el-form-item label="系统：">
-                <span>{{ props.row.system }}</span>
+                <span v-html="OSParse(props.row.agent)"></span>
               </el-form-item>
               <el-form-item label="内容：">
                 <span>{{ props.row.content }}</span>
@@ -138,6 +138,7 @@
 </template>
 
 <script>
+import { UAParse, OSParse } from '../../utils/ua-parse'
 import card from '../../components/card'
 export default {
   name: 'heros',
@@ -168,6 +169,9 @@ export default {
   },
 
   methods: {
+    UAParse,
+
+    OSParse,
 
     changeType (e) {
       this.state = e.id
