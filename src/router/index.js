@@ -17,6 +17,8 @@ const release = () => import(/* webpackChunkName: "article" */ '../pages/article
 
 const tag = () => import(/* webpackChunkName: "tag" */ '../pages/tags/index')
 
+const hotReview = () => import(/* webpackChunkName: "hotReview" */ '../pages/hotReview/index')
+
 const analytics = () => import(/* webpackChunkName: "analytics" */ '../pages/analytics/index')
 
 const heros = () => import(/* webpackChunkName: "heros" */ '../pages/heros/index')
@@ -55,6 +57,16 @@ const routes = [
     icon: 'icon-tag',
     children: [
       { path: '/tag', component: tag, name: '文章标签', icon: 'icon-tag', meta: { page: 'tag', requiresAuth: true } }
+    ]
+  },
+  {
+    path: '/',
+    name: '网易云热评',
+    component: index,
+    leaf: true,
+    icon: 'icon-hotReview',
+    children: [
+      { path: '/hotReview', component: hotReview, name: '网易云热评', icon: 'icon-hotReview', meta: { page: 'hotReview', requiresAuth: true } }
     ]
   },
   {

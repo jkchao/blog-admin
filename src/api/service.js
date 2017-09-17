@@ -84,6 +84,36 @@ export function deleteTag (data) {
         .then(res => res.data)
 }
 
+// 热评列表
+export function getHotReview (params) {
+  return ax.get('/hotReview', { params })
+        .then(res => res.data)
+}
+
+// 增加热评
+export function postHotReview (data) {
+  return ax.post('/hotReview', { ...data })
+        .then(res => res.data)
+}
+
+// 热评排序
+export function patchHotReview (data) {
+  return ax.patch(`/hotReview`, { ...data })
+        .then(res => res.data)
+}
+
+// 修改热评
+export function putHotReview (data) {
+  return ax.put(`/hotReview/${data._id}`, { ...data })
+        .then(res => res.data)
+}
+
+// 删除热评
+export function deleteHotReview (data) {
+  return ax.delete(`/hotReview/${data._id}`)
+        .then(res => res.data)
+}
+
 // 获取文章列表
 export function getArts (params) {
   return ax.get('/article', { params })
