@@ -5,18 +5,6 @@
         <router-link to="/">三毛</router-link>
       </div>
       <div class="user">
-        <el-badge :value="2" :max="99" class="item">
-          <el-button
-            size="mini" 
-            type="text">
-            <i class="iconfont icon-notice"></i></el-button>
-        </el-badge>
-        <el-badge :value="6" :max="10" class="item">
-          <el-button
-            size="mini" 
-            type="text">
-            <i class="el-icon-message"></i></el-button>
-        </el-badge>
         <span class="user-face-box">
           <img :src="user.gravatar + '?imageView2/1/w/36/h/36'" class="user-face">
         </span>
