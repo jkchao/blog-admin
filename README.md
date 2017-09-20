@@ -2,13 +2,13 @@
 
 vue-blog 管理部分，主要功能基本完成。
 
-前台部分 [vue-blog](https://github.com/jkchao/vue-blog)
+FRONT [vue-blog](https://github.com/jkchao/vue-blog)
 
-API [node-koa](https://github.com/jkchao/node-koa)
+SERVICE [node-koa](https://github.com/jkchao/node-koa)
 
 ---
 
-## vue 全家桶+ element。
+## Vue + Vuex + Vue-router + Axios + element（自定义主题）。
 
 ![](https://github.com/jkchao/vue-admin/raw/master/images/1.png)
 
@@ -32,3 +32,27 @@ API [node-koa](https://github.com/jkchao/node-koa)
 ### 上传
 
 使用 element-ui 上传组件配合七牛，https://github.com/jkchao/vue-admin/blob/master/src/pages/set/index.vue#L103 
+
+### markdown
+
+  [vue-simplemde]()
+
+## TODO
+
+- 面板数据统计
+
+- Google 统计服务
+
+## Build Setup
+
+``` bash
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:3000
+npm run dev
+
+# build for production
+npm run build
+
+```
