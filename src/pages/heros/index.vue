@@ -34,7 +34,7 @@
                 <span>{{ props.row.ip }}</span>
               </el-form-item>
               <el-form-item label="地址：">
-                <span>{{props.row.country}}{{ props.row.city }}</span>
+                <span>{{props.row.country}} {{ props.row.city }}</span>
               </el-form-item>
               <el-form-item label="浏览器：">
                 <span v-html="UAParse(props.row.agent)"></span>
@@ -229,7 +229,6 @@ export default {
 <style lang="scss">
 
 @import '../../assets/scss/variable.scss';
-@import '../../assets/scss/mixin.scss';
 
 .heros {
   height: 100%;
