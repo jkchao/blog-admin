@@ -99,7 +99,7 @@
               ]">
               <el-upload
                 class="avatar-uploader"
-                action="http://upload.qiniu.com/"
+                action="https://up.qbox.me/"
                 :data="qn"
                 :show-file-list="false"
                 :on-success="handleSuccess"
