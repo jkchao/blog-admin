@@ -112,10 +112,10 @@
         </el-table-column>
       </el-table>
 
-      <div class="pagination" v-if="totalPage > 1">
+      <div class="pagination">
         <el-pagination
           :current-page="currentPage"
-          layout="prev, pager, next"
+          layout="total, prev, pager, next"
           :page-size="10"
           @current-change="pageChange"
           :total="total">

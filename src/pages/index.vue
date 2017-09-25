@@ -77,7 +77,7 @@ export default {
       defaultOpen: [],
       currentPathName: '',
       currentPathNameParent: '',
-      page: ['home', 'article', 'tag', 'hotReview', 'heros', 'set', 'analytics'],
+      page: ['home', 'article', 'tag', 'comments', 'hotReview', 'heros', 'set', 'analytics'],
       transition: 'fade',
       collapse: false
     }

@@ -180,3 +180,23 @@ export const patchArt = async ({ commit }, data) => {
   else success('修改文章状态成功')
   return res
 }
+
+// 获取评论
+export const getComments = async ({ commit }, data) => {
+  return await service.getComments(data)
+}
+
+// 删除评论
+export const deleteComment = async ({ commit }, data) => {
+  const res = await service.deleteComment(data)
+  if (res.code !== 1) error(res.message)
+  else success('删除评论成功')
+  return res
+}
+
+export const patchComment = async ({ commit }, data) => {
+  const res = await service.patchComment(data)
+  if (res.code !== 1) error(res.message)
+  else success('修改评论状态成功')
+  return res
+}

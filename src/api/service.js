@@ -150,3 +150,21 @@ export function patchArt (data) {
           .then(res => res.data)
 }
 
+// 获取评论
+export function getComments (params) {
+  return ax.get('/comment', {params})
+        .then(res => res.data)
+}
+
+// 删除单条评论
+export function deleteComment (data) {
+  console.log(data)
+  return ax.delete(`/comment/${data._id}`, {...data})
+            .then(res => res.data)
+}
+
+// 修改单条评论状态
+export function patchComment (data) {
+  return ax.patch(`/comment/${data._id}`, data)
+            .then(res => res.data)
+}

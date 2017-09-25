@@ -1,5 +1,5 @@
 <template>
-  <div class="heros">
+  <div class="comments">
     <card
       :type="type"
       @toggle="changeType($event)"
@@ -12,7 +12,7 @@
         <div class="el-radio-group">
           <el-input
             v-model="keyword"
-            placeholder="姓名"
+            placeholder="name, content, email..."
             @keyup.enter.native="getData"></el-input>
           <el-button
             type="primary"
@@ -20,28 +20,15 @@
         </div>
       </div>
     </card>
-
+  
     <div class="table">
       <el-table
-        :data="tableData"
+        :data="commentsData"
         style="width: 100%"
-        border
-        >
+        border>
         <el-table-column type="expand" label-class-name="head">
           <template scope="props">
             <el-form label-position="left" inline class="table-expand">
-              <el-form-item label="IP：">
-                <span>{{ props.row.ip }}</span>
-              </el-form-item>
-              <el-form-item label="地址：">
-                <span>{{props.row.country}} {{ props.row.city }}</span>
-              </el-form-item>
-              <el-form-item label="浏览器：">
-                <span v-html="UAParse(props.row.agent)"></span>
-              </el-form-item>
-              <el-form-item label="系统：">
-                <span v-html="OSParse(props.row.agent)"></span>
-              </el-form-item>
               <el-form-item label="内容：">
                 <span>{{ props.row.content }}</span>
               </el-form-item>
@@ -49,39 +36,46 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="name"
+          label="文章id"
+          label-class-name="head"
+          show-overflow-tooltip
+          width="80">
+          <template scope="scope">
+            {{ scope.row.post_id }}
+          </template>
+        </el-table-column>
+        <el-table-column
           label="姓名"
-          width="120px"
           label-class-name="head"
-          show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-          label="Github"
-          min-width="240"
-          label-class-name="head"
-          show-overflow-tooltip>
+          min-width="120">
           <template scope="scope">
-            <a :href="scope.row.github" target="_blank"><i class="iconfont icon-github mar"></i> {{ scope.row.github }}</a>
+            {{ scope.row.author.name }}
           </template>
         </el-table-column>
         <el-table-column
-          prop="blog"
-          label="Blob"
-          min-width="240"
+          label="邮箱"
           label-class-name="head"
+          min-width="120"
           show-overflow-tooltip>
           <template scope="scope">
-            <a :href="scope.row.blog" target="_blank"><i class="iconfont icon-boke mar"></i> {{ scope.row.blog }}</a>
+            {{ scope.row.author.email }}
           </template>
         </el-table-column>
         <el-table-column
-          prop="date"
+          label="site"
+          label-class-name="head"
+          min-width="120"
+          show-overflow-tooltip>
+          <template scope="scope">
+            {{ scope.row.author.site || '' }}
+          </template>
+        </el-table-column>
+        <el-table-column
           label="日期"
-          width="160"
+          width="200"
           label-class-name="head">
           <template scope="scope">
-            <i class="iconfont icon-date mar"></i>
-            {{ scope.row.create_time | format('yyyy-MM-dd')}}
+            {{ scope.row.create_at | format('yyyy-MM-dd hh.mm.ss')}}
           </template>
         </el-table-column>
         <el-table-column
@@ -100,7 +94,7 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="220"
+          width="180"
           label-class-name="head"
           fixed="right">
           <template scope="scope">
@@ -119,7 +113,6 @@
                 key="2">不通过</el-button>
               <el-button type="danger" size="small" key="3" @click="dele(scope.row, scope.$index)">删除</el-button>
             </transition-group>
-
           </template>
         </el-table-column>
       </el-table>
@@ -128,7 +121,7 @@
         <el-pagination
           :current-page="currentPage"
           layout="total, prev, pager, next"
-          :page-size="16"
+          :page-size="20"
           @current-change="pageChange"
           :total="total">
         </el-pagination>
@@ -136,16 +129,20 @@
     </div>
   </div>
 </template>
-
 <script>
-import { UAParse, OSParse } from '../../utils/ua-parse'
 import card from '../../components/card'
+
 export default {
-  name: 'heros',
+  name: 'comments',
 
   data () {
     return {
       width: '48px', // text 宽度
+      commentsData: [],
+      keyword: '',
+      currentPage: 1,
+      total: 10,
+      totalPage: '',
       type: [
         {
           name: '状态',
@@ -159,31 +156,17 @@ export default {
           default: { name: '全部' }
         }
       ],
-      tableData: [],
-      keyword: '',
-      state: '',
-      currentPage: 1,
-      total: 10,
-      totalPage: ''
+      state: ''
     }
   },
 
-  methods: {
-    UAParse,
+  components: { card },
 
-    OSParse,
+  methods: {
 
     changeType (e) {
       this.state = e.id
       this.getData()
-    },
-
-    async changeState (row, code) {
-      const res = await this.$store.dispatch('patchHero', {
-        _id: row._id,
-        state: code
-      })
-      if (res.code === 1) row.state = code
     },
 
     dele (row, index) {
@@ -192,33 +175,34 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(async () => {
-        const res = await this.$store.dispatch('deleteHero', { _id: row._id })
+        console.log(Array.of(row.post_id))
+        const res = await this.$store.dispatch('deleteComment', {
+          _id: row._id,
+          post_ids: row.post_id
+        })
         if (res.code === 1) this.getData()
       }).catch(() => {})
     },
 
+    pageChange (val) {
+      this.currentPage = val
+      this.getData()
+    },
+
     async getData () {
-      const res = await this.$store.dispatch('getHero', {
+      const res = await this.$store.dispatch('getComments', {
         current_page: this.currentPage,
-        page_size: 16,
+        page_size: 20,
         keyword: this.keyword,
         state: this.state
       })
       if (res.code === 1) {
         this.total = res.result.pagination.total
         this.totalPage = res.result.pagination.total_page
-        this.tableData = [...res.result.list]
+        this.commentsData = [...res.result.data]
       }
-    },
-
-    pageChange (val) {
-      this.currentPage = val
-      this.getData()
     }
-
   },
-
-  components: { card },
 
   created () {
     this.getData()
@@ -230,28 +214,10 @@ export default {
 
 @import '../../assets/scss/variable.scss';
 
-.heros {
-  height: 100%;
+.comments {
 
   >.el-card {
     margin-bottom: $normal-pad;
-  }
-
-  .table-expand {
-    font-size: 0;
-  }
-  .table-expand label {
-    width: 70px;
-    color: #99a9bf;
-  }
-  .table-expand .el-form-item {
-    margin-right: 0;
-    margin-bottom: 0;
-    width: 40%;
-  }
-
-  .table-expand .el-form-item:last-child {
-    width: 100%;
   }
 }
 </style>
