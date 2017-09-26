@@ -33,7 +33,7 @@
                 <span>{{ props.row.ip }}</span>
               </el-form-item>
               <el-form-item label="地址：">
-                <span>{{props.row.country}} {{ props.row.city }}</span>
+                <span>{{props.row.country}}/{{ props.row.city }}</span>
               </el-form-item>
               <el-form-item label="浏览器：">
                 <span v-html="UAParse(props.row.agent)"></span>
@@ -161,7 +161,6 @@ export default {
           typeName: 'state',
           list: [
             { name: '全部', id: '' },
-            { name: '待审核', id: 0 },
             { name: '审核通过', id: 1 },
             { name: '审核不通过', id: 2 }
           ],
@@ -241,6 +240,22 @@ export default {
 
   >.el-card {
     margin-bottom: $normal-pad;
+  }
+  .table-expand {
+    font-size: 0;
+  }
+  .table-expand label {
+    width: 70px;
+    color: #99a9bf;
+  }
+  .table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 40%;
+  }
+
+  .table-expand .el-form-item:last-child {
+    width: 100%;
   }
 }
 </style>
