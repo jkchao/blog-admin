@@ -157,14 +157,14 @@ export function getComments (params) {
 }
 
 // 删除单条评论
-export function deleteComment (data) {
-  console.log(data)
-  return ax.delete(`/comment/${data._id}`, {...data})
+export function deleteComment (params) {
+  console.log(params)
+  return ax.delete(`/comment/${params._id}`, { params })
             .then(res => res.data)
 }
 
 // 修改单条评论状态
 export function patchComment (data) {
-  return ax.patch(`/comment/${data._id}`, data)
+  return ax.patch(`/comment/${data._id}`, {...data})
             .then(res => res.data)
 }

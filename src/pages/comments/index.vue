@@ -169,13 +169,21 @@ export default {
       this.getData()
     },
 
+    async changeState (row, code) {
+      const res = await this.$store.dispatch('patchComment', {
+        _id: row._id,
+        state: code,
+        post_ids: row.post_id
+      })
+      if (res.code === 1) row.state = code
+    },
+
     dele (row, index) {
       this.$confirm('确定删除此数据吗？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(async () => {
-        console.log(Array.of(row.post_id))
         const res = await this.$store.dispatch('deleteComment', {
           _id: row._id,
           post_ids: row.post_id
