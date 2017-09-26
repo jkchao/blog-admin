@@ -29,6 +29,18 @@
         <el-table-column type="expand" label-class-name="head">
           <template scope="props">
             <el-form label-position="left" inline class="table-expand">
+              <el-form-item label="IP：">
+                <span>{{ props.row.ip }}</span>
+              </el-form-item>
+              <el-form-item label="地址：">
+                <span>{{props.row.country}} {{ props.row.city }}</span>
+              </el-form-item>
+              <el-form-item label="浏览器：">
+                <span v-html="UAParse(props.row.agent)"></span>
+              </el-form-item>
+              <el-form-item label="系统：">
+                <span v-html="OSParse(props.row.agent)"></span>
+              </el-form-item>
               <el-form-item label="内容：">
                 <span>{{ props.row.content }}</span>
               </el-form-item>
@@ -131,7 +143,7 @@
 </template>
 <script>
 import card from '../../components/card'
-
+import { UAParse, OSParse } from '../../utils/ua-parse'
 export default {
   name: 'comments',
 
@@ -163,6 +175,9 @@ export default {
   components: { card },
 
   methods: {
+    UAParse,
+
+    OSParse,
 
     changeType (e) {
       this.state = e.id
