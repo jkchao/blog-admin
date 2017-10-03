@@ -2,7 +2,7 @@
 
 vue-blog 管理部分，主要功能基本完成。
 
-FRONT [vue-blog](https://github.com/jkchao/vue-blog)
+CLIENT [vue-blog](https://github.com/jkchao/vue-blog)
 
 SERVICE [node-koa](https://github.com/jkchao/node-koa)
 
