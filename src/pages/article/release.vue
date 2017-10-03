@@ -77,13 +77,13 @@
           <el-form-item label="文章状态" label-width="90px" style="margin-bottom: 10px;">
             <el-radio-group v-model="form.state">
               <el-radio :label="1">发布</el-radio>
-              <el-radio :label="0">草稿</el-radio>
+              <el-radio :label="2">草稿</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="文章公开" label-width="90px" style="margin-bottom: 10px;">
             <el-radio-group v-model="form.publish">
               <el-radio :label="1">公开</el-radio>
-              <el-radio :label="0">私密</el-radio>
+              <el-radio :label="2">私密</el-radio>
             </el-radio-group>
           </el-form-item>
         </div>
