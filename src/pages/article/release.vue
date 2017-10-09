@@ -12,7 +12,7 @@
           :rules="[
             { required: true, message: '请输入文章标题', trigger: 'blur' }
           ]">
-          <el-input v-model="form.title" :maxlength="20" style="width: 300px"></el-input>
+          <el-input v-model="form.title" :maxlength="40" style="width: 300px"></el-input>
         </el-form-item>
         <el-form-item
           label="文章关键字"
