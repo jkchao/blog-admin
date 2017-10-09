@@ -21,8 +21,6 @@ const comments = () => import(/* webpackChunkName: "comments" */ '../pages/comme
 
 const hotReview = () => import(/* webpackChunkName: "hotReview" */ '../pages/hotReview/index')
 
-const analytics = () => import(/* webpackChunkName: "analytics" */ '../pages/analytics/index')
-
 const heros = () => import(/* webpackChunkName: "heros" */ '../pages/heros/index')
 
 const set = () => import(/* webpackChunkName: "set" */ '../pages/set/index')
@@ -99,16 +97,6 @@ const routes = [
     icon: 'icon-set',
     children: [
       { path: '/set', component: set, name: '全局设置', meta: { page: 'set', requiresAuth: true } }
-    ]
-  },
-  {
-    path: '/',
-    name: 'Google Analytics',
-    component: index,
-    leaf: true,
-    icon: 'icon-count',
-    children: [
-      { path: '/analytics', component: analytics, name: 'Google Analytics', meta: { page: 'analytics', requiresAuth: true } }
     ]
   },
   {
