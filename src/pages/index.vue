@@ -2,7 +2,10 @@
   <div class="index">
     <header>
       <div class="logo font-futura ">
-        <router-link to="/">三毛</router-link>
+        <router-link to="/">
+          <img src="../assets/images/logo.png" alt="" width="46">
+          <span>三毛</span>
+        </router-link>
       </div>
       <div class="user">
         <span class="user-face-box">
