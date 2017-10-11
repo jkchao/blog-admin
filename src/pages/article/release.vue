@@ -180,7 +180,8 @@ export default {
     },
 
     handleError (res) {
-      error(this, res.error, 2000)
+      console.log(res)
+      error(res)
     },
 
     beforeUpload (file) {
