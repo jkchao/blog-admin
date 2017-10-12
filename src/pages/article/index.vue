@@ -49,7 +49,7 @@
           label-class-name="head"
           show-overflow-tooltip>
           <template scope="scope">
-              {{ scope.row.title }}
+            <a :href="`https://jkchao.cn/article/${scope.row._id}`" class="article-link">{{ scope.row.title }}</a>
           </template>
         </el-table-column>
         <el-table-column
@@ -280,6 +280,10 @@ export default {
   .table-expand .el-form-item {
     margin-right: 0;
     margin-bottom: 0;
+  }
+
+  .article-link {
+    text-decoration: underline;
   }
 }
 </style>
