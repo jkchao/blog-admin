@@ -42,6 +42,14 @@
               <el-form-item label="系统：">
                 <span v-html="OSParse(props.row.agent)"></span>
               </el-form-item>
+              <el-form-item label="email：">
+                <span>{{props.row.email || ''}}</span>
+              </el-form-item>
+              <el-form-item label="blog：">
+                <span>
+                  <a :href="props.row.blog" target="_blank">{{ props.row.blog }}</a>
+                </span>
+              </el-form-item>
               <el-form-item label="内容：">
                 <span>{{ props.row.content }}</span>
               </el-form-item>
@@ -62,16 +70,6 @@
           show-overflow-tooltip>
           <template scope="scope">
             <a :href="scope.row.github" target="_blank"><i class="iconfont icon-github mar"></i> {{ scope.row.github }}</a>
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="blog"
-          label="Blob"
-          min-width="240"
-          label-class-name="head"
-          show-overflow-tooltip>
-          <template scope="scope">
-            <a :href="scope.row.blog" target="_blank"><i class="iconfont icon-boke mar"></i> {{ scope.row.blog }}</a>
           </template>
         </el-table-column>
         <el-table-column

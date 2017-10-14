@@ -36,19 +36,19 @@ export function putOpt (data) {
         .then(res => res.data)
 }
 
-// 英雄版列表
+// 留言墙列表
 export function getHero (params) {
   return ax.get('/hero', { params })
         .then(res => res.data)
 }
 
-// 删除英雄榜
+// 删除留言墙
 export function deleteHero (data) {
   return ax.delete(`/hero/${data._id}`)
         .then(res => res.data)
 }
 
-// 英雄版状态
+// 留言墙状态
 export function patchHero (data) {
   return ax.patch('/hero', { ...data })
         .then(res => res.data)
