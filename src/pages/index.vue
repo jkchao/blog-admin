@@ -86,7 +86,7 @@ export default {
       defaultOpen: [],
       currentPathName: '',
       currentPathNameParent: '',
-      page: ['home', 'article', 'tag', 'comments', 'hotReview', 'heros', 'set'],
+      page: ['home', 'article', 'tag', 'comments', 'heros', 'set'],
       transition: 'fade',
       collapse: false
     }

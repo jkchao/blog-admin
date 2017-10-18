@@ -103,42 +103,6 @@ export const deleteTag = async ({ commit }, data) => {
   return res
 }
 
-// 热评列表
-export const getHotReview = async ({ commit }, data) => {
-  return await service.getHotReview(data)
-}
-
-// 增加热评
-export const postHotReview = async ({ commit }, data) => {
-  const res = await service.postHotReview(data)
-  if (res.code !== 1) error(res.message)
-  else success('发布热评成功')
-  return res
-}
-
-// 修改热评
-export const putHotReview = async ({ commit }, data) => {
-  const res = await service.putHotReview(data)
-  if (res.code !== 1) error(res.message)
-  else success('修改热评成功')
-  return res
-}
-
-// 修改热评排序
-export const patchHotReview = async ({ commit }, data) => {
-  const res = await service.patchHotReview(data)
-  if (res.code !== 1) error(res.message)
-  return res
-}
-
-// 删除热评
-export const deleteHotReview = async ({ commit }, data) => {
-  const res = await service.deleteHotReview(data)
-  if (res.code !== 1) error(res.message)
-  else success('删除热评成功')
-  return res
-}
-
 // 获取文章列表
 export const getArts = async ({ commit }, data) => {
   return await service.getArts(data)

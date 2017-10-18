@@ -19,8 +19,6 @@ const tag = () => import(/* webpackChunkName: "tag" */ '../pages/tags/index')
 
 const comments = () => import(/* webpackChunkName: "comments" */ '../pages/comments/index')
 
-const hotReview = () => import(/* webpackChunkName: "hotReview" */ '../pages/hotReview/index')
-
 const heros = () => import(/* webpackChunkName: "heros" */ '../pages/heros/index')
 
 const set = () => import(/* webpackChunkName: "set" */ '../pages/set/index')
@@ -67,16 +65,6 @@ const routes = [
     icon: 'icon-comments',
     children: [
       { path: '/comment', component: comments, name: '评论', icon: 'icon-comments', meta: { page: 'comments', requiresAuth: true } }
-    ]
-  },
-  {
-    path: '/',
-    name: '网易云热评',
-    component: index,
-    leaf: true,
-    icon: 'icon-hotReview',
-    children: [
-      { path: '/hotReview', component: hotReview, name: '网易云热评', icon: 'icon-hotReview', meta: { page: 'hotReview', requiresAuth: true } }
     ]
   },
   {
