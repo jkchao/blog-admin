@@ -90,7 +90,7 @@
 
         <div class="right-form" style="margin-top: 24px;">
           <el-form-item 
-            label="缩略图" 
+            label="缩略图"
             label-width="90px" 
             class="img-item"
             prop="thumb"
@@ -172,7 +172,7 @@ export default {
 
   methods: {
     handleSuccess (res, file) {
-      this.form.thumb = 'http://ovshyp9zv.bkt.clouddn.com/' + this.qn.key
+      this.form.thumb = 'https://static.jkchao.cn/' + this.qn.key
     },
 
     handlePro (e, file, fileList) {

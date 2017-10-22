@@ -245,7 +245,7 @@ export default {
 
   methods: {
     handleSuccess (res, file) {
-      this.userForm.gravatar = 'http://ovshyp9zv.bkt.clouddn.com/' + this.qn.key
+      this.userForm.gravatar = 'https://static.jkchao.cn/' + this.qn.key
     },
 
     handlePro (e, file, fileList) {
