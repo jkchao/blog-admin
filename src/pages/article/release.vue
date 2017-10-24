@@ -122,7 +122,7 @@
 
 import { markdownEditor } from 'vue-simplemde'
 // import 'github-markdown-css'
-require.ensure([], () => require('github-markdown-css'), 'markdown-style')
+// require.ensure([], () => require('github-markdown-css'), 'markdown-style')
 
 import { error } from '../../utils/response'
 
@@ -141,7 +141,7 @@ export default {
         initialValue: '', // 设置初始值
         renderingConfig: {
           codeSyntaxHighlighting: true, // 开启代码高亮
-          highlightingTheme: 'atom-one-light' // 自定义代码高亮主题，可选列表(https://github.com/isagalaev/highlight.js/tree/master/src/styles)
+          highlightingTheme: 'atom-one-dark' // 自定义代码高亮主题，可选列表(https://github.com/isagalaev/highlight.js/tree/master/src/styles)
         }
       },
       id: '',
@@ -262,6 +262,8 @@ export default {
 <style lang="scss">
 
 @import '../../assets/scss/variable.scss';
+@import '~simplemde/dist/simplemde.min.css';
+@import '~github-markdown-css';
 
 .release {
   margin-bottom: $lg-pad;
