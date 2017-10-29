@@ -66,7 +66,6 @@ export default {
 
       .item {
         display: flex;
-        flex-wrap: wrap;
         position: relative;
         padding-bottom: 10px;
         margin-bottom: 10px;
@@ -80,8 +79,13 @@ export default {
         
         .el-radio-group {
           display: flex;
+          flex-wrap: wrap;
           align-items: center;
           margin-left: 10px;
+
+          .el-radio-button {
+            margin: 3px 0;
+          }
 
           .el-radio-button__inner {
             border: none;
@@ -89,9 +93,6 @@ export default {
             -moz-border-radius: 4px;      
             border-radius: 4px;
           }
-        }
-
-        .el-radio-group {
           .is-active {
             .el-radio-button__inner {
               background: $black;
