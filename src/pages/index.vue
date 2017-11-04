@@ -51,10 +51,10 @@
       </aside>
 
       <article>
-        <transition-group tag="span" name="list">
+        <transition-group tag="span" name="btn">
           <el-col :span="24" key="1" v-if="$route.path !== '/home'" class="breadcrumb">
             <el-breadcrumb>
-              <transition-group tag="div" name="list" class="el-breadcrumb">
+              <transition-group tag="div" name="btn" class="el-breadcrumb">
                 <el-breadcrumb-item :to="{ path: '/home' }" :key="indexPath">{{ indexPath }}</el-breadcrumb-item>
                 <el-breadcrumb-item v-if="currentPathNameParent !== indexPath " :key="currentPathNameParent">{{ currentPathNameParent }}</el-breadcrumb-item>
                 <el-breadcrumb-item v-if="currentPathName !== currentPathNameParent " :key="currentPathName">{{ currentPathName }}</el-breadcrumb-item>

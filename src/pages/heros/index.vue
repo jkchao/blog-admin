@@ -102,7 +102,7 @@
           label-class-name="head"
           fixed="right">
           <template scope="scope">
-            <transition-group tag="span" name="list">
+            <transition-group tag="span" name="btn">
               <el-button
                 type="success" 
                 size="small"

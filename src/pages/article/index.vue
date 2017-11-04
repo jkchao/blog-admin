@@ -100,7 +100,7 @@
           label-class-name="head"
           fixed="right">
           <template scope="scope">
-            <transition-group name="list" tag="span">
+            <transition-group name="btn" tag="div">
               <el-button type="info" size="small" key="1" @click="edit(scope.row)">修改</el-button>
               <el-button type="danger" size="small" key="2" v-if="scope.row.publish === 1"  @click="changeState(scope.row, 'publish', 2)">私密</el-button>
               <el-button type="success" size="small" key="3" v-else  @click="changeState(scope.row, 'publish', 1)">公开</el-button>
