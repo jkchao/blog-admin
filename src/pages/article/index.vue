@@ -49,7 +49,10 @@
           label-class-name="head"
           show-overflow-tooltip>
           <template scope="scope">
-            <a :href="`https://jkchao.cn/article/${scope.row._id}`" class="article-link">{{ scope.row.title }}</a>
+            <a 
+              :href="`https://jkchao.cn/article/${scope.row._id}`" 
+              class="article-link"
+              target="_blank">{{ scope.row.title }}</a>
           </template>
         </el-table-column>
         <el-table-column
@@ -207,7 +210,6 @@ export default {
       querys._id = row._id
       querys[type] = code
       const res = await this.$store.dispatch('patchArt', {...querys})
-      console.log(res)
       if (res) row[type] = code
     },
 
@@ -225,6 +227,7 @@ export default {
     async getData () {
       const res = await this.$store.dispatch('getArts', {
         ...this.para,
+        current_page: this.currentPage,
         keyword: this.keyword
       })
       if (res.code === 1) {

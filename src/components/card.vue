@@ -73,6 +73,7 @@ export default {
         border-bottom: 1px dashed rgb(210, 210, 210);
 
         .text {
+          flex-shrink: 0;
           text-align: right;
           font-size: 14px;
         }
