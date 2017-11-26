@@ -128,7 +128,6 @@ export function getComments (params) {
 
 // 删除单条评论
 export function deleteComment (params) {
-  console.log(params)
   return ax.delete(`/comment/${params._id}`, { params })
             .then(res => res.data)
 }

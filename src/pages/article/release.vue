@@ -70,8 +70,9 @@
         <div class="right-form">
           <el-form-item label="文章分类" label-width="90px" style="margin-bottom: 10px;">
             <el-radio-group v-model="form.type">
-              <el-radio :label="1">Code</el-radio>
-              <el-radio :label="2">Think</el-radio>
+              <el-radio :label="1">码农</el-radio>
+              <el-radio :label="2">读书</el-radio>
+              <el-radio :label="3">民谣</el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="文章状态" label-width="90px" style="margin-bottom: 10px;">
