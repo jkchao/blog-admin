@@ -1,18 +1,18 @@
 <template>
   <div id="app">
-    <transition name="fade">
+    <!-- <transition name="fade">
       <router-view></router-view>
-    </transition>
+    </transition> -->
+    <h1>hea</h1>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'app',
-  beforeCreate () {
-    this.$store.dispatch('init')
-  }
-}
+<script lang="ts">
+import Vue from 'vue'
+import Component from 'vue-class-component'
+
+@Component({})
+export default class App extends Vue {}
 </script>
 
 <style lang="scss">

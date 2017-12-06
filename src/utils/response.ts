@@ -1,13 +1,13 @@
 import { Notification } from 'element-ui'
 
-export function error (message) {
+export function error (message: string) {
   Notification.error({
     title: '错误',
     message
   })
 }
 
-export function success (message) {
+export function success (message: string) {
   Notification.success({
     title: '成功',
     duration: 2000,

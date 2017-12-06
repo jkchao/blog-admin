@@ -18,7 +18,7 @@
           <el-button
             type="primary"
             @click.native="getData"
-            size="small"><i class="iconfont icon-search mar"></i>查询</el-button>
+            size="small">查询</el-button>
         </div>
       </div>
     </card>
