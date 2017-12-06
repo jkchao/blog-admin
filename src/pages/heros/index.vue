@@ -13,10 +13,12 @@
           <el-input
             v-model="keyword"
             placeholder="姓名"
-            @keyup.enter.native="getData"></el-input>
+            @keyup.enter.native="getData"
+            size="small"></el-input>
           <el-button
             type="primary"
-            @click.native="getData"><i class="iconfont icon-search mar"></i>查询</el-button>
+            @click.native="getData"
+            size="small"><i class="iconfont icon-search mar"></i>查询</el-button>
         </div>
       </div>
     </card>
@@ -25,10 +27,9 @@
       <el-table
         :data="tableData"
         style="width: 100%"
-        border
         >
         <el-table-column type="expand" label-class-name="head">
-          <template scope="props">
+          <template slot-scope="props">
             <el-form label-position="left" inline class="table-expand">
               <el-form-item label="IP：">
                 <span>{{ props.row.ip }}</span>
@@ -68,7 +69,7 @@
           min-width="240"
           label-class-name="head"
           show-overflow-tooltip>
-          <template scope="scope">
+          <template slot-scope="scope">
             <a :href="scope.row.github" target="_blank"><i class="iconfont icon-github mar"></i> {{ scope.row.github }}</a>
           </template>
         </el-table-column>
@@ -77,7 +78,7 @@
           label="日期"
           width="160"
           label-class-name="head">
-          <template scope="scope">
+          <template slot-scope="scope">
             <i class="iconfont icon-date mar"></i>
             {{ scope.row.create_time | format('yyyy-MM-dd')}}
           </template>
@@ -86,7 +87,7 @@
           label="状态"
           width="120"
           label-class-name="head">
-          <template scope="scope">
+          <template slot-scope="scope">
             {{
                scope.row.state === 0
                ? '待审核'
@@ -101,7 +102,7 @@
           width="220"
           label-class-name="head"
           fixed="right">
-          <template scope="scope">
+          <template slot-scope="scope">
             <transition-group tag="span" name="btn">
               <el-button
                 type="success" 

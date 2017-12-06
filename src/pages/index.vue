@@ -22,6 +22,8 @@
             theme="dark"
             unique-opened
             :default-openeds="defaultOpen"
+            text-color="#bfc9d9"
+            background-color="#24292e"
             router>
             <template v-for="(item,index) in $router.options.routes">
               <el-submenu :index="index+''" v-if="!item.leaf && item.children" :key="index">
@@ -62,7 +64,7 @@
             </el-breadcrumb>
           </el-col>
           <el-col :span="24" key="2" class="right-content">
-            <transition :name="transition" mode="out-in">
+            <transition name="fade" mode="out-in">
               <router-view></router-view>
             </transition>
           </el-col>
@@ -86,8 +88,6 @@ export default {
       defaultOpen: [],
       currentPathName: '',
       currentPathNameParent: '',
-      page: ['home', 'article', 'tag', 'comments', 'heros', 'set'],
-      transition: 'fade',
       collapse: false
     }
   },
@@ -103,13 +103,6 @@ export default {
       this.defaultPath = to.path
       this.currentPathName = to.name
       this.currentPathNameParent = to.matched[0].name
-      const toPageInd = this.page.indexOf(to.meta.page)
-      const fromPageInd = this.page.indexOf(from.meta.page)
-      this.transition = toPageInd === fromPageInd
-                        ? 'fade'
-                        : toPageInd > fromPageInd
-                          ? 'slide-down'
-                          : 'slide-up'
     }
   },
 
@@ -193,6 +186,14 @@ section {
 
     .el-menu {
       background: $black;
+      border: 0;
+
+      .el-menu-item {
+        &:focus {
+          border: none;
+          outline: none;
+        }
+      }
 
       .el-submenu .el-menu {
         background: $black;

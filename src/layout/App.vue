@@ -9,7 +9,7 @@
 <script>
 export default {
   name: 'app',
-  created () {
+  beforeCreate () {
     this.$store.dispatch('init')
   }
 }

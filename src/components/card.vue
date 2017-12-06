@@ -2,7 +2,7 @@
      <el-card class="box-card" v-loading="carLoading">
       <div v-for="(items, index) in type" class="item" :key="index">
         <span class="text" :style="{'width': width}">{{ items.name }}：</span>
-        <el-radio-group v-model="items.default.name" @change="toggle($event, items.list, items.typeName)">
+        <el-radio-group v-model="items.default.name" size="small" @change="toggle($event, items.list, items.typeName)">
         <transition-group name="list" tag="div">
           <el-radio-button
             v-for="child in items.list"          

@@ -1,4 +1,3 @@
-
 /**
  *
  * @export
@@ -6,10 +5,11 @@
  * @param {any} format 需要转化的格式
  * @returns 返回处理后的时间格式
  */
+
 export function format (time, format) {
-  if (!time) return null
-  var date = new Date(time)
-  var o = {
+  if (!time) return ''
+  let date = new Date(time)
+  let o = {
     'M+': date.getMonth() + 1, // month
     'd+': date.getDate(), // day
     'h+': date.getHours(), // hour
@@ -28,4 +28,3 @@ export function format (time, format) {
   }
   return format
 }
-

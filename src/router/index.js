@@ -34,7 +34,7 @@ const routes = [
     icon: 'icon-home',
     redirect: '/home',
     children: [
-      { path: '/home', component: home, name: '我的面板', meta: { page: 'home', requiresAuth: true } }
+      { path: '/home', component: home, name: '我的面板', meta: { requiresAuth: true } }
     ]
   },
   {
@@ -43,8 +43,8 @@ const routes = [
     component: index,
     icon: 'icon-article',
     children: [
-      { path: '/article/index', component: article, name: '文章列表', icon: 'icon-list', meta: { page: 'article', requiresAuth: true } },
-      { path: '/article/release', component: release, name: '发布文章', icon: 'icon-write', meta: { page: 'article', requiresAuth: true } }
+      { path: '/article/index', component: article, name: '文章列表', icon: 'icon-list', meta: { requiresAuth: true } },
+      { path: '/article/release', component: release, name: '发布文章', icon: 'icon-write', meta: { requiresAuth: true } }
     ]
   },
   {
@@ -54,7 +54,7 @@ const routes = [
     leaf: true,
     icon: 'icon-tag',
     children: [
-      { path: '/tag', component: tag, name: '文章标签', icon: 'icon-tag', meta: { page: 'tag', requiresAuth: true } }
+      { path: '/tag', component: tag, name: '文章标签', icon: 'icon-tag', meta: { equiresAuth: true } }
     ]
   },
   {
@@ -64,7 +64,7 @@ const routes = [
     leaf: true,
     icon: 'icon-comments',
     children: [
-      { path: '/comment', component: comments, name: '评论', icon: 'icon-comments', meta: { page: 'comments', requiresAuth: true } }
+      { path: '/comment', component: comments, name: '评论', icon: 'icon-comments', meta: { requiresAuth: true } }
     ]
   },
   {
@@ -74,7 +74,7 @@ const routes = [
     leaf: true,
     icon: 'icon-hero',
     children: [
-      { path: '/heros', component: heros, name: '留言墙', meta: { page: 'heros', requiresAuth: true } }
+      { path: '/heros', component: heros, name: '留言墙', meta: { requiresAuth: true } }
     ]
   },
   {
@@ -122,4 +122,3 @@ router.afterEach(transition => {
 })
 
 export default router
-

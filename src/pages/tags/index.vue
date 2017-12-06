@@ -1,27 +1,27 @@
 <template>
   <div class="tags">
     <div class="btn">
-      <el-button size="small" @click="addTag">增加标签</el-button>
+      <el-button size="small" @click="addTag" type="primary">增加标签</el-button>
       <div class="search">
         <el-input
           v-model="keyword"
           placeholder="name..."
           @keyup.enter.native="getData"
           icon="search"
-          :on-icon-click="getData"></el-input>
+          :on-icon-click="getData"
+          size="small"></el-input>
       </div>
     </div>
     <div class="table">
       <el-table
         :data="tagData"
-        style="width: 100%"
-        border>
+        style="width: 100%">
         <el-table-column
           label="名称"
           width="160"
           label-class-name="head"
           show-overflow-tooltip>
-          <template scope="scope">
+          <template slot-scope="scope">
             <i class="iconfont icon-tag mar"></i>
             {{ scope.row.name }}
           </template>
@@ -30,7 +30,7 @@
           label="描述"
           min-width="320"
           label-class-name="head">
-          <template scope="scope">
+          <template slot-scope="scope">
             <i class="iconfont icon-descript mar"></i>
               {{ scope.row.descript }}
           </template>
@@ -43,17 +43,17 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="180"
+          width="240"
           label-class-name="head">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-button type="info" size="small" @click="edit(scope.row)">修改</el-button>
             <el-button type="danger" size="small" @click="dele(scope.row)">删除</el-button>
-            <el-button type="text" class="darg"><i class="iconfont icon-list"></i></el-button>
+            <el-button type="text" class="darg" size="small"><i class="iconfont icon-list"></i></el-button>
           </template>
         </el-table-column>
       </el-table>
 
-      <div class="pagination" v-if="totalPage > 1">
+      <div class="pagination">
         <el-pagination
           :current-page="currentPage"
           layout="prev, pager, next"

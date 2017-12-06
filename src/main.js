@@ -4,9 +4,11 @@ import Vue from 'vue'
 import App from './layout/App.vue'
 import router from './router'
 import store from './store'
-import ElementUi from 'element-ui'
-import '../static/theme/index.css'
+import * as ElementUi from 'element-ui'
+// import '../static/theme/index.css'
 import './assets/scss/index.scss'
+import 'simplemde/dist/simplemde.min.css'
+import 'github-markdown-css'
 import * as filters from './filters'
 
 Vue.use(ElementUi)

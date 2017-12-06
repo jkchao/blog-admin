@@ -13,10 +13,12 @@
           <el-input
             v-model="keyword"
             placeholder="标题，描述"
-            @keyup.enter.native="getData"></el-input>
+            @keyup.enter.native="getData"
+            size="small"></el-input>
           <el-button
             type="primary"
-            @click.native="getData"><i class="iconfont icon-search mar"></i>查询</el-button>
+            @click.native="getData"
+            size="small"><i class="iconfont icon-search mar"></i>查询</el-button>
         </div>
       </div>
     </card>
@@ -25,10 +27,9 @@
       <el-table
         :data="tableData"
         style="width: 100%"
-        border
         >
         <el-table-column type="expand" label-class-name="head">
-          <template scope="props">
+          <template slot-scope="props">
             <el-form label-position="left" class="table-expand">
               <el-form-item label="标签">
                 <span v-for="item in props.row.tag" :key="item._id" style="margin-right: 10px;">{{ item.name }}</span>
@@ -48,7 +49,7 @@
           :width="280"
           label-class-name="head"
           show-overflow-tooltip>
-          <template scope="scope">
+          <template slot-scope="scope">
             <a 
               :href="`https://jkchao.cn/article/${scope.row._id}`" 
               class="article-link"
@@ -60,14 +61,14 @@
           label="发布日期"
           width="180"
           label-class-name="head">
-          <template scope="scope">
+          <template slot-scope="scope">
             {{ scope.row.create_at | format('yyyy-MM-dd hh.mm')}}
           </template>
         </el-table-column>
         <el-table-column
           label="分类"
           label-class-name="head">
-          <template scope="scope">
+          <template slot-scope="scope">
             {{ 
                 scope.row.type === 1
                 ? 'Code'
@@ -78,7 +79,7 @@
         <el-table-column
           label="公开"
           label-class-name="head">
-          <template scope="scope">
+          <template slot-scope="scope">
             {{ 
                 scope.row.publish === 1
                 ? '公开'
@@ -89,7 +90,7 @@
         <el-table-column
           label="状态"
           label-class-name="head">
-          <template scope="scope">
+          <template slot-scope="scope">
             {{ 
                 scope.row.state === 1
                 ? '发布'
@@ -102,7 +103,7 @@
           width="250"
           label-class-name="head"
           fixed="right">
-          <template scope="scope">
+          <template slot-scope="scope">
             <transition-group name="btn" tag="div">
               <el-button type="info" size="small" key="1" @click="edit(scope.row)">修改</el-button>
               <el-button type="danger" size="small" key="2" v-if="scope.row.publish === 1"  @click="changeState(scope.row, 'publish', 2)">私密</el-button>

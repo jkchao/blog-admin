@@ -13,10 +13,12 @@
           <el-input
             v-model="keyword"
             placeholder="name, content, email..."
-            @keyup.enter.native="getData"></el-input>
+            @keyup.enter.native="getData"
+            size="small"></el-input>
           <el-button
             type="primary"
-            @click.native="getData"><i class="iconfont icon-search mar"></i>查询</el-button>
+            @click.native="getData"
+            size="small"><i class="iconfont icon-search mar"></i>查询</el-button>
         </div>
       </div>
     </card>
@@ -24,10 +26,9 @@
     <div class="table">
       <el-table
         :data="commentsData"
-        style="width: 100%"
-        border>
+        style="width: 100%">
         <el-table-column type="expand" label-class-name="head">
-          <template scope="props">
+          <template slot-scope="props">
             <el-form label-position="left" inline class="table-expand">
               <el-form-item label="IP：">
                 <span>{{ props.row.ip }}</span>
@@ -52,7 +53,7 @@
           label-class-name="head"
           show-overflow-tooltip
           width="80">
-          <template scope="scope">
+          <template slot-scope="scope">
             {{ scope.row.post_id }}
           </template>
         </el-table-column>
@@ -60,7 +61,7 @@
           label="姓名"
           label-class-name="head"
           min-width="120">
-          <template scope="scope">
+          <template slot-scope="scope">
             {{ scope.row.author.name }}
           </template>
         </el-table-column>
@@ -69,7 +70,7 @@
           label-class-name="head"
           min-width="120"
           show-overflow-tooltip>
-          <template scope="scope">
+          <template slot-scope="scope">
             {{ scope.row.author.email }}
           </template>
         </el-table-column>
@@ -78,7 +79,7 @@
           label-class-name="head"
           min-width="120"
           show-overflow-tooltip>
-          <template scope="scope">
+          <template slot-scope="scope">
             {{ scope.row.author.site || '' }}
           </template>
         </el-table-column>
@@ -86,7 +87,7 @@
           label="日期"
           width="200"
           label-class-name="head">
-          <template scope="scope">
+          <template slot-scope="scope">
             {{ scope.row.create_at | format('yyyy-MM-dd hh.mm.ss')}}
           </template>
         </el-table-column>
@@ -94,7 +95,7 @@
           label="状态"
           width="120"
           label-class-name="head">
-          <template scope="scope">
+          <template slot-scope="scope">
             {{
                scope.row.state === 0
                ? '待审核'
@@ -109,7 +110,7 @@
           width="180"
           label-class-name="head"
           fixed="right">
-          <template scope="scope">
+          <template slot-scope="scope">
             <transition-group tag="span" name="btn">
               <el-button
                 type="success" 

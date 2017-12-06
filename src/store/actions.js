@@ -29,7 +29,8 @@ export const putAuth = async ({ commit }, data) => {
 
 // 七牛
 export const getQiniu = async ({ commit }) => {
-  return await service.getQiniu()
+  let res = await service.getQiniu()
+  return res
 }
 
 // 获取网站基本信息
@@ -49,7 +50,8 @@ export const putOpt = async ({ commit }, data) => {
 
 // 英雄版列表
 export const getHero = async ({ commit }, params = { current_page: 1 }) => {
-  return await service.getHero(params)
+  let res = await service.getHero(params)
+  return res
 }
 
 // 删除英雄版
@@ -69,7 +71,8 @@ export const patchHero = async ({ commit }, data) => {
 
 // 标签列表
 export const getTag = async ({ commit }, data) => {
-  return await service.getTag(data)
+  let res = await service.getTag(data)
+  return res
 }
 
 // 增加标签
@@ -105,12 +108,14 @@ export const deleteTag = async ({ commit }, data) => {
 
 // 获取文章列表
 export const getArts = async ({ commit }, data) => {
-  return await service.getArts(data)
+  let res = await service.getArts(data)
+  return res
 }
 
 // 获取单个
 export const getArt = async ({ commit }, data) => {
-  return await service.getArt(data)
+  let res = await service.getArt(data)
+  return res
 }
 
 // 添加文章
@@ -147,7 +152,8 @@ export const patchArt = async ({ commit }, data) => {
 
 // 获取评论
 export const getComments = async ({ commit }, data) => {
-  return await service.getComments(data)
+  let res = await service.getComments(data)
+  return res
 }
 
 // 删除评论

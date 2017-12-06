@@ -120,12 +120,11 @@
 </template>
 
 <script>
-
-import { markdownEditor } from 'vue-simplemde'
-// import 'github-markdown-css'
-// require.ensure([], () => require('github-markdown-css'), 'markdown-style')
-
 import { error } from '../../utils/response'
+import { markdownEditor } from 'vue-simplemde'
+import 'simplemde/dist/simplemde.min.css'
+import 'github-markdown-css'
+// require.ensure([], () => require('github-markdown-css'), 'markdown-style')
 
 export default {
   name: 'release',
@@ -263,8 +262,6 @@ export default {
 <style lang="scss">
 
 @import '../../assets/scss/variable.scss';
-@import '~simplemde/dist/simplemde.min.css';
-@import '~github-markdown-css';
 
 .release {
   margin-bottom: $lg-pad;
@@ -289,8 +286,20 @@ export default {
         padding: $lg-pad;
         background: $white;
 
-        label {
-          line-height: 1
+        &::first-child {
+          .el-form-item {
+            display: flex;
+            align-items: center;
+
+            label {
+              flex-shrink: 0;
+            }
+
+            .el-form-item__content {
+              margin: 0 !important;
+            }
+        }
+
         }
 
         .img-item {
@@ -316,6 +325,255 @@ export default {
         height: 400px;
       }
     }
+  }
+
+  .markdown-body {
+      color: $black;
+      word-wrap: break-word;
+
+      a {
+        font-weight: bold;
+        margin: 0 .1rem;
+
+        &.image-link {
+          margin: 0;
+        }
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      .image-package {
+        text-align: center;
+        width: 92%;
+        margin: 0 auto 1rem auto;
+
+        .img-caption {
+          min-width: 10%;
+          max-width: 80%;
+          min-height: 22px;
+          display: inline-block;
+          padding: 6px;
+          margin: 0 auto;
+          border-bottom: 1px solid #d9d9d9;
+          font-size: 14px;
+          color: #969696;
+          line-height: 1.2;
+
+          &:empty {
+            display: none;
+          }
+        }
+      }
+
+      img {
+        max-width: 100%;
+        margin: .5rem auto;
+        display: block;
+        text-align: center;
+        border-radius: $radius;
+        transition: all .25s;
+        opacity: .9;
+
+        &.img-pop {
+          cursor: zoom-in;
+        }
+      }
+
+      p {
+        line-height: 1.8rem;
+        margin-bottom: 1rem;
+
+        &.text-center {
+          text-align: center;
+        }
+
+        &.text-right {
+          text-align: right;
+        }
+      }
+
+      iframe {
+        margin-bottom: 1rem;
+        background: #000;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        margin: 1.5rem 0;
+        padding-left: 0;
+        line-height: 1.8rem;
+        font-weight: 700;
+        text-indent: 0;
+
+        &:target{
+          padding-top: 4.5rem;
+        }
+      }
+
+      hr {
+        height: 0.1rem;
+        background: #e1e4e8;
+        border: 0;
+      }
+
+      blockquote {
+  
+        padding: 0 1rem;
+        margin-bottom: 1rem;
+        color: #6a737d;
+        border-left: 0.25rem solid #dfe2e5;
+  
+        p {
+          text-indent: 0rem;
+
+          &:first-child {
+            margin-top: 0;
+          }
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+
+      ul {
+        list-style-type: square;
+      }
+
+      ul,
+      ol {
+        padding-left: 2rem;
+        margin-bottom: 1rem;
+
+        >li {
+          line-height: 1.8rem;
+          padding: .5rem;
+          list-style-type: disc;
+
+
+          >p {
+            text-indent: 0;
+          }
+
+          >ul {
+
+            li {
+              list-style-type: circle;
+            }
+
+            &:last-child {
+              margin-bottom: 0;
+            }
+          }
+        }
+      }
+
+      ul {
+        list-style: disc;
+      }
+
+      table {
+        font-size: .8rem;
+        max-width: 100%;
+        overflow: auto;
+        border: 1px solid $border-color;
+        border-collapse: collapse;
+        border-spacing: 0;
+
+        thead {
+          background: $module-bg;
+          text-align: left;
+        }
+
+        th, td {
+          padding: .8rem .5rem;
+          line-height: 1.5rem;
+        }
+
+        tr:nth-child(2n) {
+          background: $module-bg;
+        }
+
+        td {
+          min-width: 7.5rem;
+        }
+      }
+
+      code {
+        padding: .2rem .4rem;
+        margin: 0;
+        font-size: 85%;
+        border-radius: $radius;
+        background-color: $module-hover-bg;
+      }
+
+      pre {
+        overflow: auto;
+        font-size: 85%;
+        line-height: 1.45;
+        background-color: rgba(0,0,0,.8);
+        border-radius: 3px;
+        margin-bottom: 1rem;
+        word-wrap: normal;
+
+        >.code-lines {
+          position: absolute;
+          left: 0;
+          top: 2.8rem;
+          margin: 0;
+          padding: 1rem 0;
+          width: 2.5rem;
+          height: calc(100% - 2.8rem);
+          text-align: center;
+          background-color: rgba(0, 0, 0, 0.2);
+
+          >.code-line-number {
+            padding: 0;
+            position: relative;
+            list-style-type: none;
+            line-height: 1.6rem;
+            transition: background-color .05s;
+
+            &:hover {
+              &:before {
+                display: block;
+                opacity: 1;
+                visibility: visible;
+              }
+            }
+
+            &:before {
+              content: '';
+              height: 1.6rem;
+              position: absolute;
+              top: 0;
+              left: 2.5rem;
+              width: 66rem;
+              background-color: rgba(154, 154, 154, 0.2);
+              display: none;
+              visibility: hidden;
+              opacity: 0;
+            }
+          }
+        }
+
+        >code {
+          margin: 0;
+          padding: 1rem;
+          float: left;
+          width: 100%;
+          height: 100%;
+          display: block;
+          line-height: 1.6rem;
+          color: rgba(255, 255, 255, 0.87);
+          background-color: transparent;
+        }
+      }
   }
 }
 </style>

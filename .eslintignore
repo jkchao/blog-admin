@@ -1,3 +1,6 @@
-build/*.js
-config/*.js
+/build/
+/config/
+/dist/
+/*.js
+/test/unit/coverage/
 src/pages/login.vue

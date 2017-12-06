@@ -35,14 +35,6 @@ body {
   margin: 0 auto;
 }
 
-// 面包屑
-.el-breadcrumb__separator {
-  margin: 6px !important;
-  &:after {
-    content: '/'
-  }
-}
-
 // 字体
 .font-futura {
   font-family: Futura;
@@ -56,14 +48,6 @@ body {
 .table {
   padding: $normal-pad;
   background: $white;
-
-  .head {
-    background: #f2f2f2;
-  }
-
-  .el-table--enable-row-hover .el-table__body tr:hover>td {
-    background: #f2f2f2;
-  }
 
   >.pagination {
     margin-top: 1rem;
@@ -121,7 +105,6 @@ body {
   .el-upload:hover {
     border-color: $black;
   }
-
 }
 
 .avatar-uploader-icon {
@@ -129,7 +112,7 @@ body {
   color: #8c939d;
   width: 178px;
   height: 178px;
-  line-height: 178px;
+  line-height: 178px !important;
   text-align: center;
 }
 .avatar {
@@ -150,6 +133,16 @@ body {
       margin-bottom: 10px;
     }
   }
+}
+
+// 面包屑
+
+.el-breadcrumb__inner {
+  font-weight: normal !important;
+}
+
+.el-breadcrumb__separator {
+  font-weight: normal !important;
 }
 
 ::-webkit-input-placeholder {
