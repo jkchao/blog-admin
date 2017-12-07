@@ -4,12 +4,12 @@ import querystring from 'querystring'
 import { loginIn } from '../utils/loginIn'
 import app from '../main'
 
-const ax = axios.create({
+const ax: any = axios.create({
   baseURL: config.API_ROOT
 })
 
 // 拦截器
-ax.interceptors.request.use(config => {
+ax.interceptors.request.use((config: any) => {
   if (
     config.method === 'post' ||
     config.method === 'put' ||
@@ -26,7 +26,7 @@ ax.interceptors.request.use(config => {
   return Promise.reject(error)
 })
 
-ax.interceptors.response.use(response => {
+ax.interceptors.response.use((response: any) => {
   return response
 }, error => {
   if (!loginIn()) {

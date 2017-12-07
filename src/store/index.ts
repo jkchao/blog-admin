@@ -8,66 +8,85 @@ import service from '../api'
 Vue.use(Vuex)
 
 interface User {
-  username: string,
-  password: string,
-  slogan?: string,
-  gravatar?: string,
-  readonly name?: string
+  username: string;
+  password: string;
+  slogan?: string;
+  gravatar?: string;
+  name?: string
 }
 
 interface Option {
-  title: string,
-  sub_title: string,
-  keyword: string,
-  descript: string,
-  url: string,
-  email: string,
+  title: string;
+  sub_title: string;
+  keyword: string;
+  descript: string;
+  url: string;
+  email: string;
   icp: string
 }
 
-const state = {
+interface State {
+  login: boolean;
+  option: Option;
+  user: User
+}
+
+const state: State = {
   login: false,
-  option: <Option>{},
-  user: <User>{}
+  option: {
+    title: '',
+    sub_title: '',
+    keyword: '',
+    descript: '',
+    url: '',
+    email: '',
+    icp: ''
+  },
+  user: {
+    username: '',
+    password: '',
+    slogan: '',
+    gravatar: '',
+    name: ''
+  }
 }
 
 const actions = {
 
   // 登录
-  async login({ commit }, user: User) : Promise<any>{
+  async login({ commit }, user: User): Promise<AjaxResponse>{
     commit('USER_LOGINING')
-    const res = await service.login({...user})
-                        .catch(e => console.error(e))
+    const res: AjaxResponse = await service.login({...user})
+                                      .catch(e => console.error(e))
     if (res && res.code === 1) {
       window.localStorage.setItem('TOKEN', JSON.stringify(res.result))
-      commit('USER_LOGINING_SUCCESS')
       success('登录成功')
     } else {
-      commit('USER_LOGINING_FAIL')
       error(res.message)
     }
+    commit('USER_LOGINING_FINAL')    
     return res
   },
 
-  // 用户信息初始化
-  async initAuth ({ commit }) {},
+  // // 用户信息初始化
+  // async initAuth ({ commit }) {},
 
-  // 修改用户信息
-  async putAuth ({ commit }, user: User) {},
+  // // 修改用户信息
+  // async putAuth ({ commit }, user: User) {},
 
-  // 获取网站信息
-  async getOpt ({ commit }) {},
+  // // 获取网站信息
+  // async getOpt ({ commit }) {},
 
-  // 修改网站信息
-  async putOpt ({ commit }, option: Option) {}
+  // // 修改网站信息
+  // async putOpt ({ commit }, option: Option) {}
 }
 
 const mutations = {
-  'USER_LOGINING' (state) {
+  'USER_LOGINING' (state: State) {
     state.login = true
   },
 
-  'USER_LOGINING_SUCCESS' (state) {
+  'USER_LOGINING_FINAL' (state: State) {
     state.login = false
   }
 }
