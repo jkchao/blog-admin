@@ -1,27 +1,27 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import NProgress from 'nprogress'  // 页面顶部进度条
-import 'nprogress/nprogress.css'
+// import NProgress from 'nprogress'  // 页面顶部进度条
+// import 'nprogress/nprogress.css'
 
 import { loginIn } from '../utils/loginIn'
 
-const login = () => import(/* webpackChunkName: "login" */ '../pages/login')
+const login = () => import(/* webpackChunkName: "login" */ '@/pages/login.vue')
 
-const index = () => import(/* webpackChunkName: "index" */ '../pages/index')
+const index = () => import(/* webpackChunkName: "index" */ '@/pages/index.vue')
 
-const home = () => import(/* webpackChunkName: "home" */ '../pages/home/index')
+const home = () => import(/* webpackChunkName: "home" */ '@/pages/home/index.vue')
 
-const article = () => import(/* webpackChunkName: "article" */ '../pages/article/index')
-const release = () => import(/* webpackChunkName: "article" */ '../pages/article/release')
+const article = () => import(/* webpackChunkName: "article" */ '@/pages/article/index.vue')
+const release = () => import(/* webpackChunkName: "article" */ '@/pages/article/release.vue')
 
-const tag = () => import(/* webpackChunkName: "tag" */ '../pages/tags/index')
+const tag = () => import(/* webpackChunkName: "tag" */ '@/pages/tags/index.vue')
 
-const comments = () => import(/* webpackChunkName: "comments" */ '../pages/comments/index')
+const comments = () => import(/* webpackChunkName: "comments" */ '@/pages/comments/index.vue')
 
-const heros = () => import(/* webpackChunkName: "heros" */ '../pages/heros/index')
+const heros = () => import(/* webpackChunkName: "heros" */ '@/pages/heros/index.vue')
 
-const set = () => import(/* webpackChunkName: "set" */ '../pages/set/index')
+const set = () => import(/* webpackChunkName: "set" */ '@/pages/set/index.vue')
 
 Vue.use(Router)
 
@@ -102,7 +102,7 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  NProgress.start()
+  // NProgress.start()
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!loginIn()) {
       next({
@@ -118,7 +118,7 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach(transition => {
-  NProgress.done()
+  // NProgress.done()
 })
 
 export default router
