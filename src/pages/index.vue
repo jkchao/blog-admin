@@ -73,47 +73,69 @@
     </section>
   </div>
 </template>
-<script>
+<script lang="ts">
+import Vue from 'vue'
+import Component from 'vue-class-component'
 
-import { mapGetters } from 'vuex'
-
-export default {
-
-  name: 'index',
-
-  data () {
-    return {
-      indexPath: '我的面板',
-      defaultPath: '',
-      defaultOpen: [],
-      currentPathName: '',
-      currentPathNameParent: '',
-      collapse: false
-    }
-  },
-
-  computed: {
-    ...mapGetters([
-      'user'
-    ])
-  },
-
+@Component({
   watch: {
     '$route' (to, from) { // 监听路由改变
       this.defaultPath = to.path
       this.currentPathName = to.name
       this.currentPathNameParent = to.matched[0].name
     }
-  },
+  }
+})
+export default class Index extends Vue {
+  private indexPath: string = '我的面板'
+  private defaultPath: string = ''
+  private defaultOpen: Array<string> = []
+  private currentPathName: string = ''
+  private currentPathNameParent: string = ''
 
-  created () {
-    this.defaultPath = this.$route.path
-    this.currentPathName = this.$route.name
-    this.currentPathNameParent = this.$route.matched[0].name
-    const index = this.page.indexOf(this.$route.meta.page)
-    this.defaultOpen.push(index.toString())
+  private get user (): Auth.User {
+    return this.$store.state.user
   }
 }
+
+// import { mapGetters } from 'vuex'
+
+// export default {
+
+//   name: 'index',
+
+//   data () {
+//     return {
+//       indexPath: '我的面板',
+//       defaultPath: '',
+//       defaultOpen: [],
+//       currentPathName: '',
+//       currentPathNameParent: '',
+//     }
+//   },
+
+//   computed: {
+//     ...mapGetters([
+//       'user'
+//     ])
+//   },
+
+//   watch: {
+//     '$route' (to, from) { // 监听路由改变
+//       this.defaultPath = to.path
+//       this.currentPathName = to.name
+//       this.currentPathNameParent = to.matched[0].name
+//     }
+//   },
+
+//   created () {
+//     this.defaultPath = this.$route.path
+//     this.currentPathName = this.$route.name
+//     this.currentPathNameParent = this.$route.matched[0].name
+//     const index = this.page.indexOf(this.$route.meta.page)
+//     this.defaultOpen.push(index.toString())
+//   }
+// }
 </script>
 
 <style lang="scss">

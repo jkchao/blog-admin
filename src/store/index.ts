@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
+import Vuex, { Commit } from 'vuex'
 import 'babel-polyfill'
 
 import { success, error } from '../utils/response'
@@ -54,19 +54,20 @@ const state: State = {
 const actions = {
 
   // 登录
-  async login({ commit }, user: User): Promise<AjaxResponse>{
-    commit('USER_LOGINING')
-    const res: AjaxResponse = await service.login({...user})
-                                      .catch(e => console.error(e))
+  // eslint-disable-next-line
+  async login (context: { commit: Commit }, user: User): Promise<Ajax.AjaxResponse> {
+    context.commit('USER_LOGINING')
+    const res: any = await service.login({...user})
+                                  .catch(e => console.error(e))
     if (res && res.code === 1) {
       window.localStorage.setItem('TOKEN', JSON.stringify(res.result))
       success('登录成功')
     } else {
       error(res.message)
     }
-    commit('USER_LOGINING_FINAL')    
+    context.commit('USER_LOGINING_FINAL')
     return res
-  },
+  }
 
   // // 用户信息初始化
   // async initAuth ({ commit }) {},

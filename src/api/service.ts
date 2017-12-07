@@ -1,9 +1,11 @@
 import ax from './axios'
 
 interface Params {
-  readonly id?: string;
-  readonly [propName: string]: any
+  id?: string;
+  [propName: string]: any
 }
+
+/* eslint-disable */
 
 // 登录
 export function login (data: Params): Promise<Ajax.AjaxResponse> {
@@ -26,7 +28,7 @@ export function putAuth (data: Params): Promise<Ajax.AjaxResponse> {
 // 七牛
 export function getQiniu (): Promise<Ajax.AjaxResponse> {
   return ax.get('/qiniu')
-        .then((res: Ajax.AxiosResponse)=> res.data)
+        .then((res: Ajax.AxiosResponse) => res.data)
 }
 
 // 获取网站配置项
@@ -128,13 +130,13 @@ export function patchArt (data: Params): Promise<Ajax.AjaxResponse> {
 // 获取评论
 export function getComments (params: Params): Promise<Ajax.AjaxResponse> {
   return ax.get('/comment', { params })
-        .then((res: Params) => res.data)
+        .then((res: Ajax.AxiosResponse) => res.data)
 }
 
 // 删除单条评论
 export function deleteComment (params: Params): Promise<Ajax.AjaxResponse> {
   return ax.delete(`/comment/${params._id}`, { params })
-            .then((res: ParAjax.AxiosResponseams) => res.data)
+            .then((res: Ajax.AxiosResponse) => res.data)
 }
 
 // 修改单条评论状态

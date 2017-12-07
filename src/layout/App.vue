@@ -12,7 +12,11 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 
 @Component
-export default class App extends Vue {}
+export default class App extends Vue {
+  beforeCreate () {
+    this.$store.dispatch('init')
+  }
+}
 </script>
 
 <style lang="scss">

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import * as config from '../config.js'
+import * as config from '../config'
 import querystring from 'querystring'
 import { loginIn } from '../utils/loginIn'
 import app from '../main'
@@ -19,16 +19,16 @@ ax.interceptors.request.use((config: any) => {
     config.data = querystring.stringify(config.data)
   }
   if (window.localStorage.getItem('TOKEN')) {
-    config.headers.Authorization = `Bearer ${JSON.parse(window.localStorage.getItem('TOKEN')).token}`
+    config.headers.Authorization = `Bearer ${JSON.parse(window.localStorage.getItem('TOKEN') || '').token}`
   }
   return config
-}, error => {
+}, (error: any) => {
   return Promise.reject(error)
 })
 
 ax.interceptors.response.use((response: any) => {
   return response
-}, error => {
+}, (error: any) => {
   if (!loginIn()) {
     app.$alert('用户信息已过期，请点击确定后重新登录。', '提示', {
       confirmButtonText: '确定',
