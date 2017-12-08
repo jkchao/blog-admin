@@ -1,4 +1,5 @@
 # vue-admin
+**使用 typescript 升级中**
 
 vue-blog 管理部分，主要功能基本完成。
 
