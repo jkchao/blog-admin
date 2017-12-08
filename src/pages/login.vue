@@ -70,6 +70,7 @@ export default class login extends Vue {
   }
 
   private buildBackground (): void {
+    let particlesJS: any
     particlesJS ('particles-background', {
       "particles": {
         "number": {

@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Vuex, { ActionContext, Store } from 'vuex'
+import Vuex, { ActionContext } from 'vuex'
 import 'babel-polyfill'
 
 import { success, error } from '../utils/response'

@@ -96,120 +96,124 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue, Watch } from 'vue-property-decorator'
+import * as Sortable from 'sortablejs'
 
-import Sortable from 'sortablejs'
+import { error } from '../../utils/response'
 
-export default {
-  name: 'tags',
+@Component
+export default class Tags extends Vue {}
+// export default {
+//   name: 'tags',
 
-  data () {
-    return {
-      title: '增加标签',
-      dialogV: false,
-      sortable: null,
-      tagData: [],
-      list: [],
-      form: {
-        name: '',
-        descript: ''
-      },
-      keyword: '',
-      currentPage: 1,
-      total: 10,
-      totalPage: ''
-    }
-  },
+//   data () {
+//     return {
+//       title: '增加标签',
+//       dialogV: false,
+//       sortable: null,
+//       tagData: [],
+//       list: [],
+//       form: {
+//         name: '',
+//         descript: ''
+//       },
+//       keyword: '',
+//       currentPage: 1,
+//       total: 10
+//     }
+//   },
 
-  methods: {
+//   methods: {
 
-    addTag () {
-      this.dialogV = true
-      this.title = '增加标签'
-      this.form = Object.assign({}, {
-        name: '',
-        descript: ''
-      })
-    },
+//     addTag () {
+//       this.dialogV = true
+//       this.title = '增加标签'
+//       this.form = Object.assign({}, {
+//         name: '',
+//         descript: ''
+//       })
+//     },
 
-    edit (row) {
-      this.title = '修改标签'
-      this.dialogV = true
-      this.form = { ...row }
-    },
+//     edit (row) {
+//       this.title = '修改标签'
+//       this.dialogV = true
+//       this.form = { ...row }
+//     },
 
-    dele (row, index) {
-      this.$confirm('确定删除此数据吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(async () => {
-        const res = await this.$store.dispatch('deleteTag', { _id: row._id })
-        if (res.code === 1) this.getData()
-      }).catch(() => {})
-    },
+//     dele (row, index) {
+//       this.$confirm('确定删除此数据吗？', '提示', {
+//         confirmButtonText: '确定',
+//         cancelButtonText: '取消',
+//         type: 'warning'
+//       }).then(async () => {
+//         const res = await this.$store.dispatch('deleteTag', { _id: row._id })
+//         if (res.code === 1) this.getData()
+//       }).catch(() => {})
+//     },
 
-    submit (formName) {
-      this.$refs[formName].validate(async valid => {
-        if (valid) {
-          let res
-          if (this.form._id) {
-            res = await this.$store.dispatch('putTag', {
-              _id: this.form._id,
-              name: this.form.name,
-              descript: this.form.descript
-            })
-          } else res = await this.$store.dispatch('postTag', { ...this.form })
-          if (res.code === 1) {
-            this.dialogV = false
-            this.getData()
-          }
-        } else return false
-      })
-    },
+//     submit (formName) {
+//       this.$refs[formName].validate(async valid => {
+//         if (valid) {
+//           let res
+//           if (this.form._id) {
+//             res = await this.$store.dispatch('putTag', {
+//               _id: this.form._id,
+//               name: this.form.name,
+//               descript: this.form.descript
+//             })
+//           } else {
+//             res = await this.$store.dispatch('postTag', { ...this.form })
+//           }
+//           if (res.code === 1) {
+//             this.dialogV = false
+//             this.getData()
+//           }
+//         } else return false
+//       })
+//     },
 
-    pageChange (val) {
-      this.currentPage = val
-      this.getData()
-    },
+//     pageChange (val) {
+//       this.currentPage = val
+//       this.getData()
+//     },
 
-    async getData () {
-      const res = await this.$store.dispatch('getTag', {
-        current_page: this.currentPage,
-        page_size: 16,
-        keyword: this.keyword
-      })
-      if (res.code === 1) {
-        this.total = res.result.pagination.total
-        this.totalPage = res.result.pagination.total_page
-        this.tagData = [...res.result.list]
-        this.list = this.tagData.map(item => item._id)
-        this.$nextTick(() => {
-          this.setSort()
-        })
-      }
-    },
+//     async getData () {
+//       const res = await this.$store.dispatch('getTag', {
+//         current_page: this.currentPage,
+//         page_size: 16,
+//         keyword: this.keyword
+//       })
+//       if (res.code === 1) {
+//         this.total = res.result.pagination.total
+//         this.tagData = [...res.result.list]
+//         this.list = this.tagData.map(item => item._id)
+//         this.$nextTick(() => {
+//           this.setSort()
+//         })
+//       }
+//     },
 
-    setSort () {
-      const el = document.querySelectorAll('.el-table__body-wrapper > table > tbody')[0]
-      this.sortable = Sortable.create(el, {
-        animation: 150,
-        // handle: '.drag-handler',
-        onEnd: evt => {
-          const tempIndex = this.list.splice(evt.oldIndex, 1)[0]
-          this.list.splice(evt.newIndex, 0, tempIndex)
-          this.$store.dispatch('patchTag', {
-            ids: this.list
-          })
-        }
-      })
-    }
-  },
+//     setSort () {
+//       const el = document.querySelectorAll('.el-table__body-wrapper > table > tbody')[0]
+//       this.sortable = Sortable.create(el, {
+//         animation: 150,
+//         // handle: '.drag-handler',
+//         onEnd: evt => {
+//           const tempIndex = this.list.splice(evt.oldIndex, 1)[0]
+//           this.list.splice(evt.newIndex, 0, tempIndex)
+//           this.$store.dispatch('patchTag', {
+//             ids: this.list
+//           })
+//         }
+//       })
+//     }
+//   },
 
-  created () {
-    this.getData()
-  }
-}
+//   created () {
+//     this.getData()
+//   }
+// }
 </script>
 
 <style scoped lang="scss">
