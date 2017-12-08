@@ -20,8 +20,8 @@ declare namespace StoreState {
     name: string;
     username: string;
     password?: string;
-    oldPassword?: string;
-    newPassword?: string;
+    oldPassword: string;
+    newPassword: string;
     slogan: string;
     gravatar: string;
   }

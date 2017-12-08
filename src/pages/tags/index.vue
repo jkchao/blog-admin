@@ -209,10 +209,6 @@ export default {
   created () {
     this.getData()
   }
-
-  // mounted () {
-  //   this.setSort()
-  // }
 }
 </script>
 

@@ -87,11 +87,11 @@ const actions = {
 
   // 修改网站信息
   async putOpt (context: ActionContext<State, any>, option: StoreState.Option): Promise<Ajax.AjaxResponse> {
+    context.commit('POST_OPTION_INFO')
     const res: Ajax.AjaxResponse = await service.putOpt({ ...option })
-    if (res && res.code === 1) {
-      success('修改成功')
-
-    }
+    if (res && res.code === 1) success('修改成功')
+    else error(res.message)
+    context.commit('POST_OPTION_FINAL')
     return res
   }
 }
@@ -115,6 +115,14 @@ const mutations = {
 
   'POST_USER_FINAL' (state: State): void {
     state.postUser = false
+  },
+
+  'POST_OPTION_INFO' (state: State): void {
+    state.postOption = true
+  },
+
+  'POST_OPTION_FINAL' (state: State): void {
+    state.postOption = false
   },
 
   'OPTION_INFO' (state: State, option: StoreState.Option): void {

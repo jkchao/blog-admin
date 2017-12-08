@@ -5,7 +5,7 @@
         :model="baseForm"
         label-width="120px"
         label-position="left"
-        ref="form">
+        ref="baseForm">
         <p class="title">基本信息</p>
           <el-form-item
             label="标题："
@@ -70,7 +70,7 @@
               :maxlength="50"></el-input>
           </el-form-item>
           <el-form-item style="margin-bottom: 0">
-              <el-button @click="submitForm('form')">保存</el-button>
+              <el-button @click="submitForm('form')" :disabled="postOption">{{ postOption ? '保存中' : '保存'}}</el-button>
           </el-form-item>
         </el-form>
     </div>
@@ -147,7 +147,7 @@
                   @keyup.enter.native="submit('userForm')"></el-input>
               </el-form-item>
               <el-form-item style="margin-bottom: 0;">
-                <el-button  @click="submit('userForm')">更改</el-button>
+                <el-button  @click="submit('userForm')" :disabled="postUser">{{ postUser ? '更改中' : '更改' }}</el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -167,6 +167,11 @@ interface Qn {
 
 interface UserForm extends StoreState.User {
   checkPass: string;
+}
+
+interface PasswordRule {
+  newPassword: Array<Object>;
+  checkPass: Array<Object>;
 }
 
 @Component
@@ -201,9 +206,23 @@ export default class Set extends Vue {
     key: '',
     token: ''
   }
+  private passwordRule: PasswordRule = {
+    newPassword: [
+      { validator: this.validateNewPassword, trigger: 'blur' }
+    ],
+    checkPass: [
+      { validator: this.validateCheckPass, trigger: 'blur' }
+    ]
+  }
 
   private get user (): StoreState.User {
     return this.$store.state.user
+  }
+  private get postOption (): boolean {
+    return this.$store.state.postOption
+  }
+  private get postUser (): boolean {
+    return this.$store.state.postUser
   }
 
   // 上传成功
@@ -216,6 +235,11 @@ export default class Set extends Vue {
     this.percent = ~~event.percent
   }
 
+  // 出错
+  private handleError (res: Ajax.AjaxResponse): void {
+    error(res.message)
+  }
+
   // 用户信息修改
   private submit (): void {
     this.$refs.userForm.validate(async (valid: boolean): Promise<boolean> => {
@@ -224,7 +248,7 @@ export default class Set extends Vue {
           error('新旧密码不可一致')
           return false
         }
-        const res = await this.$store.dispatch('putAuth', { ...this.userForm })
+        const res: Ajax.AjaxResponse = await this.$store.dispatch('putAuth', { ...this.userForm })
         if (res.code === 1) {
           this.userForm.oldPassword = ''
           this.userForm.newPassword = ''
@@ -265,6 +289,32 @@ export default class Set extends Vue {
     return isJPG && isLt10M
   }
 
+  // 密码验证
+  private validateNewPassword (rule: Object, value: any, callback: Function) {
+    if (value !== '') {
+      if (value.length < 6) {
+        callback(new Error('密码至少6位'))
+      } else {
+        if (this.userForm.checkPass !== '') {
+          this.$refs.userForm.validateField('checkPass')
+        }
+        callback()
+      }
+    }
+    callback()
+  }
+
+  // 密码相同验证
+  private validateCheckPass (rule: Object, value: any, callback: Function) {
+    if (value !== '') {
+      if (value !== this.userForm.newPassword) {
+        callback(new Error('两次输入密码不一致!'))
+      }
+      callback()
+    }
+    callback()
+  }
+
   async created (): Promise<void>{
     this.userForm = {
       ...this.user,
@@ -273,10 +323,13 @@ export default class Set extends Vue {
       checkPass: ''
     }
 
-    Promise.all([
+    await Promise.all([
       this.$store.dispatch('getOpt'),
       this.$store.dispatch('getQiniu')
     ])
+
+    this.baseForm = { ...this.$store.state.option }
+    this.qn.token = this.$store.state.QNtoken
   }
 }
 </script>
