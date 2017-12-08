@@ -19,14 +19,14 @@
             { min: 6, message: '密码至少6位', trigger: 'blur' }
           ]">
           <el-input 
-          placeholder="密码" 
-          v-model="form.password" 
-          :maxlength="40" 
-          type="password"
-          @keyup.enter.native="submit('form')"></el-input>
+            placeholder="密码" 
+            v-model="form.password" 
+            :maxlength="40" 
+            type="password"
+            @keyup.enter.native="submit('form')"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button @click.native="submit('form')">Submit</el-button>
+          <el-button @click.native="submit('form')" :disabled="logining">{{ logining ? 'login...' : 'Submit'}}</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -39,26 +39,26 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import 'particles.js'
 
-@Component({})
+@Component
 export default class login extends Vue {
   $refs: {
     form: HTMLFormElement
   }
 
-  private form: any = {
+  private form: StoreState.Login = {
     username: '',
     password: ''
   }
 
-  /**
-   * @description submit form
-   * @param { string } formName
-   */
+  private get logining (): boolean {
+    return this.$store.state.login
+  }
 
-  private submit (formName: string) {
+  // 提交表单
+  private submit (): void {
     this.$refs.form.validate(async(valid: boolean): Promise<boolean> => {
       if (valid) {
-        const data = await this.$store.dispatch('login', { ...this.form })
+        const data: Ajax.AjaxResponse = await this.$store.dispatch('login', { ...this.form })
         if (data.code !== 1) return false
         if (!this.$route.query.redirect) this.$router.push('/home')
         else this.$router.push(this.$route.query.redirect)
@@ -69,7 +69,7 @@ export default class login extends Vue {
     })
   }
 
-  private buildBackground () {
+  private buildBackground (): void {
     particlesJS ('particles-background', {
       "particles": {
         "number": {

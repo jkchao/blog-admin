@@ -69,18 +69,6 @@
               v-model="baseForm.icp" 
               :maxlength="50"></el-input>
           </el-form-item>
-          <!-- <el-form-item
-            label="SEO更新服务："
-            prop="ping_sites"
-            :rules="[
-              { required: true, message: '请输入SEO更新服务', trigger: 'blur' }
-            ]">
-            <el-input 
-              v-model="baseForm.ping_sites" 
-              :maxlength="200"
-              type="textarea"
-              :rows="5"></el-input>
-          </el-form-item> -->
           <el-form-item style="margin-bottom: 0">
               <el-button @click="submitForm('form')">保存</el-button>
           </el-form-item>
@@ -167,142 +155,117 @@
   </div>
 </template>
 
-<script>
-import { mapGetters } from 'vuex'
+<script lang="ts">
+import { Component, Vue, Watch } from 'vue-property-decorator'
+
 import { error } from '../../utils/response'
-export default {
-  name: 'set',
 
-  data () {
-    var validateNewPassword = (rule, value, callback) => {
-      if (value !== '') {
-        if (value.length < 6) {
-          callback(new Error('密码至少6位'))
-        } else {
-          if (this.userForm.checkPass !== '') {
-            this.$refs.userForm.validateField('checkPass')
-          }
-          callback()
-        }
-      }
-      callback()
-    }
+interface Qn {
+  key: string;
+  token: string;
+}
 
-    var validateCheckPass = (rule, value, callback) => {
-      if (value !== '') {
-        if (value !== this.userForm.newPassword) {
-          callback(new Error('两次输入密码不一致!'))
-        }
-        callback()
-      }
-      callback()
-    }
+interface UserForm extends StoreState.User {
+  checkPass: string;
+}
 
-    return {
-      dialogVisible: false,
-      fileList: [],
-      baseForm: {
-        title: '',
-        sub_title: '',
-        keyword: '',
-        descript: '',
-        url: '',
-        email: '',
-        icp: ''
-        // ping_sites: ''
-      },
-      userForm: {
-        _id: '',
-        name: '',
-        username: '',
-        slogan: '',
-        gravatar: '',
-        oldPassword: '',
-        newPassword: '',
-        checkPass: ''
-      },
-      passwordRule: {
-        newPassword: [
-          { validator: validateNewPassword, trigger: 'blur' }
-        ],
-        checkPass: [
-          { validator: validateCheckPass, trigger: 'blur' }
-        ]
-      },
-      qn: {
-        token: '',
-        key: ''
-      },
-      percent: 0
-    }
-  },
+@Component
+export default class Set extends Vue {
+  $refs: {
+    baseForm: HTMLFormElement,
+    userForm: HTMLFormElement
+  }
 
-  computed: {
-    ...mapGetters([
-      'user'
-    ])
-  },
+  private baseForm: StoreState.Option = {
+    _id: '',
+    title: '',
+    sub_title: '',
+    keyword: '',
+    descript: '',
+    url: '',
+    email: '',
+    icp: ''
+  }
+  private userForm: UserForm = {
+    _id: '',
+    name: '',
+    username: '',
+    slogan: '',
+    gravatar: '',
+    oldPassword: '',
+    newPassword: '',
+    checkPass: ''
+  }
+  private percent: number = 0
+  private qn: Qn = {
+    key: '',
+    token: ''
+  }
 
-  methods: {
-    handleSuccess (res, file) {
-      this.userForm.gravatar = 'https://static.jkchao.cn/' + this.qn.key
-    },
+  private get user (): StoreState.User {
+    return this.$store.state.user
+  }
 
-    handlePro (e, file, fileList) {
-      this.percent = ~~e.percent
-    },
+  // 上传成功
+  private handleSuccess (res: Ajax.AjaxResponse, file: File): void {
+    this.userForm.gravatar = 'https://static.jkchao.cn/' + this.qn.key
+  }
 
-    handleError (res) {
-      error(this, res.error, 2000)
-    },
+  // 上传中
+  private handlePro (event: any, file: File, fileList: FileList): void {
+    this.percent = ~~event.percent
+  }
 
-    beforeUpload (file) {
-      this.qn.key = file.name
-      const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
-      const isLt10M = file.size / 1024 / 1024 < 10
-
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG/PNG 格式!')
-      }
-      if (!isLt10M) {
-        this.$message.error('上传头像图片大小不能超过 10MB!')
-      }
-      return isJPG && isLt10M
-    },
-
-    submitForm (formName) {
-      this.$refs[formName].validate(async (valid) => {
-        if (valid) {
-          const opt = await this.$store.dispatch('putOpt', { ...this.baseForm })
-          if (opt.code === 1) this.baseForm._id = opt.result
-        } else {
+  // 用户信息修改
+  private submit (): void {
+    this.$refs.userForm.validate(async (valid: boolean): Promise<boolean> => {
+      if (valid) {
+        if (this.userForm.oldPassword === this.userForm.newPassword) {
+          error('新旧密码不可一致')
           return false
         }
-      })
-    },
-
-    submit (formName) {
-      this.$refs[formName].validate(async (valid) => {
-        if (valid) {
-          if (this.userForm.oldPassword === this.userForm.newPassword) {
-            error('新旧密码不可一致')
-            return
-          }
-          const res = await this.$store.dispatch('putAuth', { ...this.userForm })
-          if (res.code === 1) {
-            this.userForm.oldPassword = ''
-            this.userForm.newPassword = ''
-            this.userForm.checkPass = ''
-          }
-        } else {
-          console.log('error submit!!')
-          return false
+        const res = await this.$store.dispatch('putAuth', { ...this.userForm })
+        if (res.code === 1) {
+          this.userForm.oldPassword = ''
+          this.userForm.newPassword = ''
+          this.userForm.checkPass = ''
         }
-      })
-    }
-  },
+        return true
+      } else {
+        console.log('error submit!!')
+        return false
+      }
+    })
+  }
 
-  async created () {
+  // 网站信息修改
+  submitForm (): void {
+    this.$refs.baseForm.validate(async (valid: boolean): Promise<boolean> => {
+      if (valid) {
+        await this.$store.dispatch('putOpt', { ...this.baseForm })
+        return true
+      } else {
+        return false
+      }
+    })
+  }
+
+  // 上传之前检测
+  private beforeUpload (file: File): boolean {
+    this.qn.key = file.name
+    const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
+    const isLt10M = file.size / 1024 / 1024 < 10
+
+    if (!isJPG) {
+      error('上传头像图片只能是 JPG/PNG 格式!')
+    }
+    if (!isLt10M) {
+      error('上传头像图片大小不能超过 10MB!')
+    }
+    return isJPG && isLt10M
+  }
+
+  async created (): Promise<void>{
     this.userForm = {
       ...this.user,
       oldPassword: '',
@@ -310,13 +273,10 @@ export default {
       checkPass: ''
     }
 
-    // 基本信息
-    const opt = await this.$store.dispatch('getOpt')
-    if (opt.code === 1) this.baseForm = { ...opt.result }
-
-    // 七牛token
-    const qn = await this.$store.dispatch('getQiniu')
-    if (qn.code === 1) this.qn.token = qn.result.token
+    Promise.all([
+      this.$store.dispatch('getOpt'),
+      this.$store.dispatch('getQiniu')
+    ])
   }
 }
 </script>

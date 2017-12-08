@@ -2,9 +2,9 @@
  * 是否已经登录或者 token 超时
  *
  * @export
- * @returns {boolean}
+ * @returns { boolean }
  */
-export function loginIn () : boolean {
+export function loginIn (): boolean {
   if (!window.localStorage.getItem('TOKEN')) return false
   const lifeTime = JSON.parse(window.localStorage.getItem('TOKEN') || '').lifeTime * 1000
   const nowTime = (new Date()).getTime()

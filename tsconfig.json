@@ -26,8 +26,6 @@
     "moduleResolution": "node",
     // 在表达式和声明上有隐含的any类型时报错
     "noImplicitAny": true,
-    // 将每个文件作为单独的模块
-    "isolatedModules": true,
     "lib": [
       "dom",
       "es5",

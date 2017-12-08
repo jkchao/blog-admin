@@ -14,7 +14,7 @@ import Component from 'vue-class-component'
 @Component
 export default class App extends Vue {
   beforeCreate () {
-    this.$store.dispatch('init')
+    this.$store.dispatch('initAuth')
   }
 }
 </script>

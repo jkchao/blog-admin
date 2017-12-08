@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Vuex, { Commit } from 'vuex'
+import Vuex, { ActionContext, Store } from 'vuex'
 import 'babel-polyfill'
 
 import { success, error } from '../utils/response'
@@ -7,33 +7,21 @@ import service from '../api'
 
 Vue.use(Vuex)
 
-interface User {
-  username: string;
-  password: string;
-  slogan?: string;
-  gravatar?: string;
-  name?: string
-}
-
-interface Option {
-  title: string;
-  sub_title: string;
-  keyword: string;
-  descript: string;
-  url: string;
-  email: string;
-  icp: string
-}
-
 interface State {
   login: boolean;
-  option: Option;
-  user: User
+  postUser: boolean;
+  postOption: boolean;
+  option: StoreState.Option;
+  user: StoreState.User;
+  QNtoken: string
 }
 
 const state: State = {
   login: false,
+  postUser: false,
+  postOption: false,
   option: {
+    _id: '',
     title: '',
     sub_title: '',
     keyword: '',
@@ -43,22 +31,22 @@ const state: State = {
     icp: ''
   },
   user: {
+    _id: '',
+    name: '',    
     username: '',
-    password: '',
+    oldPassword: '',
+    newPassword: '',
     slogan: '',
-    gravatar: '',
-    name: ''
-  }
+    gravatar: ''
+  },
+  QNtoken: ''
 }
 
 const actions = {
-
   // 登录
-  // eslint-disable-next-line
-  async login (context: { commit: Commit }, user: User): Promise<Ajax.AjaxResponse> {
+  async login (context: ActionContext<State, any>, user: StoreState.Login): Promise<Ajax.AjaxResponse> {
     context.commit('USER_LOGINING')
-    const res: any = await service.login({...user})
-                                  .catch(e => console.error(e))
+    const res: Ajax.AjaxResponse = await service.login({ ...user })
     if (res && res.code === 1) {
       window.localStorage.setItem('TOKEN', JSON.stringify(res.result))
       success('登录成功')
@@ -67,28 +55,74 @@ const actions = {
     }
     context.commit('USER_LOGINING_FINAL')
     return res
+  },
+
+  // 用户信息初始化
+  async initAuth (context: ActionContext<State, any>): Promise<void> {
+    const res: Ajax.AjaxResponse = await service.getAuth()
+    if (res && res.code === 1) context.commit('USER_INFO', res.result)
+  },
+
+  // 修改用户信息
+  async putAuth (context: ActionContext<State, any>, user: StoreState.User): Promise<Ajax.AjaxResponse> {
+    context.commit('POST_USER_INFO')
+    const res: Ajax.AjaxResponse = await service.putAuth({ ...user })
+    if (res && res.code === 1) success('修改用户信息成功')
+    else error(res.message)
+    context.commit('POST_USER_FINAL')
+    return res
+  },
+
+  // 获取网站信息
+  async getOpt (context: ActionContext<State, any>): Promise<void> {
+    const res: Ajax.AjaxResponse = await service.getOpt()
+    if (res && res.code === 1) context.commit('OPTION_INFO', res.result)
+  },
+
+  // 获取 qn token
+  async getQiniu (context: ActionContext<State, any>): Promise<void> {
+    const res: Ajax.AjaxResponse = await service.getQiniu()
+    if (res && res.code === 1) context.commit('QN_TOKEN', res.result.token)
+  },
+
+  // 修改网站信息
+  async putOpt (context: ActionContext<State, any>, option: StoreState.Option): Promise<Ajax.AjaxResponse> {
+    const res: Ajax.AjaxResponse = await service.putOpt({ ...option })
+    if (res && res.code === 1) {
+      success('修改成功')
+
+    }
+    return res
   }
-
-  // // 用户信息初始化
-  // async initAuth ({ commit }) {},
-
-  // // 修改用户信息
-  // async putAuth ({ commit }, user: User) {},
-
-  // // 获取网站信息
-  // async getOpt ({ commit }) {},
-
-  // // 修改网站信息
-  // async putOpt ({ commit }, option: Option) {}
 }
 
 const mutations = {
-  'USER_LOGINING' (state: State) {
+  'USER_LOGINING' (state: State): void {
     state.login = true
   },
 
-  'USER_LOGINING_FINAL' (state: State) {
+  'USER_LOGINING_FINAL' (state: State): void {
     state.login = false
+  },
+
+  'USER_INFO' (state: State, user: StoreState.User): void {
+    state.user = user
+  },
+
+  'POST_USER_INFO' (state: State): void {
+    state.postUser = true
+  },
+
+  'POST_USER_FINAL' (state: State): void {
+    state.postUser = false
+  },
+
+  'OPTION_INFO' (state: State, option: StoreState.Option): void {
+    state.option = option
+  },
+
+  'QN_TOKEN' (state: State, token: string): void {
+    state.QNtoken = token
   }
 }
 

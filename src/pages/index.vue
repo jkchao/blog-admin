@@ -1,7 +1,7 @@
 <template>
   <div class="index">
     <header>
-      <div class="logo font-futura ">
+      <div class="logo font-futura">
         <router-link to="/">
           <img src="../assets/images/logo.png" alt="" width="46">
           <span>三毛</span>
@@ -73,19 +73,11 @@
     </section>
   </div>
 </template>
-<script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
 
-@Component({
-  watch: {
-    '$route' (to, from) { // 监听路由改变
-      this.defaultPath = to.path
-      this.currentPathName = to.name
-      this.currentPathNameParent = to.matched[0].name
-    }
-  }
-})
+<script lang="ts">
+import { Component, Vue, Watch } from 'vue-property-decorator'
+
+@Component
 export default class Index extends Vue {
   private indexPath: string = '我的面板'
   private defaultPath: string = ''
@@ -93,49 +85,20 @@ export default class Index extends Vue {
   private currentPathName: string = ''
   private currentPathNameParent: string = ''
 
-  private get user (): Auth.User {
+  private get user (): StoreState.User {
     return this.$store.state.user
   }
+
+  @Watch('$route')
+  private routeChange (val: string, oldVal: string): void {}
+
+
+  private created (): void {
+    this.defaultPath = this.$route.path
+    this.currentPathName = this.$route.name || ''
+    this.currentPathNameParent = this.$route.matched[0].name || ''
+  }
 }
-
-// import { mapGetters } from 'vuex'
-
-// export default {
-
-//   name: 'index',
-
-//   data () {
-//     return {
-//       indexPath: '我的面板',
-//       defaultPath: '',
-//       defaultOpen: [],
-//       currentPathName: '',
-//       currentPathNameParent: '',
-//     }
-//   },
-
-//   computed: {
-//     ...mapGetters([
-//       'user'
-//     ])
-//   },
-
-//   watch: {
-//     '$route' (to, from) { // 监听路由改变
-//       this.defaultPath = to.path
-//       this.currentPathName = to.name
-//       this.currentPathNameParent = to.matched[0].name
-//     }
-//   },
-
-//   created () {
-//     this.defaultPath = this.$route.path
-//     this.currentPathName = this.$route.name
-//     this.currentPathNameParent = this.$route.matched[0].name
-//     const index = this.page.indexOf(this.$route.meta.page)
-//     this.defaultOpen.push(index.toString())
-//   }
-// }
 </script>
 
 <style lang="scss">

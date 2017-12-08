@@ -5,7 +5,7 @@ declare namespace Ajax {
     data: AjaxResponse;
   }
 
-  // 请求返回数据接口
+  // 请求接口数据
   export interface AjaxResponse {
     /**
      * 状态码
