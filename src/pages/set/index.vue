@@ -226,12 +226,12 @@ export default class Set extends Vue {
   }
 
   // 上传成功
-  private handleSuccess (res: Ajax.AjaxResponse, file: File): void {
+  private handleSuccess (): void {
     this.userForm.gravatar = 'https://static.jkchao.cn/' + this.qn.key
   }
 
   // 上传中
-  private handlePro (event: any, file: File, fileList: FileList): void {
+  private handlePro (event: any): void {
     this.percent = ~~event.percent
   }
 

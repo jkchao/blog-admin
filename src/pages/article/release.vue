@@ -1,5 +1,5 @@
 <template>
-  <div class="release">
+  <div class="release" v-loading="fetch">
   <el-form
     :model="form"
     label-width="100px"
@@ -61,7 +61,15 @@
             preview-class="markdown-body"></markdown-editor>
         </el-form-item>
         <el-form-item style="margin-bottom: 0">
-           <el-button @click="submitForm('form')">{{ id ? '修改' : '发布' }}</el-button>
+           <el-button 
+            @click="submitForm('form')"
+            :disabled="posting">{{
+              posting
+              ? '提交中'
+              : id
+              ? '修改'
+              : '发布'
+            }}</el-button>
         </el-form-item>
 
     </el-col>
@@ -119,100 +127,108 @@
 </template>
 
 <script lang="ts">
+import { Component, Vue, Watch } from 'vue-property-decorator'
 import { error } from '../../utils/response'
-import { markdownEditor } from 'vue-simplemde'
-import 'simplemde/dist/simplemde.min.css'
-import 'github-markdown-css'
-// require.ensure([], () => require('github-markdown-css'), 'markdown-style')
 
-export default {
-  name: 'release',
+interface Qn {
+  key: string;
+  token: string;
+}
 
-  components: {
-    markdownEditor
-  },
+interface Form extends StoreState.Article {
+  tag: Array<string>
+}
 
-  data () {
-    return {
-      configs: {
-        status: false, // 禁用底部状态栏
-        spellChecker: false,
-        initialValue: '', // 设置初始值
-        renderingConfig: {
-          codeSyntaxHighlighting: true, // 开启代码高亮
-          highlightingTheme: 'atom-one-dark' // 自定义代码高亮主题，可选列表(https://github.com/isagalaev/highlight.js/tree/master/src/styles)
-        }
-      },
-      id: '',
-      fileList: [],
-      form: {
-        title: '',
-        keyword: '',
-        descript: '',
-        tag: [],
-        content: '',
-        publish: 1,
-        state: 1,
-        type: 1,
-        thumb: ''
-      },
-      qn: {
-        token: '',
-        key: ''
-      },
-      percent: 0,
-      ops: [
-        { name: '发布', id: 1 },
-        { name: '保存草稿', id: 2 }
-      ],
-      tags: []
+@Component
+export default class Release extends Vue {
+  private configs: any = {
+    status: false,
+    spellChecker: false
+  }
+  private form: Form = {
+    title: '',
+    keyword: '',
+    descript: '',
+    tag: [],
+    content: '',
+    publish: 1,
+    state: 1,
+    type: 1,
+    thumb: ''
+  }
+  private qn: Qn = {
+    token: '',
+    key: ''
+  }
+  private percent: number = 0
+  private id: string = ''
+
+  private get detail (): StoreState.Article {
+    return this.$store.state.article.detail
+  }
+  private get tags (): StoreState.Tag[] {
+    return this.$store.state.tag.list.map((item: StoreState.Tag) => ({ name: item.name, _id: item._id }))
+  }
+  private get fetch (): boolean {
+    return this.$store.state.article.fetch
+  }
+  private get posting (): boolean {
+    return this.$store.state.article.posting
+  }
+
+  @Watch('detail')
+  getArt (val: StoreState.Article): void {
+    this.form = Object.assign({}, {
+      ...val,
+      tag: val.tag.map((item: StoreState.Tag) => item._id)
+    })
+  }
+
+  // 上传成功
+  private handleSuccess (): void {
+    this.form.thumb = 'https://static.jkchao.cn/' + this.qn.key
+  }
+
+  // 进度条
+  private handlePro (e: any): void {
+    this.percent = ~~e.percent
+  }
+
+  // 出错
+  private handleError (res: Ajax.AjaxResponse): void {
+    error(res.message)
+  }
+
+  // 上传之前检测
+  private beforeUpload (file: File): boolean {
+    this.qn.key = file.name
+    const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
+    const isLt10M = file.size / 1024 / 1024 < 10
+
+    if (!isJPG) {
+      error('上传头像图片只能是 JPG/PNG 格式!')
     }
-  },
-
-  methods: {
-    handleSuccess (res, file) {
-      this.form.thumb = 'https://static.jkchao.cn/' + this.qn.key
-    },
-
-    handlePro (e, file, fileList) {
-      this.percent = ~~e.percent
-    },
-
-    handleError (res) {
-      console.log(res)
-      error(res)
-    },
-
-    beforeUpload (file) {
-      this.qn.key = file.name
-      const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
-      const isLt10M = file.size / 1024 / 1024 < 10
-
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG/PNG 格式!')
-      }
-      if (!isLt10M) {
-        this.$message.error('上传头像图片大小不能超过 10MB!')
-      }
-      return isJPG && isLt10M
-    },
-
-    submitForm (formName) {
-      this.$refs[formName].validate(async (valid) => {
-        if (valid) {
-          let res
-          console.log(this.form)
-          if (!this.form._id) res = await this.$store.dispatch('postArt', { ...this.form })
-          else res = await this.$store.dispatch('putArt', { ...this.form })
-          if (res.code === 1) this.$router.push('/article/index')
-        } else {
-          return false
-        }
-      })
+    if (!isLt10M) {
+      error('上传头像图片大小不能超过 10MB!')
     }
-  },
+    return isJPG && isLt10M
+  }
 
-  beforeRouteUpdate (to, from, next) {
+  private submitForm (formName: string): void {
+    (this.$refs[formName] as HTMLFormElement).validate(async (valid: boolean): Promise<boolean> => {
+      if (valid) {
+        let res: Ajax.AjaxResponse
+        if (!this.form._id) res = await this.$store.dispatch('article/postArt', { ...this.form })
+        else res = await this.$store.dispatch('article/putArt', { ...this.form })
+        if (res.code === 1) this.$router.push('/article/index')
+        return true
+      } else {
+        return false
+      }
+    })
+  }
+
+  private beforeRouteUpdate (to: any, form: any, next: any): void {
     this.id = ''
     this.form = {
       title: '',
@@ -226,33 +242,24 @@ export default {
       thumb: ''
     }
     next()
-  },
+  }
 
-  async created () {
-    // 标签列表
-    const res = await this.$store.dispatch('getTag', {
-      current_page: this.currentPage,
-      page_size: 16,
-      keyword: this.keyword
-    })
-    if (res.code === 1) {
-      this.tags = res.result.list.map(item => ({ name: item.name, _id: item._id }))
-    }
+  async created (): Promise<void> {
+    await Promise.all([
+      // 标签列表
+      this.$store.dispatch('tag/getTags', {
+        current_page: 1,
+        page_size: 100
+      }),
+      this.$store.dispatch('getQiniu')
+    ])
 
-    // 七牛token
-    const qn = await this.$store.dispatch('getQiniu')
-    if (qn.code === 1) this.qn.token = qn.result.token
+    this.qn.token = this.$store.state.QNtoken
 
     // 文章详情
     if (this.$route.query.id) {
       this.id = this.$route.query.id
-      const { result: content } = await this.$store.dispatch('getArt', { _id: this.id })
-      if (content) {
-        this.form = Object.assign({}, {
-          ...content,
-          tag: content.tag.map(item => item._id)
-        })
-      }
+      this.$store.dispatch('article/getArt', { _id: this.id })
     }
   }
 }

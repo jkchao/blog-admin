@@ -101,7 +101,7 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="250"
+          width="300"
           label-class-name="head"
           fixed="right">
           <template slot-scope="scope">
@@ -111,7 +111,12 @@
               <el-button type="success" size="small" key="3" v-else  @click="changeState(scope.row, 'publish', 1)">公开</el-button>
               <el-button type="success" size="small" key="4" v-if="scope.row.state === 2" @click="changeState(scope.row, 'state', 1)">发布</el-button>
               <el-button type="danger" size="small" key="5" v-else  @click="changeState(scope.row, 'state', 2)">草稿</el-button>
-              <el-button type="danger" size="small" key="6" v-if="scope.row.state === 2" @click="dele(scope.row)">删除</el-button>
+              <el-button 
+                type="danger" 
+                size="small" 
+                key="6" 
+                v-if="scope.row.state === 2" 
+                :disabled="scope.row.deleteing">{{ scope.row.deleteing ? '删除中' : '删 除' }}</el-button>
             </transition-group>
           </template>
         </el-table-column>
@@ -258,13 +263,15 @@ export default class Article extends Vue {
   ): Promise<void> {
     let querys: {
       _id: string;
+      state?: StoreState.State;
+      publish?: StoreState.State;
       [index: string]: any;
     } = {
       _id: ''
     }
     querys._id = row._id as string
     querys[type] = state
-    this.$store.dispatch('patchArt', {...querys})
+    this.$store.dispatch('article/patchArt', {...querys})
   }
 
   // 删除文章

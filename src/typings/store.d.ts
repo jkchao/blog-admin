@@ -167,9 +167,6 @@ declare namespace StoreState {
     /** 描述 */
     descript: string;
 
-    /** 标签 */
-    tag: Tag[];
-
     /** 内容 */
     content?: string;
 

@@ -94,8 +94,8 @@ const actions = {
   ): Promise<Ajax.AjaxResponse> {
     context.commit('POST_ARTICLE')
     const res = await service.putArt(Article)
-    if (res && res.code === 1) success('添加文章成功')
-    else error('添加文章失败')
+    if (res && res.code === 1) success('修改文章成功')
+    else error('修改文章失败')
     context.commit('POST_ARTICLE_FINAL')
     return res
   },
@@ -103,7 +103,7 @@ const actions = {
   // 改变状态
   async patchArt (
     context: ActionContext<State, any>,
-    Article: { _id: string, [index: string]: any; }
+    Article: { _id: string; state?: StoreState.State; publish?: StoreState.State; [index: string]: any; }
   ): Promise<Ajax.AjaxResponse> {
     const res: Ajax.AjaxResponse = await service.patchArt(Article)
     if (res && res.code === 1) {
@@ -163,9 +163,12 @@ const mutations = {
 
   'PATCH_HERO_SUCCESS' (
     state: State,
-    Article: { _id: string, [index: string]: any }
+    Article: { _id: string; state?: StoreState.State; publish?: StoreState.State; [index: string]: any }
   ): void {
-    (<StoreState.Article>state.list.find((item: StoreState.Article) => item._id === Article._id))[Article.index] = Article.state
+    let list: StoreState.Article = (<StoreState.Article>state.list.find((item: StoreState.Article) => item._id === Article._id))
+    for (let i in Article) {
+      list[i] = Article[i]
+    }
   },
 
   'REQUEST_DETAIL_SUCCESS' (
