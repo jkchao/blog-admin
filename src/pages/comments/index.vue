@@ -18,15 +18,16 @@
           <el-button
             type="primary"
             @click.native="getData"
-            size="small"><i class="iconfont icon-search mar"></i>查询</el-button>
+            size="small">查询</el-button>
         </div>
       </div>
     </card>
   
     <div class="table">
       <el-table
-        :data="commentsData"
-        style="width: 100%">
+        :data="list"
+        style="width: 100%"
+        v-loading="fetch">
         <el-table-column type="expand" label-class-name="head">
           <template slot-scope="props">
             <el-form label-position="left" inline class="table-expand">
@@ -124,7 +125,12 @@
                 v-if="scope.row.state === 0 || scope.row.state === 1"
                 @click="changeState(scope.row, 2)"
                 key="2">不通过</el-button>
-              <el-button type="danger" size="small" key="3" @click="dele(scope.row, scope.$index)">删除</el-button>
+              <el-button
+                type="danger"
+                size="small"
+                key="3"
+                @click="deleteComment(scope.row)"
+                :disabled="scope.row.deleteing">{{ scope.row.deleteing ? '删除中' : '删 除' }}</el-button>
             </transition-group>
           </template>
         </el-table-column>
@@ -142,93 +148,115 @@
     </div>
   </div>
 </template>
-<script>
-import card from '../../components/card'
+<script lang="ts">
+
+import { Component, Vue } from 'vue-property-decorator'
+
 import { UAParse, OSParse } from '../../utils/ua-parse'
-export default {
-  name: 'comments',
+import Card from '../../components/card.vue'
 
-  data () {
-    return {
-      width: '48px', // text 宽度
-      commentsData: [],
-      keyword: '',
-      currentPage: 1,
-      total: 10,
-      totalPage: '',
-      type: [
-        {
-          name: '状态',
-          typeName: 'state',
-          list: [
-            { name: '全部', id: '' },
-            { name: '审核通过', id: 1 },
-            { name: '审核不通过', id: 2 }
-          ],
-          default: { name: '全部' }
-        }
+interface Item {
+  name: string;
+  id: StoreState.State
+}
+
+interface List {
+  name: string;
+  typeName: string;
+  list: Item[];
+  default: string
+}
+
+@Component({
+  components: { Card }
+})
+export default class Comments extends Vue {
+  private width: string = '48px'
+  private type: List[] = [
+    {
+      name: '状态',
+      typeName: 'state',
+      list: [
+        { name: '全部', id: '' },
+        { name: '审核通过', id: 1 },
+        { name: '审核不通过', id: 2 }
       ],
-      state: ''
+      default: '全部'
     }
-  },
+  ]
+  private state: StoreState.State
+  private keyword: string = ''
+  private currentPage: number = 1
 
-  components: { card },
+  private get fetch (): boolean {
+    return this.$store.state.comment.fetch
+  }
+  private get list (): StoreState.Comment[] {
+    return this.$store.state.comment.list
+  }
+  private get total (): number {
+    return this.$store.state.comment.total
+  }
 
-  methods: {
-    UAParse,
+  private UAParse (e: string): string {
+    return UAParse(e)
+  }
 
-    OSParse,
+  private OSParse (e: string): string {
+    return OSParse(e)
+  }
 
-    changeType (e) {
-      this.state = e.id
-      this.getData()
-    },
-
-    async changeState (row, code) {
-      const res = await this.$store.dispatch('patchComment', {
-        _id: row._id,
-        state: code,
-        post_ids: row.post_id
-      })
-      if (res.code === 1) row.state = code
-    },
-
-    dele (row, index) {
-      this.$confirm('确定删除此数据吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(async () => {
-        const res = await this.$store.dispatch('deleteComment', {
-          _id: row._id,
-          post_ids: row.post_id
-        })
-        if (res.code === 1) this.getData()
-      }).catch(() => {})
-    },
-
-    pageChange (val) {
-      this.currentPage = val
-      this.getData()
-    },
-
-    async getData () {
-      const res = await this.$store.dispatch('getComments', {
-        current_page: this.currentPage,
-        page_size: 20,
-        keyword: this.keyword,
-        state: this.state
-      })
-      if (res.code === 1) {
-        this.total = res.result.pagination.total
-        this.totalPage = res.result.pagination.total_page
-        this.commentsData = [...res.result.data]
-      }
-    }
-  },
-
-  created () {
+  // 筛选类型
+  private changeType (e: any): void {
+    this.state = e.id
     this.getData()
+  }
+
+  // 改变状态
+  private async changeState (row: StoreState.Comment, code: number): Promise<void> {
+    await this.$store.dispatch('comment/patchComment', {
+      _id: row._id,
+      state: code,
+      post_ids: row.post_id
+    })
+  }
+
+  // 删除
+  private deleteComment (row: StoreState.Comment): void {
+    this.$confirm('确定删除此数据吗？', '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    }).then(async () => {
+      const res = await this.$store.dispatch('comment/deleteComment', {
+         _id: row._id,
+         post_ids: row.post_id
+      })
+      if (res.code === 1) this.getData()
+    }).catch(() => {})
+  }
+
+  // 分页
+  private pageChange (val: number): void {
+    this.currentPage = val
+    this.getData()
+  }
+
+  // 获取数据
+  private getData (): void {
+    this.$store.dispatch('comment/getComments', {
+      current_page: this.currentPage,
+      page_size: 16,
+      keyword: this.keyword,
+      state: this.state
+    })
+  }
+
+  beforeCreate (): void {
+    this.$store.dispatch('comment/getComments', {
+      current_page: 1,
+      page_size: 16
+    })
   }
 }
 </script>

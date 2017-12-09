@@ -25,8 +25,9 @@
 
     <div class="table">
       <el-table
-        :data="tableData"
+        :data="list"
         style="width: 100%"
+        v-loading="fetch"
         >
         <el-table-column type="expand" label-class-name="head">
           <template slot-scope="props">
@@ -43,14 +44,6 @@
               <el-form-item label="系统：">
                 <span v-html="OSParse(props.row.agent)"></span>
               </el-form-item>
-              <el-form-item label="email：">
-                <span>{{props.row.email || ''}}</span>
-              </el-form-item>
-              <el-form-item label="blog：">
-                <span>
-                  <a :href="props.row.blog" target="_blank">{{ props.row.blog }}</a>
-                </span>
-              </el-form-item>
               <el-form-item label="内容：">
                 <span>{{ props.row.content }}</span>
               </el-form-item>
@@ -60,18 +53,9 @@
         <el-table-column
           prop="name"
           label="姓名"
-          width="120px"
+          min-width="120px"
           label-class-name="head"
           show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-          label="Github"
-          min-width="240"
-          label-class-name="head"
-          show-overflow-tooltip>
-          <template slot-scope="scope">
-            <a :href="scope.row.github" target="_blank"><i class="iconfont icon-github mar"></i> {{ scope.row.github }}</a>
-          </template>
         </el-table-column>
         <el-table-column
           prop="date"
@@ -116,7 +100,12 @@
                 v-if="scope.row.state === 0 || scope.row.state === 1"
                 @click="changeState(scope.row, 2)"
                 key="2">不通过</el-button>
-              <el-button type="danger" size="small" key="3" @click="dele(scope.row, scope.$index)">删除</el-button>
+              <el-button 
+                type="danger" 
+                size="small" 
+                key="3"
+                @click="deleteHero(scope.row)"
+                :disabled="scope.row.deleteing">{{ scope.row.deleteing ? '删除中' : '删 除' }}</el-button>
             </transition-group>
 
           </template>
@@ -136,91 +125,111 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+
 import { UAParse, OSParse } from '../../utils/ua-parse'
-import card from '../../components/card'
-export default {
-  name: 'heros',
+import Card from '../../components/card.vue'
 
-  data () {
-    return {
-      width: '48px', // text 宽度
-      type: [
-        {
-          name: '状态',
-          typeName: 'state',
-          list: [
-            { name: '全部', id: '' },
-            { name: '待审核', id: 0 },
-            { name: '审核通过', id: 1 },
-            { name: '审核不通过', id: 2 }
-          ],
-          default: { name: '全部' }
-        }
+interface Item {
+  name: string;
+  id: number | string
+}
+
+interface List {
+  name: string;
+  typeName: string;
+  list: Item[];
+  default: string
+}
+
+@Component({
+  components: { Card }
+})
+export default class Heros extends Vue {
+  private width: string = '48px'
+  private type: List[] = [
+    {
+      name: '状态',
+      typeName: 'state',
+      list: [
+        { name: '全部', id: '' },
+        { name: '待审核', id: 0 },
+        { name: '审核通过', id: 1 },
+        { name: '审核不通过', id: 2 }
       ],
-      tableData: [],
-      keyword: '',
-      state: '',
-      currentPage: 1,
-      total: 10,
-      totalPage: ''
+      default: '全部'
     }
-  },
+  ]
+  private state: StoreState.State
+  private keyword: string = ''
+  private currentPage: number = 1
 
-  methods: {
-    UAParse,
+  private get fetch (): boolean {
+    return this.$store.state.hero.fetch
+  }
+  private get list (): StoreState.Hero[] {
+    return this.$store.state.hero.list
+  }
+  private get total (): number {
+    return this.$store.state.hero.total
+  }
 
-    OSParse,
+  private UAParse (e: string): string {
+    return UAParse(e)
+  }
 
-    changeType (e) {
-      this.state = e.id
-      this.getData()
-    },
+  private OSParse (e: string): string {
+    return OSParse(e)
+  }
 
-    async changeState (row, code) {
-      const res = await this.$store.dispatch('patchHero', {
-        _id: row._id,
-        state: code
-      })
-      if (res.code === 1) row.state = code
-    },
-
-    dele (row, index) {
-      this.$confirm('确定删除此数据吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(async () => {
-        const res = await this.$store.dispatch('deleteHero', { _id: row._id })
-        if (res.code === 1) this.getData()
-      }).catch(() => {})
-    },
-
-    async getData () {
-      const res = await this.$store.dispatch('getHero', {
-        current_page: this.currentPage,
-        page_size: 16,
-        keyword: this.keyword,
-        state: this.state
-      })
-      if (res.code === 1) {
-        this.total = res.result.pagination.total
-        this.totalPage = res.result.pagination.total_page
-        this.tableData = [...res.result.list]
-      }
-    },
-
-    pageChange (val) {
-      this.currentPage = val
-      this.getData()
-    }
-
-  },
-
-  components: { card },
-
-  created () {
+  // 筛选类型
+  private changeType (e: any): void {
+    this.state = e.id
     this.getData()
+  }
+
+  // 改变状态
+  private async changeState (row: StoreState.Hero, code: number): Promise<void> {
+    await this.$store.dispatch('hero/patchHero', {
+      _id: row._id,
+      state: code
+    })
+  }
+
+  // 删除
+  private deleteHero (row: StoreState.Hero): void {
+    this.$confirm('确定删除此数据吗？', '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    }).then(async () => {
+      const res = await this.$store.dispatch('hero/deleteHero', { _id: row._id })
+      if (res.code === 1) this.getData()
+    }).catch(() => {})
+  }
+
+  // 分页
+  private pageChange (val: number): void {
+    this.currentPage = val
+    this.getData()
+  }
+
+  // 获取数据
+  private getData (): void {
+    this.$store.dispatch('hero/getHeros', {
+      current_page: this.currentPage,
+      page_size: 16,
+      keyword: this.keyword,
+      state: this.state
+    })
+  }
+
+  beforeCreate (): void {
+    this.$store.dispatch('hero/getHeros', {
+      current_page: 1,
+      page_size: 16
+    })
   }
 }
 </script>

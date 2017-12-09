@@ -1,5 +1,7 @@
 declare namespace StoreState {
 
+  export type State = 0 | 1 | 2 | 3 | string
+
   // 公用
   interface Common {
     /** 唯一标识 */
@@ -13,6 +15,13 @@ declare namespace StoreState {
 
     /** 删除中... */
     deleteing?: boolean;
+  }
+
+  // 评论产生
+  interface Author {
+    name: string;
+    email: string;
+    site?: string;
   }
 
   // 登录
@@ -93,11 +102,90 @@ declare namespace StoreState {
     count?: number
   }
 
-
-  // 文章
-
-
   // 英雄版（留言墙）
+  export interface Hero extends Common {
+    /** 名称 */
+    name: string;
+
+    /** 内容 */
+    content: string;
+
+    /** 状态 */
+    state: State;
+
+    /** ip */
+    ip: string;
+
+    /** 用户位置 */
+    city: String;
+    range: String;
+    country: String;
+  }
 
   // 评论
+  export interface Comment extends Common {
+
+    /** 评论文章所在 id */
+    post_id: string;
+
+    /** 父级 id */
+    pid: string;
+
+    /** 内容 */
+    content: string;
+
+    /** 被赞数 */
+    likes: number;
+
+    /** ip */
+    ip: string;
+
+    /** 用户位置 */
+    city: String;
+    range: String;
+    country: String;
+
+    /** 用户 UA */
+    agent: string;
+
+    /** 评论产生 */
+    author: Author;
+
+    /** 评论状态 */
+    state: State
+  }
+
+  // 文章
+  export interface Article extends Common {
+
+    /** 标题 */
+    title: string;
+
+    /** 关键字 */
+    keyword: string;
+
+    /** 描述 */
+    descript: string;
+
+    /** 标签 */
+    tag: Tag[];
+
+    /** 内容 */
+    content?: string;
+
+    /** 状态 */
+    state: State;
+
+    /** 公开状态 */
+    publish: State;
+
+    /** 类别 */
+    type: State;
+
+    /** 缩略图 */
+    thumb: string;
+
+    /** 其他 */
+    [propName: string]: any;
+  }
 }

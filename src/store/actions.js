@@ -164,6 +164,7 @@ export const deleteComment = async ({ commit }, data) => {
   return res
 }
 
+// 修改状态
 export const patchComment = async ({ commit }, data) => {
   const res = await service.patchComment(data)
   if (res.code !== 1) error(res.message)

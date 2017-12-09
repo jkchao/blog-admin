@@ -2,6 +2,11 @@ import Vue from 'vue'
 import Vuex, { ActionContext } from 'vuex'
 import 'babel-polyfill'
 
+import tag from './modules/tag'
+import hero from './modules/hero'
+import comment from './modules/comment'
+import article from './modules/article'
+
 import { success, error } from '../utils/response'
 import service from '../api'
 
@@ -137,5 +142,11 @@ const mutations = {
 export default new Vuex.Store({
   state,
   actions,
-  mutations
+  mutations,
+  modules: {
+    tag,
+    hero,
+    comment,
+    article
+  }
 })

@@ -15,7 +15,8 @@
     <div class="table">
       <el-table
         :data="tagData"
-        style="width: 100%">
+        style="width: 100%"
+        v-loading="fetch">
         <el-table-column
           label="名称"
           width="160"
@@ -46,8 +47,12 @@
           width="240"
           label-class-name="head">
           <template slot-scope="scope">
-            <el-button type="info" size="small" @click="edit(scope.row)">修改</el-button>
-            <el-button type="danger" size="small" @click="dele(scope.row)">删除</el-button>
+            <el-button type="info" size="small" @click="editTag(scope.row)">修改</el-button>
+            <el-button 
+              type="danger"
+              size="small"
+              @click="deleteTag(scope.row)"
+              :disabled="scope.row.deleteing">{{ scope.row.deleteing ? '删除中' : '删 除' }}</el-button>
             <el-button type="text" class="darg" size="small"><i class="iconfont icon-list"></i></el-button>
           </template>
         </el-table-column>
@@ -67,7 +72,8 @@
     <el-dialog 
       :title="title"
       :visible.sync="dialogV"
-      size="tiny">
+      size="tiny"
+      width="460px">
       <el-form :model="form" ref="form" v-if="dialogV">
         <el-form-item
           label="名称"
@@ -90,130 +96,144 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogV = false">取 消</el-button>
-        <el-button type="primary" @click="submit('form')">确 定</el-button>
+        <el-button type="primary" @click="submit('form')" :disabled="posting">
+          {{ posting ? '提交中' : '确 定'}}
+        </el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import * as Sortable from 'sortablejs'
 
 import { error } from '../../utils/response'
 
 @Component
-export default class Tags extends Vue {}
-// export default {
-//   name: 'tags',
+export default class Tags extends Vue {
+  private title: string = '增加标签'
+  private dialogV: boolean = false
+  private sortable: any = null
+  private form: StoreState.Tag = {
+    name: '',
+    descript: ''
+  }
+  private keyword: string = ''
+  private currentPage: number = 1
 
-//   data () {
-//     return {
-//       title: '增加标签',
-//       dialogV: false,
-//       sortable: null,
-//       tagData: [],
-//       list: [],
-//       form: {
-//         name: '',
-//         descript: ''
-//       },
-//       keyword: '',
-//       currentPage: 1,
-//       total: 10
-//     }
-//   },
+  private get fetch (): boolean {
+    return this.$store.state.tag.fetch
+  }
+  private get posting (): boolean {
+    return this.$store.state.tag.posting
+  }
+  private get total (): number {
+    return this.$store.state.tag.total
+  }
+  private get tagData (): StoreState.Tag[] {
+    return this.$store.state.tag.list
+  }
+  private get list () :Array<string>{
+    return this.tagData.map((item: StoreState.Tag) => item._id) as Array<string>
+  }
 
-//   methods: {
+  // 添加标签
+  private addTag (): void {
+    this.title = '添加标签'
+    this.form = Object.assign({}, {
+      name: '',
+      descript: ''
+    })
+    this.dialogV = true
+  }
 
-//     addTag () {
-//       this.dialogV = true
-//       this.title = '增加标签'
-//       this.form = Object.assign({}, {
-//         name: '',
-//         descript: ''
-//       })
-//     },
+  // 修改标签
+  private editTag (row: StoreState.Tag) :void {
+    this.title = '修改标签'
+    this.form = { ...row }
+    this.dialogV = true
+  }
 
-//     edit (row) {
-//       this.title = '修改标签'
-//       this.dialogV = true
-//       this.form = { ...row }
-//     },
+  // 删除标签
+  private deleteTag (row: StoreState.Tag): void {
+    this.$confirm('确定删除此数据吗？', '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    }).then(async () : Promise<void> => {
+      const res = await this.$store.dispatch('tag/deleteTag', { _id: row._id })
+      if (res.code === 1) this.getData()
+    }).catch(() => {})
+  }
 
-//     dele (row, index) {
-//       this.$confirm('确定删除此数据吗？', '提示', {
-//         confirmButtonText: '确定',
-//         cancelButtonText: '取消',
-//         type: 'warning'
-//       }).then(async () => {
-//         const res = await this.$store.dispatch('deleteTag', { _id: row._id })
-//         if (res.code === 1) this.getData()
-//       }).catch(() => {})
-//     },
+  // 表单提交
+  private submit (formName: string) {
+    (this.$refs[formName] as HTMLFormElement).validate(async (valid: boolean): Promise<boolean> => {
+      if (valid) {
+        let actionName: string
+        let params: StoreState.Tag
+        if (this.form._id) {
+          actionName = 'tag/putTag'
+          params = Object.assign({}, {
+            _id: this.form._id,
+            name: this.form.name,
+            descript: this.form.descript
+          })
+        } else {
+          actionName = 'tag/postTag'
+          params = { ...this.form }
+        }
+        let res: Ajax.AjaxResponse = await this.$store.dispatch(actionName, params)
+        if (res.code === 1) {
+          this.dialogV = false
+          this.getData()
+        }
+        return true
+      } else return false
+    })
+  }
 
-//     submit (formName) {
-//       this.$refs[formName].validate(async valid => {
-//         if (valid) {
-//           let res
-//           if (this.form._id) {
-//             res = await this.$store.dispatch('putTag', {
-//               _id: this.form._id,
-//               name: this.form.name,
-//               descript: this.form.descript
-//             })
-//           } else {
-//             res = await this.$store.dispatch('postTag', { ...this.form })
-//           }
-//           if (res.code === 1) {
-//             this.dialogV = false
-//             this.getData()
-//           }
-//         } else return false
-//       })
-//     },
+  // 分页
+  private pageChange (val: number): void {
+    this.currentPage = val
+    this.getData()
+  }
 
-//     pageChange (val) {
-//       this.currentPage = val
-//       this.getData()
-//     },
+  // 获取数据
+  private async getData (): Promise<void> {
+    const res: Ajax.AjaxResponse = await this.$store.dispatch('tag/getTags', {
+      current_page: this.currentPage,
+      page_size: 16,
+      keyword: this.keyword
+    })
+    if (res.code === 1) {
+      this.$nextTick(() => {
+        this.setSort()
+      })
+    }
+  }
 
-//     async getData () {
-//       const res = await this.$store.dispatch('getTag', {
-//         current_page: this.currentPage,
-//         page_size: 16,
-//         keyword: this.keyword
-//       })
-//       if (res.code === 1) {
-//         this.total = res.result.pagination.total
-//         this.tagData = [...res.result.list]
-//         this.list = this.tagData.map(item => item._id)
-//         this.$nextTick(() => {
-//           this.setSort()
-//         })
-//       }
-//     },
+  // 标签排序
+  private setSort (): void {
+    const el: Element = document.querySelectorAll('.el-table__body-wrapper > table > tbody')[0]
+    this.sortable = Sortable.create(el, {
+      animation: 150,
+      // handle: '.drag-handler',
+      onEnd: (evt: any) => {
+        const tempIndex = this.list.splice(evt.oldIndex, 1)[0]
+        this.list.splice(evt.newIndex, 0, tempIndex)
+        this.$store.dispatch('tag/patchTag', {
+          ids: this.list
+        })
+      }
+    })
+  }
 
-//     setSort () {
-//       const el = document.querySelectorAll('.el-table__body-wrapper > table > tbody')[0]
-//       this.sortable = Sortable.create(el, {
-//         animation: 150,
-//         // handle: '.drag-handler',
-//         onEnd: evt => {
-//           const tempIndex = this.list.splice(evt.oldIndex, 1)[0]
-//           this.list.splice(evt.newIndex, 0, tempIndex)
-//           this.$store.dispatch('patchTag', {
-//             ids: this.list
-//           })
-//         }
-//       })
-//     }
-//   },
-
-//   created () {
-//     this.getData()
-//   }
-// }
+  created (): void {
+    this.getData()
+  }
+}
 </script>
 
 <style scoped lang="scss">

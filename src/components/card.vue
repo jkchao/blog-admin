@@ -2,7 +2,7 @@
      <el-card class="box-card" v-loading="carLoading">
       <div v-for="(items, index) in type" class="item" :key="index">
         <span class="text" :style="{'width': width}">{{ items.name }}：</span>
-        <el-radio-group v-model="items.default.name" size="small" @change="toggle($event, items.list, items.typeName)">
+        <el-radio-group v-model="items.default" size="small" @change="toggle($event, items.list, items.typeName)">
         <transition-group name="list" tag="div">
           <el-radio-button
             v-for="child in items.list"          
@@ -17,34 +17,29 @@
     </el-card>   
 </template>
 
-<script>
-export default {
-  props: {
-    carLoading: {
-      type: Boolean,
-      default: false
-    },
-    width: {
-      type: String,
-      default: '40px',
-      required: true
-    },
-    type: {
-      type: Array,
-      required: true,
-      default: []
-    }
-  },
-  methods: {
-    toggle (e, list, typeName) {
-      let id
-      list.forEach(item => {
-        if (item.name === e) {
-          id = item.id
-        }
-      })
-      this.$emit('toggle', { typeName, id })
-    }
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
+
+@Component
+export default class Card extends Vue {
+
+  @Prop({ default: false })
+  carLoading: boolean
+
+  @Prop({ default: '40px' })
+  width: string
+
+  @Prop({ default: []})
+  type: Array<any>
+
+  public toggle (e: string, list: Array<any>, typeName: string): void {
+    let id: any
+    list.forEach(item => {
+      if (item.name === e) {
+        id = item.id
+      }
+    })
+    this.$emit('toggle', { typeName, id })
   }
 }
 </script>
@@ -103,7 +98,7 @@ export default {
         }
 
         .el-input {
-          width: 300px;
+          width: 260px;
           margin-right: 10px;
         }
       }

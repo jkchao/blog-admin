@@ -1,8 +1,9 @@
 // https://github.com/surmon-china/surmon.me/blob/b7d467e0bc6fde6ef24cfca1103253dcefe3b332/utils/comment-ua-parse.js
 
 // ua解析
-export const UAParse = e => {
-  let r = []
+export const UAParse = (e: string): string => {
+  type R = Array<string> | null
+  let r: R = []
   let outputer = ''
   if ((r = e.match(/MSIE\s([^\s|]+)/gi))) {
     outputer = `<span class="ua_ie"><i class="iconfont icon-internet"></i> Internet Explorer | ${r[0]
@@ -71,8 +72,8 @@ export const UAParse = e => {
 }
 
 // os解析
-export const OSParse = e => {
-  let os = ''
+export const OSParse = (e: string): string => {
+  let os: string = ''
   if (e.match(/win/gi)) {
     if (e.match(/nt 5.1/gi)) {
       os =

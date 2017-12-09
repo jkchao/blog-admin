@@ -113,13 +113,12 @@
               <el-progress :percentage="percent" v-if="percent !== 0 && percent !== 100"></el-progress>
           </el-form-item>
         </div>
-
       </el-col>
     </el-form>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { error } from '../../utils/response'
 import { markdownEditor } from 'vue-simplemde'
 import 'simplemde/dist/simplemde.min.css'

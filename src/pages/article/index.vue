@@ -25,8 +25,9 @@
 
     <div class="table">
       <el-table
-        :data="tableData"
+        :data="list"
         style="width: 100%"
+        v-loading="fetch"
         >
         <el-table-column type="expand" label-class-name="head">
           <template slot-scope="props">
@@ -129,137 +130,177 @@
   </div>
 </template>
 
-<script>
-import card from '../../components/card'
+<script lang="ts">
+import { Component, Vue, Watch } from 'vue-property-decorator'
 
-export default {
-  name: 'article',
+import Card from '../../components/card.vue'
 
-  data () {
-    return {
-      width: '48px', // text 宽度
-      type: [
-        {
-          name: '标签',
-          typeName: 'tag',
-          list: [
-            { name: '全部', id: '-1' },
-            { name: 'Javascript', id: '1' },
-            { name: 'Vue', id: '2' },
-            { name: 'Http', id: '3' }
-          ],
-          default: { name: '全部' }
-        },
-        {
-          name: '分类',
-          typeName: 'type',
-          list: [
-            { name: '全部', id: '-1' },
-            { name: 'Code', id: '1' },
-            { name: 'Think', id: '2' }
-          ],
-          default: { name: '全部' }
-        },
-        {
-          name: '公开',
-          typeName: 'publish',
-          list: [
-            { name: '全部', id: '-1' },
-            { name: '公开', id: '1' },
-            { name: '私密', id: '2' }
-          ],
-          default: { name: '全部' }
-        },
-        {
-          name: '状态',
-          typeName: 'state',
-          list: [
-            { name: '全部', id: '-1' },
-            { name: '已发布', id: '1' },
-            { name: '草稿', id: '2' }
-          ],
-          default: { name: '全部' }
-        }
+interface Item {
+  name: string;
+  id: number | string
+}
+
+interface List {
+  name: string;
+  typeName: string;
+  list: Item[];
+  default: string
+}
+
+interface Para {
+  tag: string;
+  type: StoreState.State;
+  publish: StoreState.State;
+  state: StoreState.State;
+  [index: string]: any
+}
+
+@Component({
+  components: { Card }
+})
+export default class Article extends Vue {
+  private width: string = '48px'
+  private type: List[] = [
+    {
+      name: '标签',
+      typeName: 'tag',
+      list: [
+        { name: '全部', id: '' },
+        { name: 'Javascript', id: 1 },
+        { name: 'Vue', id: 2 },
+        { name: 'Http', id: 3 }
       ],
-      tableData: [],
-      para: [
-        { tag: '' },
-        { type: '' },
-        { publish: '' },
-        { state: '' }
+      default: '全部'
+    },
+    {
+      name: '分类',
+      typeName: 'type',
+      list: [
+        { name: '全部', id: '' },
+        { name: 'Code', id: 1 },
+        { name: 'Think', id: 2 }
       ],
-      keyword: '',
-      currentPage: 1,
-      total: 10,
-      totalPage: ''
+      default: '全部'
+    },
+    {
+      name: '公开',
+      typeName: 'publish',
+      list: [
+        { name: '全部', id: '' },
+        { name: '公开', id: 1 },
+        { name: '私密', id: 2 }
+      ],
+      default: '全部'
+    },
+    {
+      name: '状态',
+      typeName: 'state',
+      list: [
+        { name: '全部', id: '' },
+        { name: '已发布', id: 1 },
+        { name: '草稿', id: 2 }
+      ],
+      default: '全部'
     }
-  },
+  ]
+  private para: Para = {
+    tag: '',
+    type: '',
+    publish: '',
+    state: ''
+  }
+  private keyword: string = ''
+  private currentPage: number = 1
 
-  methods: {
+  private get fetch (): boolean {
+    return this.$store.state.article.fetch
+  }
+  private get list (): StoreState.Article[] {
+    return this.$store.state.article.list
+  }
+  private get total (): number {
+    return this.$store.state.article.total
+  }
+  private get tag (): StoreState.Tag[] {
+    return this.$store.state.tag.list
+  }
 
-    changeType (e) {
-      this.para[e.typeName] = e.id
-      this.getData()
-    },
+  @Watch('tag', { deep: true })
+  getTag (val: StoreState.Tag[], oldVal: StoreState.Tag[]): void {
+    this.type[0].list = [
+      { name: '全部', id: '' },
+      ...val.map((item: StoreState.Tag) => ({ name: item.name, id: item._id || '' }))
+    ]
+  }
 
-    edit (row) {
-      this.$router.push(`/article/release?id=${row._id}`)
-    },
+  // 分页
+  private pageChange (val: number): void {
+    this.currentPage = val
+    this.getData()
+  }
 
-    async changeState (row, type, code) {
-      const querys = {}
-      querys._id = row._id
-      querys[type] = code
-      const res = await this.$store.dispatch('patchArt', {...querys})
-      if (res) row[type] = code
-    },
+  // 筛选
+  private changeType (e: { typeName: string, id: StoreState.State }): void {
+    this.para[e.typeName] = e.id
+    this.getData()
+  }
 
-    dele (row, index) {
-      this.$confirm('确定删除此文章吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(async () => {
-        const res = await this.$store.dispatch('deleteArt', { _id: row._id })
-        if (res.code === 1) this.getData()
-      }).catch(() => {})
-    },
+  // 详情
+  private edit (row: StoreState.Article): void {
+    this.$router.push(`/article/release?id=${row._id}`)
+  }
 
-    async getData () {
-      const res = await this.$store.dispatch('getArts', {
-        ...this.para,
-        current_page: this.currentPage,
-        keyword: this.keyword
-      })
-      if (res.code === 1) {
-        this.total = res.result.pagination.total
-        this.totalPage = res.result.pagination.total_page
-        this.tableData = [...res.result.list]
-      }
-    },
-
-    pageChange (val) {
-      this.currentPage = val
-      this.getData()
+  // 改变状态
+  private async changeState (
+    row: StoreState.Article,
+    type: string,
+    state: StoreState.State
+  ): Promise<void> {
+    let querys: {
+      _id: string;
+      [index: string]: any;
+    } = {
+      _id: ''
     }
+    querys._id = row._id as string
+    querys[type] = state
+    this.$store.dispatch('patchArt', {...querys})
+  }
 
-  },
+  // 删除文章
+  private dele (row: StoreState.Article): void {
+    this.$confirm('确定删除此文章吗？', '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    }).then(async (): Promise<void> => {
+      const res = await this.$store.dispatch('article/deleteArt', { _id: row._id })
+      if (res.code === 1) this.getData()
+    }).catch(() => {})
+  }
 
-  async created () {
-    // 标签列表
-    const res = await this.$store.dispatch('getTag', {
-      current_page: 1,
-      page_size: 16,
+  // 获取数据
+  private async getData (): Promise<void> {
+    await this.$store.dispatch('article/getArts', {
+      ...this.para,
+      current_page: this.currentPage,
+      page_size: 10,
       keyword: this.keyword
     })
-    if (res.code === 1) {
-      this.type[0].list = [{ name: '全部', id: '' }, ...res.result.list.map(item => ({ name: item.name, id: item._id }))]
-    }
+  }
 
-    this.getData()
-  },
-
-  components: { card }
+  beforeCreate (): void {
+    Promise.all([
+      this.$store.dispatch('article/getArts', {
+        current_page: 1,
+        page_size: 10
+      }),
+      this.$store.dispatch('tag/getTags', {
+        current_page: 1,
+        page_size: 100
+      })
+    ])
+  }
 }
 </script>
 
