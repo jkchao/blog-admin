@@ -24,7 +24,7 @@ Vue.filter('format', format)
 Vue.config.productionTip = false
 
 
-const app = new Vue({
+const app: Vue = new Vue({
   el: '#app',
   router,
   store,

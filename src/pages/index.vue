@@ -26,20 +26,20 @@
             background-color="#24292e"
             router>
             <template v-for="(item,index) in $router.options.routes">
-              <el-submenu :index="index+''" v-if="!item.leaf && item.children" :key="index">
+              <el-submenu :index="index+''" v-if="!item.meta.leaf && item.children" :key="index">
                 <template slot="title">
-                  <i :class="item.icon"  class="iconfont mar" ></i>
+                  <i :class="item.meta.icon"  class="iconfont mar" ></i>
                   <span class="title">{{item.name}}</span>
                 </template>
-                <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path" v-if="!child.leaf">
-                  <i :class="child.icon"  class="iconfont mar" ></i>
+                <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path" v-if="!child.meta.leaf">
+                  <i :class="child.meta.icon"  class="iconfont mar" ></i>
                   <span class="text">
                     {{child.name}}
                   </span>
                 </el-menu-item>
               </el-submenu>
-              <el-menu-item v-if="item.leaf && item.children" :index="item.children[0].path" :key="index">
-                <i :class="item.icon"  class="iconfont mar" ></i>
+              <el-menu-item v-if="item.meta.leaf && item.children" :index="item.children[0].path" :key="index">
+                <i :class="item.meta.icon"  class="iconfont mar" ></i>
                 <span>{{item.name}}</span>
               </el-menu-item>
             </template>
@@ -76,6 +76,7 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
+import { Route } from 'vue-router'
 
 @Component
 export default class Index extends Vue {
@@ -90,7 +91,11 @@ export default class Index extends Vue {
   }
 
   @Watch('$route')
-  private routeChange (val: string, oldVal: string): void {}
+  private routeChange (val: Route, oldVal: Route): void {
+    this.defaultPath = val.path
+    this.currentPathName = val.name || ''
+    this.currentPathNameParent = val.matched[0].name || ''
+  }
 
 
   private created (): void {

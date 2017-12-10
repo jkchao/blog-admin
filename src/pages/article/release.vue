@@ -129,6 +129,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import { error } from '../../utils/response'
+import { Route, RawLocation } from 'vue-router'
 
 interface Qn {
   key: string;
@@ -228,7 +229,7 @@ export default class Release extends Vue {
     })
   }
 
-  private beforeRouteUpdate (to: any, form: any, next: any): void {
+  private beforeRouteUpdate (to: Route, form: Route, next: Function): void {
     this.id = ''
     this.form = {
       title: '',
