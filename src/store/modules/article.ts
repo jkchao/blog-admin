@@ -2,7 +2,7 @@
  * 文章
  */
 
-import { ActionContext, Store } from 'vuex'
+import { ActionContext, ActionTree, MutationTree } from 'vuex'
 
 import { success, error } from '../../utils/response'
 import service from '../../api'
@@ -42,7 +42,7 @@ const state: State = {
   }
 }
 
-const actions = {
+const actions: ActionTree<State, any> = {
 
   // 获取列表
   async getArts (
@@ -127,7 +127,7 @@ const actions = {
   }
 }
 
-const mutations = {
+const mutations: MutationTree<State> = {
   'REQUEST_LIST' (state: State): void {
     state.fetch = true
   },

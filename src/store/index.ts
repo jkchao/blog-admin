@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Vuex, { ActionContext } from 'vuex'
+import Vuex, { ActionContext, ActionTree, MutationTree } from 'vuex'
 import 'babel-polyfill'
 
 import tag from './modules/tag'
@@ -47,9 +47,12 @@ const state: State = {
   QNtoken: ''
 }
 
-const actions = {
+const actions: ActionTree<State, any> = {
   // 登录
-  async login (context: ActionContext<State, any>, user: StoreState.Login): Promise<Ajax.AjaxResponse> {
+  async login (
+    context: ActionContext<State, any>,
+    user: StoreState.Login
+  ): Promise<Ajax.AjaxResponse> {
     context.commit('USER_LOGINING')
     const res: Ajax.AjaxResponse = await service.login({ ...user })
     if (res && res.code === 1) {
@@ -69,7 +72,10 @@ const actions = {
   },
 
   // 修改用户信息
-  async putAuth (context: ActionContext<State, any>, user: StoreState.User): Promise<Ajax.AjaxResponse> {
+  async putAuth (
+    context: ActionContext<State, any>,
+    user: StoreState.User
+  ): Promise<Ajax.AjaxResponse> {
     context.commit('POST_USER_INFO')
     const res: Ajax.AjaxResponse = await service.putAuth({ ...user })
     if (res && res.code === 1) success('修改用户信息成功')
@@ -91,7 +97,10 @@ const actions = {
   },
 
   // 修改网站信息
-  async putOpt (context: ActionContext<State, any>, option: StoreState.Option): Promise<Ajax.AjaxResponse> {
+  async putOpt (
+    context: ActionContext<State, any>,
+    option: StoreState.Option
+  ): Promise<Ajax.AjaxResponse> {
     context.commit('POST_OPTION_INFO')
     const res: Ajax.AjaxResponse = await service.putOpt({ ...option })
     if (res && res.code === 1) success('修改成功')
@@ -101,7 +110,7 @@ const actions = {
   }
 }
 
-const mutations = {
+const mutations: MutationTree<State> = {
   'USER_LOGINING' (state: State): void {
     state.login = true
   },
