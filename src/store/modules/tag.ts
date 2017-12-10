@@ -2,7 +2,7 @@
  * 标签数据
  */
 
-import { ActionContext, ActionTree, MutationTree } from 'vuex'
+import { ActionTree, MutationTree } from 'vuex'
 
 import { success, error } from '../../utils/response'
 import service from '../../api'
@@ -32,52 +32,52 @@ const actions: ActionTree<State, any> = {
 
   // 获取列表
   async getTags (
-    context: ActionContext<State, any>,
+    { commit },
     data: Params
   ): Promise<Ajax.AjaxResponse> {
-    context.commit('REQUEST_LIST')
+    commit('REQUEST_LIST')
     const res: Ajax.AjaxResponse = await service.getTags(data)
     if (res && res.code === 1) {
       const list: StoreState.Tag[] = res.result.list.map((item: StoreState.Tag ) => {
         return { ...item, deleteing: false }
       })
       const total: number = res.result.pagination.total
-      context.commit('REQUEST_LIST_SUCCESS', { list, total })
-    } else context.commit('REQUEST_LIST_FAIL')
+      commit('REQUEST_LIST_SUCCESS', { list, total })
+    } else commit('REQUEST_LIST_FAIL')
     return res
   },
 
   // 添加
   async postTag (
-    context: ActionContext<State, any>,
+    { commit },
     tag: StoreState.Tag
   ): Promise<Ajax.AjaxResponse> {
-    context.commit('POST_TAG')
+    commit('POST_TAG')
     const res: Ajax.AjaxResponse = await service.postTag(tag)
     if (res && res.code === 1) success('添加标签成功')
     else error(res.message)
-    context.commit('POST_TAG_FINAL')
+    commit('POST_TAG_FINAL')
     return res
   },
 
   // 修改
   async putTag (
-    context: ActionContext<State, any>,
+    { commit },
     tag: StoreState.Tag
   ): Promise<Ajax.AjaxResponse> {
-    context.commit('POST_TAG')
+    commit('POST_TAG')
     const res: Ajax.AjaxResponse = await service.putTag(tag)
     if (res && res.code === 1) {
       success('修改标签成功')
-      context.commit('POST_TAG_SUCCESS', tag)
+      commit('POST_TAG_SUCCESS', tag)
     } else error(res.message)
-    context.commit('POST_TAG_FINAL')
+    commit('POST_TAG_FINAL')
     return res
   },
 
   // 排序
   async patchTag (
-    context: ActionContext<State, any>,
+    { commit },
     ids: Array<string>
   ): Promise<void> {
     const res: Ajax.AjaxResponse = await service.patchTag(ids)
@@ -88,14 +88,14 @@ const actions: ActionTree<State, any> = {
 
   // 删除
   async deleteTag (
-    context: ActionContext<State, any>,
+    { commit },
     tag: { _id: string }
   ): Promise<Ajax.AjaxResponse> {
-    context.commit('DELETE_TAG', tag)
+    commit('DELETE_TAG', tag)
     const res: Ajax.AjaxResponse = await service.deleteTag(tag)
     if (res && res.code === 1) success('删除成功')
     else error(res.message)
-    context.commit('DELETE_TAG_FINAL', tag)
+    commit('DELETE_TAG_FINAL', tag)
     return res
   }
 }

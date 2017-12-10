@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Vuex, { ActionContext, ActionTree, MutationTree } from 'vuex'
+import Vuex, { ActionTree, MutationTree } from 'vuex'
 import 'babel-polyfill'
 
 import tag from './modules/tag'
@@ -50,10 +50,10 @@ const state: State = {
 const actions: ActionTree<State, any> = {
   // 登录
   async login (
-    context: ActionContext<State, any>,
+    { commit },
     user: StoreState.Login
   ): Promise<Ajax.AjaxResponse> {
-    context.commit('USER_LOGINING')
+    commit('USER_LOGINING')
     const res: Ajax.AjaxResponse = await service.login({ ...user })
     if (res && res.code === 1) {
       window.localStorage.setItem('TOKEN', JSON.stringify(res.result))
@@ -61,51 +61,51 @@ const actions: ActionTree<State, any> = {
     } else {
       error(res.message)
     }
-    context.commit('USER_LOGINING_FINAL')
+    commit('USER_LOGINING_FINAL')
     return res
   },
 
   // 用户信息初始化
-  async initAuth (context: ActionContext<State, any>): Promise<void> {
+  async initAuth ({ commit }): Promise<void> {
     const res: Ajax.AjaxResponse = await service.getAuth()
-    if (res && res.code === 1) context.commit('USER_INFO', res.result)
+    if (res && res.code === 1) commit('USER_INFO', res.result)
   },
 
   // 修改用户信息
   async putAuth (
-    context: ActionContext<State, any>,
+    { commit },
     user: StoreState.User
   ): Promise<Ajax.AjaxResponse> {
-    context.commit('POST_USER_INFO')
+    commit('POST_USER_INFO')
     const res: Ajax.AjaxResponse = await service.putAuth({ ...user })
     if (res && res.code === 1) success('修改用户信息成功')
     else error(res.message)
-    context.commit('POST_USER_FINAL')
+    commit('POST_USER_FINAL')
     return res
   },
 
   // 获取网站信息
-  async getOpt (context: ActionContext<State, any>): Promise<void> {
+  async getOpt ({ commit }): Promise<void> {
     const res: Ajax.AjaxResponse = await service.getOpt()
-    if (res && res.code === 1) context.commit('OPTION_INFO', res.result)
+    if (res && res.code === 1) commit('OPTION_INFO', res.result)
   },
 
   // 获取 qn token
-  async getQiniu (context: ActionContext<State, any>): Promise<void> {
+  async getQiniu ({ commit }): Promise<void> {
     const res: Ajax.AjaxResponse = await service.getQiniu()
-    if (res && res.code === 1) context.commit('QN_TOKEN', res.result.token)
+    if (res && res.code === 1) commit('QN_TOKEN', res.result.token)
   },
 
   // 修改网站信息
   async putOpt (
-    context: ActionContext<State, any>,
+    { commit },
     option: StoreState.Option
   ): Promise<Ajax.AjaxResponse> {
-    context.commit('POST_OPTION_INFO')
+    commit('POST_OPTION_INFO')
     const res: Ajax.AjaxResponse = await service.putOpt({ ...option })
     if (res && res.code === 1) success('修改成功')
     else error(res.message)
-    context.commit('POST_OPTION_FINAL')
+    commit('POST_OPTION_FINAL')
     return res
   }
 }

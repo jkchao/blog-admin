@@ -2,7 +2,7 @@
  * 评论
  */
 
-import { ActionContext, ActionTree, MutationTree } from 'vuex'
+import { ActionTree, MutationTree } from 'vuex'
 
 import { success, error } from '../../utils/response'
 import service from '../../api'
@@ -29,44 +29,44 @@ const state: State = {
 const actions: ActionTree<State, any> = {
   // 获取列表
   async getComments (
-    context: ActionContext<State, any>,
+    { commit },
     data: Params
   ): Promise<Ajax.AjaxResponse> {
-    context.commit('REQUEST_LIST')
+    commit('REQUEST_LIST')
     const res: Ajax.AjaxResponse = await service.getComments(data)
     if (res && res.code === 1) {
       const list: StoreState.Comment[] = res.result.data.map((item: StoreState.Comment ) => {
         return { ...item, deleteing: false }
       })
       const total: number = res.result.pagination.total
-      context.commit('REQUEST_LIST_SUCCESS', { list, total })
-    } else context.commit('REQUEST_LIST_FAIL')
+      commit('REQUEST_LIST_SUCCESS', { list, total })
+    } else commit('REQUEST_LIST_FAIL')
     return res
   },
 
   // 改变状态
   async patchComment (
-    context: ActionContext<State, any>,
+    { commit },
     Comment: { _id: string, state: StoreState.State, post_ids: string }
   ): Promise<Ajax.AjaxResponse> {
     const res: Ajax.AjaxResponse = await service.patchComment(Comment)
     if (res && res.code === 1) {
       success('修改成功')
-      context.commit('PATCH_COMMENT_SUCCESS', Comment)
+      commit('PATCH_COMMENT_SUCCESS', Comment)
     } else error(res.message)
     return res
   },
 
   // 删除
   async deleteComment (
-    context: ActionContext<State, any>,
+    { commit },
     Comment: { _id: string, post_ids: string }
   ): Promise<Ajax.AjaxResponse> {
-    context.commit('DELETE_COMMENT', Comment)
+    commit('DELETE_COMMENT', Comment)
     const res: Ajax.AjaxResponse = await service.deleteComment(Comment)
     if (res && res.code === 1) success('删除成功')
     else error(res.message)
-    context.commit('DELETE_COMMENT_FINAL', Comment)
+    commit('DELETE_COMMENT_FINAL', Comment)
     return res
   }
 }

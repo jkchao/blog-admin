@@ -2,7 +2,7 @@
  * 文章
  */
 
-import { ActionContext, ActionTree, MutationTree } from 'vuex'
+import { ActionTree, MutationTree } from 'vuex'
 
 import { success, error } from '../../utils/response'
 import service from '../../api'
@@ -46,83 +46,83 @@ const actions: ActionTree<State, any> = {
 
   // 获取列表
   async getArts (
-    context: ActionContext<State, any>,
+    { commit },
     data: Params
   ): Promise<Ajax.AjaxResponse> {
-    context.commit('REQUEST_LIST')
+    commit('REQUEST_LIST')
     const res: Ajax.AjaxResponse = await service.getArts(data)
     if (res && res.code === 1) {
       const list: StoreState.Article[] = res.result.list.map((item: StoreState.Article ) => {
         return { ...item, deleteing: false }
       })
       const total: number = res.result.pagination.total
-      context.commit('REQUEST_LIST_SUCCESS', { list, total })
-    } else context.commit('REQUEST_LIST_FAIL')
+      commit('REQUEST_LIST_SUCCESS', { list, total })
+    } else commit('REQUEST_LIST_FAIL')
     return res
   },
 
   // 获取单个文章
   async getArt (
-    context: ActionContext<State, any>,
+    { commit },
     params: { _id: string }
   ): Promise<void> {
-    context.commit('REQUEST_LIST')
+    commit('REQUEST_LIST')
     const res: Ajax.AjaxResponse = await service.getArt(params)
     if (res && res.code === 1) {
-      context.commit('REQUEST_DETAIL_SUCCESS', res.result)
+      commit('REQUEST_DETAIL_SUCCESS', res.result)
     }
     else error('REQUEST_DETAIL_FAIL')
   },
 
   // 添加文章
   async postArt (
-    context: ActionContext<State, any>,
+    { commit },
     Article: StoreState.Article
   ): Promise<Ajax.AjaxResponse> {
-    context.commit('POST_ARTICLE')
+    commit('POST_ARTICLE')
     const res = await service.postArt(Article)
     if (res && res.code === 1) success('添加文章成功')
     else error('添加文章失败')
-    context.commit('POST_ARTICLE_FINAL')
+    commit('POST_ARTICLE_FINAL')
     return res
   },
 
   // 修改文章
   async putArt (
-    context: ActionContext<State, any>,
+    { commit },
     Article: StoreState.Article
   ): Promise<Ajax.AjaxResponse> {
-    context.commit('POST_ARTICLE')
+    commit('POST_ARTICLE')
     const res = await service.putArt(Article)
     if (res && res.code === 1) success('修改文章成功')
     else error('修改文章失败')
-    context.commit('POST_ARTICLE_FINAL')
+    commit('POST_ARTICLE_FINAL')
     return res
   },
 
   // 改变状态
   async patchArt (
-    context: ActionContext<State, any>,
+    { commit },
     Article: { _id: string; state?: StoreState.State; publish?: StoreState.State; [index: string]: any; }
   ): Promise<Ajax.AjaxResponse> {
     const res: Ajax.AjaxResponse = await service.patchArt(Article)
     if (res && res.code === 1) {
       success('修改成功')
-      context.commit('PATCH_HERO_SUCCESS', Article)
+      commit('PATCH_HERO_SUCCESS', Article)
     } else error(res.message)
     return res
   },
 
   // 删除
   async deleteArt (
-    context: ActionContext<State, any>,
+    { commit },
     Article: { _id: string }
   ): Promise<Ajax.AjaxResponse> {
-    context.commit('DELETE_ARTICLE', Article)
+    commit('DELETE_ARTICLE', Article)
     const res: Ajax.AjaxResponse = await service.deleteArt(Article)
     if (res && res.code === 1) success('删除成功')
     else error(res.message)
-    context.commit('DELETE_ARTICLE_FINAL', Article)
+    commit('DELETE_ARTICLE_FINAL', Article)
     return res
   }
 }

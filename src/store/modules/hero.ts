@@ -2,7 +2,7 @@
  * 英雄版（留言墙）
  */
 
-import { ActionContext, ActionTree, MutationTree } from 'vuex'
+import { ActionTree, MutationTree } from 'vuex'
 
 import { success, error } from '../../utils/response'
 import service from '../../api'
@@ -29,44 +29,44 @@ const state: State = {
 const actions: ActionTree<State, any> = {
   // 获取列表
   async getHeros (
-    context: ActionContext<State, any>,
+    { commit },
     data: Params
   ): Promise<Ajax.AjaxResponse> {
-    context.commit('REQUEST_LIST')
+    commit('REQUEST_LIST')
     const res: Ajax.AjaxResponse = await service.getHeros(data)
     if (res && res.code === 1) {
       const list: StoreState.Hero[] = res.result.list.map((item: StoreState.Hero ) => {
         return { ...item, deleteing: false }
       })
       const total: number = res.result.pagination.total
-      context.commit('REQUEST_LIST_SUCCESS', { list, total })
-    } else context.commit('REQUEST_LIST_FAIL')
+      commit('REQUEST_LIST_SUCCESS', { list, total })
+    } else commit('REQUEST_LIST_FAIL')
     return res
   },
 
   // 改变状态
   async patchHero (
-    context: ActionContext<State, any>,
+    { commit },
     Hero: { _id: string, state: StoreState.State }
   ): Promise<Ajax.AjaxResponse> {
     const res: Ajax.AjaxResponse = await service.patchHero(Hero)
     if (res && res.code === 1) {
       success('修改成功')
-      context.commit('PATCH_HERO_SUCCESS', Hero)
+      commit('PATCH_HERO_SUCCESS', Hero)
     } else error(res.message)
     return res
   },
 
   // 删除
   async deleteHero (
-    context: ActionContext<State, any>,
+    { commit },
     Hero: { _id: string }
   ): Promise<Ajax.AjaxResponse> {
-    context.commit('DELETE_TAG', Hero)
+    commit('DELETE_TAG', Hero)
     const res: Ajax.AjaxResponse = await service.deleteHero(Hero)
     if (res && res.code === 1) success('删除成功')
     else error(res.message)
-    context.commit('DELETE_TAG_FINAL', Hero)
+    commit('DELETE_TAG_FINAL', Hero)
     return res
   }
 }
