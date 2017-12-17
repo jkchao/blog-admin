@@ -70,10 +70,12 @@
           label="分类"
           label-class-name="head">
           <template slot-scope="scope">
-            {{ 
+            {{
                 scope.row.type === 1
                 ? 'Code'
-                : 'Think'
+                : scope.row.type === 2
+                  ? 'Think'
+                  : 'Music'
              }}
           </template>
         </el-table-column>
@@ -183,7 +185,8 @@ export default class Article extends Vue {
       list: [
         { name: '全部', id: '' },
         { name: 'Code', id: 1 },
-        { name: 'Think', id: 2 }
+        { name: 'Think', id: 2 },
+        { name: 'Music', id: 3 }
       ],
       default: '全部'
     },
