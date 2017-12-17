@@ -256,6 +256,10 @@ export default class Tags extends Vue {
 
   .darg {
     cursor: move;
+
+    i {
+      font-size: .8rem;
+    }
   }
 }
 </style>

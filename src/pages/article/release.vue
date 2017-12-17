@@ -118,6 +118,7 @@
                 <img v-if="form.thumb" :src="form.thumb" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
+              <el-input v-model="form.thumb" size="small" class="link"></el-input>
               <el-progress :percentage="percent" v-if="percent !== 0 && percent !== 100"></el-progress>
           </el-form-item>
         </div>
@@ -316,6 +317,11 @@ export default class Release extends Vue {
             margin: $normal-pad 0 0 0!important;
             width: 100%;
             text-align: center;
+          }
+
+          .link {
+            width: 60%;
+            margin: auto;
           }
         }
       }
