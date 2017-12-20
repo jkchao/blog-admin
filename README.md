@@ -46,7 +46,7 @@ SERVICE [node-koa](https://github.com/jkchao/node-koa)
 
 - ~https~
 
-- TypeScript 升级
+- ~TypeScript 升级~
 
 ## Build Setup
 
