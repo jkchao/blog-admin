@@ -3,6 +3,10 @@ import * as ElementUi from 'element-ui'
 import VueSimplemde from 'vue-simplemde'
 import Component from 'vue-class-component'
 import 'simplemde/dist/simplemde.min.css'
+import 'highlight.js/styles/atom-one-dark.css'
+import hljs from 'highlight.js'
+(<any>window).hljs = hljs
+
 
 import App from './layout/App.vue'
 import router from './router/index'

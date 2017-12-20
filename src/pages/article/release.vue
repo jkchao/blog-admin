@@ -58,6 +58,7 @@
             v-model="form.content" 
             ref="markdownEditor"
             :configs="configs"
+            :highlight="true"
             preview-class="markdown-body"></markdown-editor>
         </el-form-item>
         <el-form-item style="margin-bottom: 0">
