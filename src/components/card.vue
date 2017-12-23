@@ -5,7 +5,7 @@
         <el-radio-group v-model="items.default" size="small" @change="toggle($event, items.list, items.typeName)">
         <transition-group name="list" tag="div">
           <el-radio-button
-            v-for="child in items.list"          
+            v-for="child in items.list"
             class="btn"
             :key="child.id"
             :label="child.name">
