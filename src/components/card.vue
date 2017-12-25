@@ -14,7 +14,7 @@
         </el-radio-group>
       </div>
       <slot></slot>
-    </el-card>   
+    </el-card>
 </template>
 
 <script lang="ts">
@@ -29,7 +29,7 @@ export default class Card extends Vue {
   @Prop({ default: '40px' })
   width: string
 
-  @Prop({ default: []})
+  @Prop({ default: () => [] })
   type: Array<any>
 
   public toggle (e: string, list: Array<any>, typeName: string): void {
@@ -47,60 +47,60 @@ export default class Card extends Vue {
 <style lang="scss" >
 @import '../assets/scss/variable.scss';
 
-    .box-card {
-      border: none;
+.box-card {
+  border: none;
 
-      .el-card__body {
-        padding-bottom: 0;
+  .el-card__body {
+    padding-bottom: 0;
+  }
+
+  .item:last-child {
+    border-bottom: 0;
+    margin-top: 20px;
+  }
+
+  .item {
+    display: flex;
+    position: relative;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    line-height: 34px;
+    border-bottom: 1px dashed rgb(210, 210, 210);
+
+    .text {
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 14px;
+    }
+    
+    .el-radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-left: 10px;
+
+      .el-radio-button {
+        margin: 3px 0;
       }
 
-      .item:last-child {
-        border-bottom: 0;
-        margin-top: 20px;
+      .el-radio-button__inner {
+        border: none;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;      
+        border-radius: 4px;
       }
-
-      .item {
-        display: flex;
-        position: relative;
-        padding-bottom: 10px;
-        margin-bottom: 10px;
-        line-height: 34px;
-        border-bottom: 1px dashed rgb(210, 210, 210);
-
-        .text {
-          flex-shrink: 0;
-          text-align: right;
-          font-size: 14px;
-        }
-        
-        .el-radio-group {
-          display: flex;
-          flex-wrap: wrap;
-          align-items: center;
-          margin-left: 10px;
-
-          .el-radio-button {
-            margin: 3px 0;
-          }
-
-          .el-radio-button__inner {
-            border: none;
-            -webkit-border-radius: 4px;
-            -moz-border-radius: 4px;      
-            border-radius: 4px;
-          }
-          .is-active {
-            .el-radio-button__inner {
-              background: $black;
-              box-shadow: none;
-            }
-          }
-        }
-
-        .el-input {
-          width: 260px;
-          margin-right: 10px;
+      .is-active {
+        .el-radio-button__inner {
+          background: $black;
+          box-shadow: none;
         }
       }
     }
+
+    .el-input {
+      width: 260px;
+      margin-right: 10px;
+    }
+  }
+}
 </style>
