@@ -1,27 +1,65 @@
+import Vue from 'vue'
+import Vuex from 'vuex'
+import ElementUI from 'element-ui'
+import { mount, createLocalVue } from 'vue-test-utils'
+
 import Login from '@/pages/login'
 import { destroyVm } from '../../utils/utils'
 
+Vue.use(ElementUI)
+
+// 独立 Vue 构造函数
+const localVue = createLocalVue()
+
+localVue.use(Vuex)
+
 describe('login.vue', () => {
-  let vm
+  let wrapper
+  let actions
+  let state
+  let store
+
   afterEach(() => {
-    // destroyVm(vm)
+    destroyVm(wrapper.vm)
   })
 
-  it('has a mounted hook', () => {
-    const options = Login.extendOptions
-    expect(typeof options.mounted).toBe('function')
+  beforeEach(() => {
+    state = {
+      loading: true
+    }
+    actions = {
+      login: jest.fn()
+    }
+    store = new Vuex.Store({
+      state,
+      actions
+    })
   })
 
-  it('has methods function', () => {
-    vm = new Login()
-    expect(typeof vm.$options.methods).toBe('object')
-    expect(typeof vm.submit).toBe('function')
-    expect(typeof vm.buildBackground).toBe('function')
+  it('Renders state.loading', () => {
+    wrapper = mount(Login, { store, localVue })
+    const btn = wrapper.find('.el-button')
+    expect(btn.classes()).not.toContain('is-disabled')
   })
 
-  it('sets the correct default data', () => {
-    vm = new Login()
-    expect(vm.form.password).toBe('')
-    expect(vm.form.username).toBe('')
+  it('Username and password should in page', async () => {
+    wrapper = mount(Login, {
+      store,
+      localVue
+    })
+    const input = wrapper.findAll('.el-input')
+    expect(input.length).toBe(2)
+    wrapper.setData({
+      form: {
+        username: 'test username',
+        password: 'test password'
+      }
+    })
+    expect(wrapper.vm.form.username).toBe('test username')
+    expect(wrapper.vm.form.password).toBe('test password')
+  })
+
+  it('has the expected html structure', () => {
+    expect(wrapper.element).toMatchSnapshot()
   })
 })
