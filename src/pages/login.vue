@@ -69,7 +69,7 @@ export default class login extends Vue {
     })
   }
 
-  private buildBackground (): void {
+  public buildBackground (): void {
     particlesJS ('particles-background', {
       'particles': {
         'number': {
@@ -176,7 +176,9 @@ export default class login extends Vue {
   }
 
   mounted () {
-    this.buildBackground()
+    setTimeout(() => {
+      this.buildBackground()
+    }, 0)
   }
 }
 </script>
