@@ -158,7 +158,7 @@ export default class Heros extends Vue {
         { name: '审核通过', id: 1 },
         { name: '审核不通过', id: 2 }
       ],
-      default: '全部'
+      default: ''
     }
   ]
   private state: StoreState.State

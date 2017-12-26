@@ -2,15 +2,20 @@
      <el-card class="box-card" v-loading="carLoading">
       <div v-for="(items, index) in type" class="item" :key="index">
         <span class="text" :style="{'width': width}">{{ items.name }}：</span>
-        <el-radio-group v-model="items.default" size="small" @change="toggle($event, items.list, items.typeName)">
-        <transition-group name="list" tag="div">
-          <el-radio-button
-            v-for="child in items.list"
-            class="btn"
-            :key="child.id"
-            :label="child.name">
-          </el-radio-button>
-        </transition-group>
+        <el-radio-group
+          v-model="items.default" 
+          size="small"
+          @change.native="toggle(items.default, items.typeName)">
+          <transition-group name="list" tag="div">
+            <el-radio-button
+              v-for="child in items.list"
+              class="btn"
+              :key="child.id"
+              :label="child.id"
+              ref="radio">
+              {{ child.name }}
+            </el-radio-button>
+          </transition-group>
         </el-radio-group>
       </div>
       <slot></slot>
@@ -32,14 +37,8 @@ export default class Card extends Vue {
   @Prop({ default: () => [] })
   type: Array<any>
 
-  public toggle (e: string, list: Array<any>, typeName: string): void {
-    let id: any
-    list.forEach(item => {
-      if (item.name === e) {
-        id = item.id
-      }
-    })
-    this.$emit('toggle', { typeName, id })
+  public toggle (e: any, typeName: string): void {
+    this.$emit('toggle', { typeName, id: e })
   }
 }
 </script>
@@ -86,7 +85,7 @@ export default class Card extends Vue {
       .el-radio-button__inner {
         border: none;
         -webkit-border-radius: 4px;
-        -moz-border-radius: 4px;      
+        -moz-border-radius: 4px;
         border-radius: 4px;
       }
       .is-active {

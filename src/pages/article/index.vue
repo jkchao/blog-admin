@@ -177,7 +177,7 @@ export default class Article extends Vue {
         { name: 'Vue', id: 2 },
         { name: 'Http', id: 3 }
       ],
-      default: '全部'
+      default: ''
     },
     {
       name: '分类',
@@ -188,7 +188,7 @@ export default class Article extends Vue {
         { name: 'Think', id: 2 },
         { name: 'Music', id: 3 }
       ],
-      default: '全部'
+      default: ''
     },
     {
       name: '公开',
@@ -198,7 +198,7 @@ export default class Article extends Vue {
         { name: '公开', id: 1 },
         { name: '私密', id: 2 }
       ],
-      default: '全部'
+      default: ''
     },
     {
       name: '状态',
@@ -208,7 +208,7 @@ export default class Article extends Vue {
         { name: '已发布', id: 1 },
         { name: '草稿', id: 2 }
       ],
-      default: '全部'
+      default: ''
     }
   ]
   private para: Para = {
