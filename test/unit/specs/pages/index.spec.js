@@ -4,7 +4,6 @@ import ElementUI from 'element-ui'
 import { mount, createLocalVue } from 'vue-test-utils'
 
 import Index from '@/pages/index'
-import { destroyVm } from '../../utils/utils'
 
 // 独立 Vue 构造函数
 const localVue = createLocalVue()
@@ -39,7 +38,7 @@ describe('index.vue', () => {
   let store
 
   afterEach(() => {
-    destroyVm(wrapper.vm)
+    wrapper.destroy()
   })
 
   beforeEach(() => {

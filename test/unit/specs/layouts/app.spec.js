@@ -1,7 +1,6 @@
 import { shallow, createLocalVue } from 'vue-test-utils'
 import Vuex from 'vuex'
 
-import { destroyVm } from '../../utils/utils'
 import App from '@/layout/App'
 
 // 独立 Vue 构造函数
@@ -26,7 +25,7 @@ describe('App.vue', () => {
   })
 
   afterEach(() => {
-    destroyVm(wrapper.vm)
+    wrapper.destroy()
   })
 
   it('Call store action "initAuth" ', () => {

@@ -2,7 +2,6 @@ import Vue from 'vue'
 import ElementUI from 'element-ui'
 import { mount } from 'vue-test-utils'
 
-import { destroyVm } from '../../utils/utils'
 import Card from '@/components/card.vue'
 
 Vue.use(ElementUI)
@@ -11,7 +10,7 @@ describe('App.vue', () => {
   let wrapper
 
   afterEach(() => {
-    destroyVm(wrapper.vm)
+    wrapper.destroy()
   })
 
   it('Has methods', () => {

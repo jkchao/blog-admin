@@ -4,7 +4,6 @@ import ElementUI from 'element-ui'
 import { mount, createLocalVue } from 'vue-test-utils'
 
 import Login from '@/pages/login'
-import { destroyVm } from '../../utils/utils'
 
 Vue.use(ElementUI)
 
@@ -20,7 +19,7 @@ describe('login.vue', () => {
   let store
 
   afterEach(() => {
-    destroyVm(wrapper.vm)
+    wrapper.destroy()
   })
 
   beforeEach(() => {
@@ -99,7 +98,7 @@ describe('login.vue', () => {
     expect(stub).toBeCalled()
   })
 
-  it('Validate form submit', async () => {
+  it('"actions.login" should beCalled when submit', async () => {
     // 声明一个 $router 对象
     const $router = {
       push: jest.fn()
@@ -130,6 +129,7 @@ describe('login.vue', () => {
     })
     wrapper.update()
     wrapper.vm.submit()
+    // 第一次验证登录失败情景
     expect(actions.login).toHaveBeenCalled()
 
     wrapper.setData({
@@ -140,6 +140,7 @@ describe('login.vue', () => {
     })
     wrapper.update()
     wrapper.vm.submit()
+    // 第二次验证登录成功
     expect(actions.login).toHaveBeenCalled()
   })
 
