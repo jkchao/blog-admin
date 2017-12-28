@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`App.vue has the expected html structure 1`] = `
+exports[`App.vue Has the expected html structure 1`] = `
 <div
   class="el-card box-card"
 >

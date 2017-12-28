@@ -70,7 +70,7 @@ describe('App.vue', () => {
     expect(wrapper.emitted().toggle).toBeTruthy()
   })
 
-  it('has the expected html structure', () => {
+  it('Has the expected html structure', () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 })

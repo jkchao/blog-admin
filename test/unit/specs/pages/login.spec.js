@@ -33,6 +33,16 @@ describe('login.vue', () => {
         message: '登录成功',
         result: ''
       }))
+      .mockImplementationOnce(() => Promise.resolve({
+        code: 0,
+        message: '登录失败',
+        result: ''
+      }))
+      .mockImplementationOnce(() => Promise.resolve({
+        code: 1,
+        message: '登录成功',
+        result: ''
+      }))
     }
     store = new Vuex.Store({
       state,
@@ -63,19 +73,33 @@ describe('login.vue', () => {
     expect(wrapper.vm.form.password).toBe('test password')
   })
 
-  it('submit function should beCalled', async () => {
+  it('BuildBackground function should beCalled', done => {
     wrapper = mount(Login, {
       store,
       localVue
     })
-    // 伪造一个jest的mock funciton
+    // 伪造一个jest的 mock funciton
+    const stub = jest.fn()
+    wrapper.setMethods({ buildBackground: stub })
+    setTimeout(() => {
+      expect(stub).toBeCalled()
+      done()
+    }, 300)
+  })
+
+  it('Submit function should beCalled', async () => {
+    wrapper = mount(Login, {
+      store,
+      localVue
+    })
+    // 伪造一个jest的 mock funciton
     const stub = jest.fn()
     wrapper.setMethods({ submit: stub })
     wrapper.find('.el-button').trigger('click')
     expect(stub).toBeCalled()
   })
 
-  it('validate form submit', async () => {
+  it('Validate form submit', async () => {
     // 声明一个 $router 对象
     const $router = {
       push: jest.fn()
@@ -107,23 +131,19 @@ describe('login.vue', () => {
     wrapper.update()
     wrapper.vm.submit()
     expect(actions.login).toHaveBeenCalled()
-  })
 
-  it('buildBackground function should beCalled', done => {
-    wrapper = mount(Login, {
-      store,
-      localVue
+    wrapper.setData({
+      form: {
+        username: 'jkchao',
+        password: 'hahaheiehi'
+      }
     })
-    // 伪造一个jest的mock funciton
-    const stub = jest.fn()
-    wrapper.setMethods({ buildBackground: stub })
-    setTimeout(() => {
-      expect(stub).toBeCalled()
-      done()
-    }, 300)
+    wrapper.update()
+    wrapper.vm.submit()
+    expect(actions.login).toHaveBeenCalled()
   })
 
-  it('has the expected html structure', () => {
-    // expect(wrapper.element).toMatchSnapshot()
+  it('Has the expected html structure', () => {
+    expect(wrapper.element).toMatchSnapshot()
   })
 })

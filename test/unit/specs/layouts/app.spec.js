@@ -34,7 +34,7 @@ describe('App.vue', () => {
     expect(actions.initAuth).toHaveBeenCalled()
   })
 
-  it('has the expected html structure', () => {
+  it('Has the expected html structure', () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 })
