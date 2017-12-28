@@ -3,7 +3,7 @@
       <div v-for="(items, index) in type" class="item" :key="index">
         <span class="text" :style="{'width': width}">{{ items.name }}：</span>
         <el-radio-group
-          v-model="items.default" 
+          v-model="items.default"
           size="small"
           @change.native="toggle(items.default, items.typeName)">
           <transition-group name="list" tag="div">
@@ -37,7 +37,7 @@ export default class Card extends Vue {
   @Prop({ default: () => [] })
   type: Array<any>
 
-  public toggle (e: any, typeName: string): void {
+  public toggle (e: string | number, typeName: string): void {
     this.$emit('toggle', { typeName, id: e })
   }
 }
