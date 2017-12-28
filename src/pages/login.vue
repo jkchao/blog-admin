@@ -4,7 +4,7 @@
     <div class="content">
       <div class="title">管理登录</div>
       <el-form :model="form" ref="form">
-        <el-form-item 
+        <el-form-item
           prop="username"
           :rules="[
             { required: true, message: '用户名', trigger: 'blur' },
@@ -12,7 +12,7 @@
           ]">
           <el-input placeholder="账号" v-model="form.username" :maxlength="40"></el-input>
         </el-form-item>
-        <el-form-item 
+        <el-form-item
           prop="password"
           :rules="[
             { required: true, message: '密码', trigger: 'blur' },
@@ -60,8 +60,7 @@ export default class login extends Vue {
       if (valid) {
         const data: Ajax.AjaxResponse = await this.$store.dispatch('login', { ...this.form })
         if (data.code !== 1) return false
-        if (!this.$route.query.redirect) this.$router.push('/home')
-        else this.$router.push(this.$route.query.redirect)
+        this.$router.push(this.$route.query.redirect || '/home')
         return true
       } else {
         return false

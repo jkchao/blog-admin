@@ -97,7 +97,6 @@ export default class Index extends Vue {
     this.currentPathNameParent = val.matched[0].name || ''
   }
 
-
   private created (): void {
     this.defaultPath = this.$route.path
     this.currentPathName = this.$route.name || ''
