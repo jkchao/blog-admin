@@ -24,7 +24,7 @@ describe('login.vue', () => {
 
   beforeEach(() => {
     state = {
-      loading: true
+      loading: false
     }
     actions = {
       login: jest.fn(() => Promise.resolve({
@@ -52,7 +52,15 @@ describe('login.vue', () => {
   it('Renders state.loading', () => {
     wrapper = mount(Login, { store, localVue })
     const btn = wrapper.find('.el-button')
+
+    // btn class 没有 is-disabled
     expect(btn.classes()).not.toContain('is-disabled')
+
+    wrapper.setComputed({
+      logining: true
+    })
+    wrapper.update()
+    expect(btn.classes()).toContain('is-disabled')
   })
 
   it('Username and password should in page', async () => {
@@ -94,7 +102,14 @@ describe('login.vue', () => {
     // 伪造一个jest的 mock funciton
     const stub = jest.fn()
     wrapper.setMethods({ submit: stub })
+
+    // button 点击触发事件
     wrapper.find('.el-button').trigger('click')
+    expect(stub).toBeCalled()
+
+    // input 回车事件触发提交事件
+    const input = wrapper.findAll('.el-input')
+    input.at(1).trigger('keyup', { which: 13 })
     expect(stub).toBeCalled()
   })
 
