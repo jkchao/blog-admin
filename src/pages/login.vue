@@ -26,7 +26,9 @@
             @keyup.enter.native="submit('form')"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button @click.native="submit('form')" :disabled="logining">{{ logining ? 'login...' : 'Submit'}}</el-button>
+          <el-button
+            @click.native="submit('form')" 
+            :disabled="logining">{{ logining ? 'login...' : 'Submit'}}</el-button>
         </el-form-item>
       </el-form>
     </div>
