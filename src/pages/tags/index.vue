@@ -69,7 +69,7 @@
       </div>
     </div>
 
-    <el-dialog 
+    <el-dialog
       :title="title"
       :visible.sync="dialogV"
       size="tiny"
@@ -86,7 +86,7 @@
         <el-form-item
           label="描述" 
           class="descript">
-          <el-input 
+          <el-input
             type="textarea" 
             v-model="form.descript" 
             :maxlength="100"
@@ -134,7 +134,7 @@ export default class Tags extends Vue {
   private get tagData (): StoreState.Tag[] {
     return this.$store.state.tag.list
   }
-  private get list () :Array<string>{
+  private get list (): Array<string>{
     return this.tagData.map((item: StoreState.Tag) => item._id) as Array<string>
   }
 
