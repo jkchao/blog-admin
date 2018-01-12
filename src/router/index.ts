@@ -20,6 +20,9 @@ const heros: AsyncComponent = (): any => import(/* webpackChunkName: "heros" */ 
 
 const set: AsyncComponent = (): any => import(/* webpackChunkName: "set" */ '@/pages/set/index.vue')
 
+const book: AsyncComponent = (): any => import(/* webpackChunkName: "book" */ '@/pages/book/index.vue')
+
+
 Vue.use(Router)
 
 const routes: RouteConfig[] = [
@@ -68,6 +71,15 @@ const routes: RouteConfig[] = [
     meta: { leaf: true, icon: 'icon-hero' },
     children: [
       { path: '/heros', component: heros, name: '留言墙', meta: { requiresAuth: true } }
+    ]
+  },
+  {
+    path: '/',
+    name: '留言墙',
+    component: index,
+    meta: { leaf: true, icon: 'icon-sell' },
+    children: [
+      { path: '/book', component: book, name: '卖书', meta: { requiresAuth: true } }
     ]
   },
   {

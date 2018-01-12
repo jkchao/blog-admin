@@ -5,83 +5,83 @@ declare namespace StoreState {
   // 公用
   interface Common {
     /** 唯一标识 */
-    readonly _id?: string;
+    readonly _id?: string,
 
     /** 发布日期 */
-    readonly create_at?: Date;
+    readonly create_at?: Date,
 
     /** 修改日期 */
-    readonly update_at?: Date;
+    readonly update_at?: Date,
 
     /** 删除中... */
-    deleteing?: boolean;
+    deleteing?: boolean
   }
 
   // 评论产生
   interface Author {
-    name: string;
-    email: string;
-    site?: string;
+    name: string,
+    email: string,
+    site?: string
   }
 
   // 登录
   export interface Login {
     /** 用户名 */
-    username: string;
+    username: string,
 
     /** 密码 */
-    password: string;
+    password: string
   }
 
   // 用户数据
   export interface User {
     /** 唯一标识 */
-    readonly _id: string;
+    readonly _id: string,
 
     /** 名称 */
-    name: string;
+    name: string,
 
     /** 用户名 */
-    username: string;
+    username: string,
 
     /** 密码 */
-    password?: string;
+    password?: string,
 
     /** 老密码 */
-    oldPassword: string;
+    oldPassword: string,
 
     /** 新密码 */
-    newPassword: string;
+    newPassword: string,
 
     /** 用户签名 */
-    slogan: string;
+    slogan: string,
 
     /** 头像 */
-    gravatar: string;
+    gravatar: string
   }
 
   // 网站信息
   export interface Option {
     /** 唯一标识 */
-    readonly _id: string;
+    readonly _id: string,
 
     /** 网站标题 */
-    title: string;
+    title: string,
 
     /** 副标题 */
-    sub_title: string;
+    sub_title: string,
 
     /** 关键字 */
-    keyword: string;
+    keyword: string,
 
     /** 描述 */
-    descript: string;
+    descript: string,
 
     /** 地址 */
-    url: string;
+    url: string,
 
     /** email */
-    email: string;
+    email: string,
 
     /** 备案号 */
     icp: string
@@ -90,13 +90,13 @@ declare namespace StoreState {
   // 标签
   export interface Tag extends Common {
     /** 名称 */
-    name: string;
+    name: string,
 
     /** 描述 */
-    descript: string;
+    descript: string,
 
     /** 排序 */
-    sort?: number;
+    sort?: number,
 
     /** 文章数量 */
     count?: number
@@ -105,51 +105,51 @@ declare namespace StoreState {
   // 英雄版（留言墙）
   export interface Hero extends Common {
     /** 名称 */
-    name: string;
+    name: string,
 
     /** 内容 */
-    content: string;
+    content: string,
 
     /** 状态 */
-    state: State;
+    state: State,
 
     /** ip */
-    ip: string;
+    ip: string,
 
     /** 用户位置 */
-    city: String;
-    range: String;
-    country: String;
+    city: String,
+    range: String,
+    country: String
   }
 
   // 评论
   export interface Comment extends Common {
 
     /** 评论文章所在 id */
-    post_id: string;
+    post_id: string,
 
     /** 父级 id */
-    pid: string;
+    pid: string,
 
     /** 内容 */
-    content: string;
+    content: string,
 
     /** 被赞数 */
-    likes: number;
+    likes: number,
 
     /** ip */
-    ip: string;
+    ip: string,
 
     /** 用户位置 */
-    city: String;
-    range: String;
-    country: String;
+    city: String,
+    range: String,
+    country: String,
 
     /** 用户 UA */
-    agent: string;
+    agent: string,
 
     /** 评论产生 */
-    author: Author;
+    author: Author,
 
     /** 评论状态 */
     state: State
@@ -159,30 +159,42 @@ declare namespace StoreState {
   export interface Article extends Common {
 
     /** 标题 */
-    title: string;
+    title: string,
 
     /** 关键字 */
-    keyword: string;
+    keyword: string,
 
     /** 描述 */
-    descript: string;
+    descript: string,
 
     /** 内容 */
-    content?: string;
+    content?: string,
 
     /** 状态 */
-    state: State;
+    state: State,
 
     /** 公开状态 */
-    publish: State;
+    publish: State,
 
     /** 类别 */
-    type: State;
+    type: State,
 
     /** 缩略图 */
-    thumb: string;
+    thumb: string,
 
     /** 其他 */
-    [propName: string]: any;
+    [propName: string]: any
+  }
+
+  // 书本
+  export interface Book extends Common {
+    /** 名称 */
+    name: string,
+
+    /** 描述 */
+    descript: string,
+
+    /** 缩略图 */
+    thumb: string
   }
 }

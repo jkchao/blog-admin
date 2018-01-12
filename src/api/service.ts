@@ -206,3 +206,48 @@ export function patchComment (
             .then((res: Ajax.AxiosResponse) => res.data)
             .catch((e: string) => console.error(e))
 }
+
+// 书本列表
+export function getBooks (
+  params: Params
+): Promise<Ajax.AjaxResponse> {
+  return ax.get('/book', { params })
+            .then((res: Ajax.AxiosResponse) => res.data)
+            .catch((e: string) => console.error(e))
+}
+
+// 增加书本
+export function postBook (
+  params: StoreState.Tag
+): Promise<Ajax.AjaxResponse> {
+  return ax.post('/book', { ...params })
+            .then((res: Ajax.AxiosResponse) => res.data)
+            .catch((e: string) => console.error(e))
+}
+
+// 书本修改状态
+export function patchBook (
+  params: { _id: string, state: StoreState.State }
+): Promise<Ajax.AjaxResponse> {
+  return ax.patch(`/book`, { ...params })
+            .then((res: Ajax.AxiosResponse) => res.data)
+            .catch((e: string) => console.error(e))
+}
+
+// 修改书本
+export function putBook (
+  params: StoreState.Tag
+): Promise<Ajax.AjaxResponse> {
+  return ax.put(`/book/${params._id}`, { ...params })
+            .then((res: Ajax.AxiosResponse) => res.data)
+            .catch((e: string) => console.error(e))
+}
+
+// 删除书本
+export function deleteBook (
+  params: { _id: string }
+): Promise<Ajax.AjaxResponse> {
+  return ax.delete(`/book/${params._id}`)
+            .then((res: Ajax.AxiosResponse) => res.data)
+            .catch((e: string) => console.error(e))
+}
