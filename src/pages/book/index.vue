@@ -36,7 +36,7 @@
         <el-table-column
           prop="id"
           label="编号"
-          width="40"
+          width="80"
           label-class-name="head">
         </el-table-column>
         <el-table-column
@@ -56,12 +56,6 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="thumb"
-          label="缩略图"
-          width="80"
-          label-class-name="head">
-        </el-table-column>
-        <el-table-column
           prop="state"
           label="状态"
           width="80"
@@ -72,25 +66,31 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="240"
+          width="280"
           label-class-name="head">
           <template slot-scope="scope">
-            <el-button type="info" size="small" @click="editBook(scope.row)">修改</el-button>
-            <el-button
-              type="info" 
-              size="small" 
-              @click="changeState(scope.row, 1)"
-              v-if="scope.row.state === 2">待售</el-button>
-            <el-button
-              type="info"
-              size="small"
-              v-else
-              @click="changeState(scope.row, 2)">已售</el-button>
-            <el-button
-              type="danger"
-              size="small"
-              @click="deleteBook(scope.row)"
-              :disabled="scope.row.deleteing">{{ scope.row.deleteing ? '删除中' : '删 除' }}</el-button>
+
+            <transition-group name="btn" tag="div">
+              <el-button type="info" size="small" @click="editBook(scope.row)" key="1">修改</el-button>
+              <el-button
+                type="info" 
+                size="small"
+                @click="changeState(scope.row, 1)"
+                v-if="scope.row.state === 2"
+                key="2">标记待售</el-button>
+              <el-button
+                type="info"
+                size="small"
+                v-else
+                @click="changeState(scope.row, 2)"
+                key="3">标记已售</el-button>
+              <el-button
+                type="danger"
+                size="small"
+                @click="deleteBook(scope.row)"
+                :disabled="scope.row.deleteing"
+                key="4">{{ scope.row.deleteing ? '删除中' : '删 除' }}</el-button>
+            </transition-group>
           </template>
         </el-table-column>
       </el-table>
@@ -111,7 +111,11 @@
       :visible.sync="dialogV"
       size="tiny"
       width="460px">
-      <el-form :model="form" ref="form" v-if="dialogV">
+      <el-form
+        :model="form"
+        ref="form"
+        v-if="dialogV" 
+        label-width="60px">
         <el-form-item
           label="名称"
           prop="name"
@@ -122,14 +126,18 @@
         </el-form-item>
 
         <el-form-item
-          label="缩略图"
-          prop="thumb">
-
+          label="描述" 
+          class="descript">
+          <el-input
+            type="textarea" 
+            v-model="form.descript" 
+            :maxlength="100"
+            :rows="3"
+            placeholder="descript"></el-input>  
         </el-form-item>
 
         <el-form-item
           label="缩略图"
-          label-width="90px"
           class="img-item"
           prop="thumb"
           :rules="[
@@ -166,7 +174,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 
 import { error } from '../../utils/response'
-
+import Card from '../../components/card.vue'
 interface Item {
   name: string,
   id: number | string
@@ -184,7 +192,9 @@ interface List {
   default: string
 }
 
-@Component
+@Component({
+  components: { Card }
+})
 export default class Books extends Vue {
   private width: string = '48px'
   private qn: Qn = {
@@ -205,7 +215,7 @@ export default class Books extends Vue {
       typeName: 'state',
       list: [
         { name: '全部', id: '' },
-        { name: '未售', id: 1 },
+        { name: '待售', id: 1 },
         { name: '已售', id: 2 }
       ],
       default: ''
@@ -235,10 +245,15 @@ export default class Books extends Vue {
   }
 
   // 改变状态
-  private changeState (
+  private async changeState (
     row: StoreState.Book,
-    state: StoreState.State
-  ): void {}
+    code: StoreState.State
+  ): Promise<void> {
+    await this.$store.dispatch('book/patchBook', {
+      _id: row._id,
+      state: code
+    })
+  }
 
   // 上传成功
   private handleSuccess (): void {
@@ -339,7 +354,8 @@ export default class Books extends Vue {
     const res: Ajax.AjaxResponse = await this.$store.dispatch('book/getBooks', {
       current_page: this.currentPage,
       page_size: 16,
-      keyword: this.keyword
+      keyword: this.keyword,
+      state: this.state
     })
   }
 
@@ -364,16 +380,13 @@ export default class Books extends Vue {
 
 .book {
 
+  >.el-card {
+    margin-bottom: $normal-pad;
+  }
+
   >.btn {
-    display: flex;
-    justify-content: space-between;
-    padding: 1rem 1rem 0;
+    padding: $normal-pad $normal-pad 0;
     background: $white;
-
-    >.search {
-      display: flex;
-
-    }
   }
 }
 </style>

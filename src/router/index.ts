@@ -75,11 +75,11 @@ const routes: RouteConfig[] = [
   },
   {
     path: '/',
-    name: '留言墙',
+    name: '书',
     component: index,
     meta: { leaf: true, icon: 'icon-sell' },
     children: [
-      { path: '/book', component: book, name: '卖书', meta: { requiresAuth: true } }
+      { path: '/book', component: book, name: '书', meta: { requiresAuth: true } }
     ]
   },
   {

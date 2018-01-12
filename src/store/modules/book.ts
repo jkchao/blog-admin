@@ -52,11 +52,11 @@ const actions: ActionTree<State, any> = {
     { commit },
     book: StoreState.Book
   ): Promise<Ajax.AjaxResponse> {
-    commit('POST_TAG')
+    commit('POST_BOOK')
     const res: Ajax.AjaxResponse = await service.postBook(book)
     if (res && res.code === 1) success('添加数据成功')
     else error(res.message)
-    commit('POST_TAG_FINAL')
+    commit('POST_BOOK_FINAL')
     return res
   },
 
@@ -65,13 +65,13 @@ const actions: ActionTree<State, any> = {
     { commit },
     book: StoreState.Book
   ): Promise<Ajax.AjaxResponse> {
-    commit('POST_TAG')
+    commit('POST_BOOK')
     const res: Ajax.AjaxResponse = await service.putBook(book)
     if (res && res.code === 1) {
       success('修改数据成功')
-      commit('POST_TAG_SUCCESS', book)
+      commit('POST_BOOK_SUCCESS', book)
     } else error(res.message)
-    commit('POST_TAG_FINAL')
+    commit('POST_BOOK_FINAL')
     return res
   },
 
@@ -83,6 +83,7 @@ const actions: ActionTree<State, any> = {
     const res: Ajax.AjaxResponse = await service.patchBook(book)
     if (res && res.code === 1) {
       success('数据状态成功')
+      commit('PATCH_BOOK_SUCCESS', book)
     } else error(res.message)
   },
 
@@ -91,11 +92,11 @@ const actions: ActionTree<State, any> = {
     { commit },
     book: { _id: string }
   ): Promise<Ajax.AjaxResponse> {
-    commit('DELETE_TAG', book)
+    commit('DELETE_BOOK', book)
     const res: Ajax.AjaxResponse = await service.deleteBook(book)
     if (res && res.code === 1) success('删除成功')
     else error(res.message)
-    commit('DELETE_TAG_FINAL', book)
+    commit('DELETE_BOOK_FINAL', book)
     return res
   }
 }
@@ -120,15 +121,15 @@ const mutations: MutationTree<State> = {
     state.total = 0
   },
 
-  'POST_TAG' (state: State): void {
+  'POST_BOOK' (state: State): void {
     state.posting = true
   },
 
-  'POST_TAG_FINAL' (state: State): void {
+  'POST_BOOK_FINAL' (state: State): void {
     state.posting = false
   },
 
-  'POST_TAG_SUCCESS' (state: State, book: StoreState.Book): void {
+  'POST_BOOK_SUCCESS' (state: State, book: StoreState.Book): void {
     let item: StoreState.Book = <StoreState.Book>(state.list.find((item: StoreState.Book) => item._id === book._id))
     if (item) {
       item.name = book.name
@@ -137,11 +138,18 @@ const mutations: MutationTree<State> = {
     }
   },
 
-  'DELETE_TAG' (state: State, book: { _id: string }): void {
+  'PATCH_BOOK_SUCCESS' (
+    state: State,
+    book: { _id: string, state: StoreState.State }
+  ): void {
+    (<StoreState.Book>state.list.find((item: StoreState.Book) => item._id === book._id)).state = book.state
+  },
+
+  'DELETE_BOOK' (state: State, book: { _id: string }): void {
     (<StoreState.Book>state.list.find((item: StoreState.Book) => item._id === book._id)).deleteing = true
   },
 
-  'DELETE_TAG_FINAL' (state: State, book: { _id: string }): void {
+  'DELETE_BOOK_FINAL' (state: State, book: { _id: string }): void {
     (<StoreState.Book>state.list.find((item: StoreState.Book) => item._id === book._id)).deleteing = false
   }
 }

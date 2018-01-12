@@ -229,7 +229,7 @@ export function postBook (
 export function patchBook (
   params: { _id: string, state: StoreState.State }
 ): Promise<Ajax.AjaxResponse> {
-  return ax.patch(`/book`, { ...params })
+  return ax.patch(`/book/${params._id}`, { ...params })
             .then((res: Ajax.AxiosResponse) => res.data)
             .catch((e: string) => console.error(e))
 }

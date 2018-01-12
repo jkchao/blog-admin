@@ -6,6 +6,7 @@ import tag from './modules/tag'
 import hero from './modules/hero'
 import comment from './modules/comment'
 import article from './modules/article'
+import book from './modules/book'
 
 import { success, error } from '../utils/response'
 import service from '../api'
@@ -37,7 +38,7 @@ const state: State = {
   },
   user: {
     _id: '',
-    name: '',    
+    name: '',
     username: '',
     oldPassword: '',
     newPassword: '',
@@ -156,6 +157,7 @@ export default new Vuex.Store({
     tag,
     hero,
     comment,
-    article
+    article,
+    book
   }
 })

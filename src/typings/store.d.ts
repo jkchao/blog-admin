@@ -195,6 +195,9 @@ declare namespace StoreState {
     descript: string,
 
     /** 缩略图 */
-    thumb: string
+    thumb: string,
+
+    /** 状态 */
+    state?: State
   }
 }
