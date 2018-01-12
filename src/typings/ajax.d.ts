@@ -2,7 +2,7 @@ declare namespace Ajax {
 
   // axios 返回数据
   export interface AxiosResponse {
-    data: AjaxResponse;
+    data: AjaxResponse
   }
 
   // 请求接口数据
@@ -11,13 +11,13 @@ declare namespace Ajax {
      * 状态码
      * @type { number }
      */
-    code: number;
+    code: number,
 
     /**
      * 数据
      * @type { any }
      */
-    result: any;
+    result: any,
 
     /**
      * 消息

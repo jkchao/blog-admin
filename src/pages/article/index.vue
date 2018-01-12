@@ -143,22 +143,22 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 import Card from '../../components/card.vue'
 
 interface Item {
-  name: string;
+  name: string,
   id: number | string
 }
 
 interface List {
-  name: string;
-  typeName: string;
-  list: Item[];
+  name: string,
+  typeName: string,
+  list: Item[],
   default: string
 }
 
 interface Para {
-  tag: string;
-  type: StoreState.State;
-  publish: StoreState.State;
-  state: StoreState.State;
+  tag: string,
+  type: StoreState.State,
+  publish: StoreState.State,
+  state: StoreState.State,
   [index: string]: any
 }
 
@@ -265,10 +265,10 @@ export default class Article extends Vue {
     state: StoreState.State
   ): Promise<void> {
     let querys: {
-      _id: string;
-      state?: StoreState.State;
-      publish?: StoreState.State;
-      [index: string]: any;
+      _id: string,
+      state?: StoreState.State,
+      publish?: StoreState.State,
+      [index: string]: any
     } = {
       _id: ''
     }

@@ -132,14 +132,14 @@ import { UAParse, OSParse } from '../../utils/ua-parse'
 import Card from '../../components/card.vue'
 
 interface Item {
-  name: string;
+  name: string,
   id: number | string
 }
 
 interface List {
-  name: string;
-  typeName: string;
-  list: Item[];
+  name: string,
+  typeName: string,
+  list: Item[],
   default: string
 }
 

@@ -161,17 +161,17 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 import { error } from '../../utils/response'
 
 interface Qn {
-  key: string;
-  token: string;
+  key: string,
+  token: string
 }
 
 interface UserForm extends StoreState.User {
-  checkPass: string;
+  checkPass: string
 }
 
 interface PasswordRule {
-  newPassword: Array<Object>;
-  checkPass: Array<Object>;
+  newPassword: Array<Object>,
+  checkPass: Array<Object>
 }
 
 @Component
