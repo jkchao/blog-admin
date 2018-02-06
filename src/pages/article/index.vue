@@ -45,6 +45,12 @@
           </template>
         </el-table-column>
         <el-table-column
+          prop="id"
+          label="文章id"
+          label-class-name="head"
+          :width="100">
+        </el-table-column>
+        <el-table-column
           prop="title"
           label="文章标题"
           :width="280"
