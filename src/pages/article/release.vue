@@ -146,6 +146,7 @@ interface Form extends StoreState.Article {
 export default class Release extends Vue {
   private configs: any = {
     status: false,
+    indentWithTabs: false,
     spellChecker: false
   }
   private form: Form = {
