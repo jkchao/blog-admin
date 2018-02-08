@@ -124,7 +124,8 @@
                 size="small" 
                 key="6" 
                 v-if="scope.row.state === 2" 
-                :disabled="scope.row.deleteing">{{ scope.row.deleteing ? '删除中' : '删 除' }}</el-button>
+                :disabled="scope.row.deleteing"
+                @click="dele(scope.row)">{{ scope.row.deleteing ? '删除中' : '删 除' }}</el-button>
             </transition-group>
           </template>
         </el-table-column>
