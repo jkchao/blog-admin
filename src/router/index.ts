@@ -7,20 +7,22 @@ const login: AsyncComponent = (): any => import(/* webpackChunkName: "login" */ 
 
 const index: AsyncComponent = (): any => import(/* webpackChunkName: "index" */ '@/pages/index.vue')
 
-const home: AsyncComponent = (): any => import(/* webpackChunkName: "home" */ '@/pages/home/index.vue')
+const home: AsyncComponent = (): any => import(/* webpackChunkName: "home" */ '@/pages/Home/index.vue')
 
-const article: AsyncComponent = (): any => import(/* webpackChunkName: "article" */ '@/pages/article/index.vue')
-const release: AsyncComponent = (): any => import(/* webpackChunkName: "article" */ '@/pages/article/release.vue')
+const article: AsyncComponent = (): any => import(/* webpackChunkName: "article" */ '@/pages/Article/index.vue')
+const release: AsyncComponent = (): any => import(/* webpackChunkName: "article" */ '@/pages/Article/release.vue')
 
-const tag: AsyncComponent = (): any => import(/* webpackChunkName: "tag" */ '@/pages/tags/index.vue')
+const tag: AsyncComponent = (): any => import(/* webpackChunkName: "tag" */ '@/pages/Tags/index.vue')
 
-const comments: AsyncComponent = (): any => import(/* webpackChunkName: "comments" */ '@/pages/comments/index.vue')
+const comments: AsyncComponent = (): any => import(/* webpackChunkName: "comments" */ '@/pages/Comments/index.vue')
 
-const heros: AsyncComponent = (): any => import(/* webpackChunkName: "heros" */ '@/pages/heros/index.vue')
+const heros: AsyncComponent = (): any => import(/* webpackChunkName: "heros" */ '@/pages/Heros/index.vue')
 
-const set: AsyncComponent = (): any => import(/* webpackChunkName: "set" */ '@/pages/set/index.vue')
+const set: AsyncComponent = (): any => import(/* webpackChunkName: "set" */ '@/pages/Set/index.vue')
 
-const book: AsyncComponent = (): any => import(/* webpackChunkName: "book" */ '@/pages/book/index.vue')
+const book: AsyncComponent = (): any => import(/* webpackChunkName: "book" */ '@/pages/Book/index.vue')
+
+const link: AsyncComponent = (): any => import(/* webpackChunkName: "book" */ '@/pages/Links/index.vue')
 
 
 Vue.use(Router)
@@ -80,6 +82,15 @@ const routes: RouteConfig[] = [
     meta: { leaf: true, icon: 'icon-sell' },
     children: [
       { path: '/book', component: book, name: '书', meta: { requiresAuth: true } }
+    ]
+  },
+  {
+    path: '/',
+    name: '友链',
+    component: index,
+    meta: { leaf: true, icon: 'icon-link1' },
+    children: [
+      { path: '/link', component: link, name: '友链', meta: { requiresAuth: true } }
     ]
   },
   {

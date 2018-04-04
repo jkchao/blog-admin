@@ -200,4 +200,17 @@ declare namespace StoreState {
     /** 状态 */
     state?: State
   }
+
+  // 书本
+  export interface Link extends Common {
+
+    /** 名称 */
+    name: string,
+
+    /** 描述 */
+    url: string,
+
+    /** 状态 */
+    state?: State
+  }
 }

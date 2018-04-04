@@ -251,3 +251,48 @@ export function deleteBook (
             .then((res: Ajax.AxiosResponse) => res.data)
             .catch((e: string) => console.error(e))
 }
+
+// 友链列表
+export function getLinks (
+  params: Params
+): Promise<Ajax.AjaxResponse> {
+  return ax.get('/link', { params })
+            .then((res: Ajax.AxiosResponse) => res.data)
+            .catch((e: string) => console.error(e))
+}
+
+// 增加友链
+export function postLink (
+  params: StoreState.Link
+): Promise<Ajax.AjaxResponse> {
+  return ax.post('/link', { ...params })
+            .then((res: Ajax.AxiosResponse) => res.data)
+            .catch((e: string) => console.error(e))
+}
+
+// 友链修改状态
+export function patchLink (
+  params: { _id: string, state: StoreState.State }
+): Promise<Ajax.AjaxResponse> {
+  return ax.patch(`/link/${params._id}`, { ...params })
+            .then((res: Ajax.AxiosResponse) => res.data)
+            .catch((e: string) => console.error(e))
+}
+
+// 修改友链
+export function putLink (
+  params: StoreState.Link
+): Promise<Ajax.AjaxResponse> {
+  return ax.put(`/link/${params._id}`, { ...params })
+            .then((res: Ajax.AxiosResponse) => res.data)
+            .catch((e: string) => console.error(e))
+}
+
+// 删除友链
+export function deleteLink (
+  params: { _id: string }
+): Promise<Ajax.AjaxResponse> {
+  return ax.delete(`/link/${params._id}`)
+            .then((res: Ajax.AxiosResponse) => res.data)
+            .catch((e: string) => console.error(e))
+}

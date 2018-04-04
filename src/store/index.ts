@@ -7,6 +7,7 @@ import hero from './modules/hero'
 import comment from './modules/comment'
 import article from './modules/article'
 import book from './modules/book'
+import link from './modules/link'
 
 import { success, error } from '../utils/response'
 import service from '../api'
@@ -158,6 +159,7 @@ export default new Vuex.Store({
     hero,
     comment,
     article,
-    book
+    book,
+    link
   }
 })
