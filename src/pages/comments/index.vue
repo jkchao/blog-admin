@@ -108,11 +108,16 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="180"
+          width="240"
           label-class-name="head"
           fixed="right">
           <template slot-scope="scope">
             <transition-group tag="span" name="btn">
+              <el-button 
+                type="info" 
+                size="small" 
+                @click="editComment(scope.row)"
+                key="-1">修改</el-button>
               <el-button
                 type="success" 
                 size="small"
@@ -145,6 +150,35 @@
           :total="total">
         </el-pagination>
       </div>
+
+    <el-dialog
+      title="修改评论"
+      :visible.sync="dialogV"
+      size="tiny"
+      width="460px">
+      <el-form :model="form" ref="form" v-if="dialogV">
+        <el-form-item
+          label="名字">
+          <el-input v-model="form.name" :maxlength="20" placeholder="name"></el-input>
+        </el-form-item>
+        <el-form-item
+          label="内容" 
+          class="descript">
+          <el-input
+            type="textarea" 
+            v-model="form.content" 
+            :maxlength="100"
+            :rows="3"
+            placeholder="descript"></el-input>  
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogV = false">取 消</el-button>
+        <el-button type="primary" @click="submit('form')" :disabled="posting">
+          {{ posting ? '提交中' : '确 定'}}
+        </el-button>
+      </span>
+    </el-dialog>
     </div>
   </div>
 </template>
@@ -187,6 +221,14 @@ export default class Comments extends Vue {
   private state: StoreState.State
   private keyword: string = ''
   private currentPage: number = 1
+  private dialogV: boolean = false
+  private form: StoreState.Comment = {
+    author: {
+      name: ''
+    },
+    name: '',
+    content: ''
+  }
 
   private get fetch (): boolean {
     return this.$store.state.comment.fetch
@@ -196,6 +238,9 @@ export default class Comments extends Vue {
   }
   private get total (): number {
     return this.$store.state.comment.total
+  }
+  private get posting (): number {
+    return this.$store.state.comment.posting
   }
 
   private UAParse (e: string): string {
@@ -214,8 +259,8 @@ export default class Comments extends Vue {
 
   // 改变状态
   private async changeState (row: StoreState.Comment, code: number): Promise<void> {
-    await this.$store.dispatch('comment/patchComment', {
-      _id: row._id,
+    await this.$store.dispatch('comment/putComment', {
+      ...row,
       state: code,
       post_ids: row.post_id
     })
@@ -234,6 +279,35 @@ export default class Comments extends Vue {
       })
       if (res.code === 1) this.getData()
     }).catch(() => {})
+  }
+
+  // 修改
+  private editComment (row: StoreState.Comment) {
+    this.dialogV = true
+    this.form = {
+      ...row,
+      name: row.author && row.author.name
+    }
+  }
+
+  // 表单提交
+  private submit (formName: string) {
+    (this.$refs[formName] as HTMLFormElement).validate(async (valid: boolean): Promise<boolean> => {
+      if (valid) {
+        (this.form as any).author.name = this.form.name
+        delete this.form.name
+        let res: Ajax.AjaxResponse = await this.$store.dispatch('comment/putComment', {
+          ...this.form,
+          post_ids: this.form.post_id,
+          author: JSON.stringify(this.form.author)
+        })
+        if (res.code === 1) {
+          this.dialogV = false
+          this.getData()
+        }
+        return true
+      } else return false
+    })
   }
 
   // 分页

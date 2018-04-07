@@ -8,9 +8,10 @@ import { success, error } from '../../utils/response'
 import service from '../../api'
 
 interface State {
-  fetch: boolean;
-  list: StoreState.Comment[];
-  total: number;
+  fetch: boolean
+  posting: boolean
+  list: StoreState.Comment[]
+  total: number
 }
 
 interface Params {
@@ -22,6 +23,7 @@ interface Params {
 
 const state: State = {
   fetch: false,
+  posting: false,
   list: [],
   total: 0
 }
@@ -44,16 +46,18 @@ const actions: ActionTree<State, any> = {
     return res
   },
 
-  // 改变状态
-  async patchComment (
+  // 修改评论
+  async putComment (
     { commit },
     Comment: { _id: string, state: StoreState.State, post_ids: string }
   ): Promise<Ajax.AjaxResponse> {
-    const res: Ajax.AjaxResponse = await service.patchComment(Comment)
+    commit('POSTING_COMMENT')
+    const res: Ajax.AjaxResponse = await service.putComment(Comment)
     if (res && res.code === 1) {
       success('修改成功')
-      commit('PATCH_COMMENT_SUCCESS', Comment)
+      commit('PUT_COMMENT_SUCCESS', Comment)
     } else error(res.message)
+    commit('POSTING_COMMENT_FINAL')
     return res
   },
 
@@ -105,7 +109,19 @@ const mutations: MutationTree<State> = {
     (<StoreState.Comment>state.list.find((item: StoreState.Comment) => item._id === Comment._id)).deleteing = false
   },
 
-  'PATCH_COMMENT_SUCCESS' (
+  'POSTING_COMMENT' (
+    state: State
+  ) {
+    state.posting = true
+  },
+
+  'POSTING_COMMENT_FINAL' (
+    state: State
+  ) {
+    state.posting = false
+  },
+
+  'PUT_COMMENT_SUCCESS' (
     state: State,
     Comment: { _id: string, state: StoreState.State, post_ids: string }
   ): void {

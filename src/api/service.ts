@@ -199,10 +199,10 @@ export function deleteComment (
 }
 
 // 修改单条评论状态
-export function patchComment (
+export function putComment (
   params: { _id: string, state: StoreState.State, post_ids: string }
 ): Promise<Ajax.AjaxResponse> {
-  return ax.patch(`/comment/${params._id}`, { ...params })
+  return ax.put(`/comment/${params._id}`, { ...params })
             .then((res: Ajax.AxiosResponse) => res.data)
             .catch((e: string) => console.error(e))
 }

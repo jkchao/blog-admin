@@ -20,7 +20,7 @@ declare namespace StoreState {
   // 评论产生
   interface Author {
     name: string,
-    email: string,
+    email?: string,
     site?: string
   }
 
@@ -125,34 +125,36 @@ declare namespace StoreState {
   // 评论
   export interface Comment extends Common {
 
+    name?: string
+
     /** 评论文章所在 id */
-    post_id: string,
+    post_id?: string,
 
     /** 父级 id */
-    pid: string,
+    pid?: string,
 
     /** 内容 */
-    content: string,
+    content?: string,
 
     /** 被赞数 */
-    likes: number,
+    likes?: number,
 
     /** ip */
-    ip: string,
+    ip?: string,
 
     /** 用户位置 */
-    city: String,
-    range: String,
-    country: String,
+    city?: String,
+    range?: String,
+    country?: String,
 
     /** 用户 UA */
-    agent: string,
+    agent?: string,
 
     /** 评论产生 */
-    author: Author,
+    author?: Author,
 
     /** 评论状态 */
-    state: State
+    state?: State
   }
 
   // 文章
