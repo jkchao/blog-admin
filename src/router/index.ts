@@ -3,26 +3,26 @@ import Router, { RouteConfig, Route, NavigationGuard } from 'vue-router'
 
 import { loginIn } from '../utils/loginIn'
 
-const login: AsyncComponent = (): any => import(/* webpackChunkName: "login" */ '@/pages/login.vue')
+const login: AsyncComponent = (): any => import(/* webpackChunkName: "login" */ '@/pages/Login.vue')
 
-const index: AsyncComponent = (): any => import(/* webpackChunkName: "index" */ '@/pages/index.vue')
+const index: AsyncComponent = (): any => import(/* webpackChunkName: "index" */ '@/pages/Index.vue')
 
-const home: AsyncComponent = (): any => import(/* webpackChunkName: "home" */ '@/pages/Home/index.vue')
+const home: AsyncComponent = (): any => import(/* webpackChunkName: "home" */ '@/pages/Home/Index.vue')
 
-const article: AsyncComponent = (): any => import(/* webpackChunkName: "article" */ '@/pages/Article/index.vue')
-const release: AsyncComponent = (): any => import(/* webpackChunkName: "article" */ '@/pages/Article/release.vue')
+const article: AsyncComponent = (): any => import(/* webpackChunkName: "article" */ '@/pages/Article/Index.vue')
+const release: AsyncComponent = (): any => import(/* webpackChunkName: "article" */ '@/pages/Article/Release.vue')
 
-const tag: AsyncComponent = (): any => import(/* webpackChunkName: "tag" */ '@/pages/Tags/index.vue')
+const tag: AsyncComponent = (): any => import(/* webpackChunkName: "tag" */ '@/pages/Tags/Index.vue')
 
-const comments: AsyncComponent = (): any => import(/* webpackChunkName: "comments" */ '@/pages/Comments/index.vue')
+const comments: AsyncComponent = (): any => import(/* webpackChunkName: "comments" */ '@/pages/Comments/Index.vue')
 
-const heros: AsyncComponent = (): any => import(/* webpackChunkName: "heros" */ '@/pages/Heros/index.vue')
+const heros: AsyncComponent = (): any => import(/* webpackChunkName: "heros" */ '@/pages/Heros/Index.vue')
 
-const set: AsyncComponent = (): any => import(/* webpackChunkName: "set" */ '@/pages/Set/index.vue')
+const set: AsyncComponent = (): any => import(/* webpackChunkName: "set" */ '@/pages/Set/Index.vue')
 
-const book: AsyncComponent = (): any => import(/* webpackChunkName: "book" */ '@/pages/Book/index.vue')
+const book: AsyncComponent = (): any => import(/* webpackChunkName: "book" */ '@/pages/Book/Index.vue')
 
-const link: AsyncComponent = (): any => import(/* webpackChunkName: "book" */ '@/pages/Links/index.vue')
+const link: AsyncComponent = (): any => import(/* webpackChunkName: "book" */ '@/pages/Links/Index.vue')
 
 
 Vue.use(Router)

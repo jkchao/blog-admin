@@ -129,7 +129,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 
 import { UAParse, OSParse } from '../../utils/ua-parse'
-import Card from '../../components/card.vue'
+import Card from '../../components/Card.vue'
 
 interface Item {
   name: string,

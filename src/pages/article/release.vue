@@ -37,10 +37,7 @@
         </el-form-item>
         <el-form-item 
           label="文章描述"
-          prop="descript"
-          :rules="[
-            { required: true, message: '请输入文章描述', trigger: 'blur' }
-          ]">
+          prop="descript">
           <el-input 
             v-model="form.descript" 
             :maxlength="200" 
@@ -103,10 +100,7 @@
             label="缩略图"
             label-width="90px" 
             class="img-item"
-            prop="thumb"
-              :rules="[
-                { required: true, message: '请上传图片', trigger: 'change' }
-              ]">
+            prop="thumb">
               <el-upload
                 class="avatar-uploader"
                 action="https://up.qbox.me/"

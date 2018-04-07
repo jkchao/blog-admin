@@ -174,7 +174,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 
 import { error } from '../../utils/response'
-import Card from '../../components/card.vue'
+import Card from '../../components/Card.vue'
 interface Item {
   name: string,
   id: number | string

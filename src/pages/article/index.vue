@@ -147,7 +147,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
 
-import Card from '../../components/card.vue'
+import Card from '../../components/Card.vue'
 
 interface Item {
   name: string,
