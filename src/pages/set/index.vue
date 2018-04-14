@@ -158,7 +158,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
 
-import { error } from '../../utils/response'
+import { error } from '@/utils/response'
 
 interface Qn {
   key: string,

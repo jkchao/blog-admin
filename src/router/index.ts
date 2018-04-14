@@ -1,7 +1,7 @@
 import Vue, { AsyncComponent } from 'vue'
 import Router, { RouteConfig, Route, NavigationGuard } from 'vue-router'
 
-import { loginIn } from '../utils/loginIn'
+import { loginIn } from '@/utils/loginIn'
 
 const login: AsyncComponent = (): any => import(/* webpackChunkName: "login" */ '@/pages/Login.vue')
 

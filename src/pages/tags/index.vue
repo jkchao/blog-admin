@@ -108,7 +108,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import * as Sortable from 'sortablejs'
 
-import { error } from '../../utils/response'
+import { error } from '@/utils/response'
 
 @Component
 export default class Tags extends Vue {
