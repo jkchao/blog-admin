@@ -1,11 +1,11 @@
 // https://github.com/surmon-china/surmon.me/blob/b7d467e0bc6fde6ef24cfca1103253dcefe3b332/utils/comment-ua-parse.js
 
 // ua解析
-export const UAParse = (e: string): string => {
+export const uaParse = (e: string): string => {
   type R = Array<string> | null
   let r: R = []
   let outputer = ''
-  if ((r = e.match(/MSIE\s([^\s|]+)/gi))) {
+  if ((r === e.match(/MSIE\s([^\s|]+)/gi))) {
     outputer = `<span class="ua_ie"><i class="iconfont icon-internet"></i> Internet Explorer | ${r[0]
       .replace('MSIE', '')
       .split('.')[0]}`

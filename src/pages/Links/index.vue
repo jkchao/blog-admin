@@ -193,7 +193,7 @@ export default class Links extends Vue {
   }
 
   // 修改友链
-  private editLink (row: StoreState.Link) :void {
+  private editLink (row: StoreState.Link): void {
     this.title = '修改友链'
     this.form = { ...row }
     this.dialogV = true
@@ -205,10 +205,10 @@ export default class Links extends Vue {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       type: 'warning'
-    }).then(async () : Promise<void> => {
+    }).then(async (): Promise<void> => {
       const res = await this.$store.dispatch('link/deleteLink', { _id: row._id })
       if (res.code === 1) this.getData()
-    }).catch(() => {})
+    }).catch(error => console.error(error))
   }
 
   // 表单提交
@@ -228,7 +228,7 @@ export default class Links extends Vue {
           actionName = 'link/postLink'
           params = { ...this.form }
         }
-        let res: Ajax.AjaxResponse = await this.$store.dispatch(actionName, params)
+        const res: Ajax.AjaxResponse = await this.$store.dispatch(actionName, params)
         if (res.code === 1) {
           this.dialogV = false
           this.getData()
@@ -254,13 +254,13 @@ export default class Links extends Vue {
     })
   }
 
-  async created (): Promise<void> {
+  private async created (): Promise<void> {
     await Promise.all([
       // 标签列表
       this.$store.dispatch('link/getLinks', {
         current_page: 1,
         page_size: 16
-      }),
+      })
     ])
   }
 }

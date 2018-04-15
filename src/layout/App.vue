@@ -13,7 +13,7 @@ import Component from 'vue-class-component'
 
 @Component
 export default class App extends Vue {
-  beforeCreate () {
+  private beforeCreate () {
     this.$store.dispatch('initAuth')
   }
 }

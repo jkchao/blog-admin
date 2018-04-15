@@ -42,8 +42,8 @@ import Component from 'vue-class-component'
 import 'particles.js'
 
 @Component
-export default class login extends Vue {
-  $refs: {
+export default class Login extends Vue {
+  public $refs: {
     form: HTMLFormElement
   }
 
@@ -58,7 +58,7 @@ export default class login extends Vue {
 
   // 提交表单
   private submit (): void {
-    this.$refs.form.validate(async(valid: boolean): Promise<boolean> => {
+    this.$refs.form.validate(async (valid: boolean): Promise<boolean> => {
       if (valid) {
         const data: Ajax.AjaxResponse = await this.$store.dispatch('login', { ...this.form })
         if (data.code !== 1) return false
@@ -70,7 +70,7 @@ export default class login extends Vue {
     })
   }
 
-  public buildBackground (): void {
+  private buildBackground (): void {
     particlesJS ('particles-background', {
       'particles': {
         'number': {
@@ -176,7 +176,7 @@ export default class login extends Vue {
     })
   }
 
-  mounted () {
+  private mounted () {
     setTimeout(() => {
       this.buildBackground()
     }, 0)

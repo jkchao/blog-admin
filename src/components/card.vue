@@ -29,13 +29,13 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 export default class Card extends Vue {
 
   @Prop({ default: false })
-  carLoading: boolean
+  private carLoading: boolean
 
   @Prop({ default: '40px' })
-  width: string
+  private width: string
 
   @Prop({ default: () => [] })
-  type: Array<any>
+  private type: any[]
 
   public toggle (e: string | number, typeName: string): void {
     this.$emit('toggle', { typeName, id: e })

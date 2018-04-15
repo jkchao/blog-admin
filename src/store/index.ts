@@ -14,7 +14,7 @@ import service from '../api'
 
 Vue.use(Vuex)
 
-interface State {
+interface IState {
   login: boolean
   postUser: boolean
   postOption: boolean
@@ -23,20 +23,20 @@ interface State {
   QNtoken: string
 }
 
-const state: State = {
+const state: IState = {
   login: false,
-  postOption: false,
-  postUser: false,
   option: {
     _id: '',
-    title: '',
     sub_title: '',
+    title: '',
     keyword: '',
     descript: '',
     url: '',
     email: '',
     icp: ''
   },
+  postOption: false,
+  postUser: false,
   user: {
     _id: '',
     name: '',
@@ -49,7 +49,7 @@ const state: State = {
   QNtoken: ''
 }
 
-const actions: ActionTree<State, any> = {
+const actions: ActionTree<IState, any> = {
   // 登录
   async login (
     { commit },
@@ -112,40 +112,40 @@ const actions: ActionTree<State, any> = {
   }
 }
 
-const mutations: MutationTree<State> = {
-  'USER_LOGINING' (state: State): void {
+const mutations: MutationTree<IState> = {
+  'USER_LOGINING' (state: IState): void {
     state.login = true
   },
 
-  'USER_LOGINING_FINAL' (state: State): void {
+  'USER_LOGINING_FINAL' (state: IState): void {
     state.login = false
   },
 
-  'USER_INFO' (state: State, user: StoreState.User): void {
+  'USER_INFO' (state: IState, user: StoreState.User): void {
     state.user = user
   },
 
-  'POST_USER_INFO' (state: State): void {
+  'POST_USER_INFO' (state: IState): void {
     state.postUser = true
   },
 
-  'POST_USER_FINAL' (state: State): void {
+  'POST_USER_FINAL' (state: IState): void {
     state.postUser = false
   },
 
-  'POST_OPTION_INFO' (state: State): void {
+  'POST_OPTION_INFO' (state: IState): void {
     state.postOption = true
   },
 
-  'POST_OPTION_FINAL' (state: State): void {
+  'POST_OPTION_FINAL' (state: IState): void {
     state.postOption = false
   },
 
-  'OPTION_INFO' (state: State, option: StoreState.Option): void {
+  'OPTION_INFO' (state: IState, option: StoreState.Option): void {
     state.option = option
   },
 
-  'QN_TOKEN' (state: State, token: string): void {
+  'QN_TOKEN' (state: IState, token: string): void {
     state.QNtoken = token
   }
 }

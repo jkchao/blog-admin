@@ -127,13 +127,13 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 import { error } from '../../utils/response'
 import { Route, RawLocation } from 'vue-router'
 
-interface Qn {
-  key: string;
-  token: string;
+interface IQn {
+  key: string
+  token: string
 }
 
-interface Form extends StoreState.Article {
-  tag: Array<string>
+interface IForm extends StoreState.Article {
+  tag: string[]
 }
 
 @Component
@@ -143,7 +143,7 @@ export default class Release extends Vue {
     indentWithTabs: false,
     spellChecker: false
   }
-  private form: Form = {
+  private form: IForm = {
     title: '',
     keyword: '',
     descript: '',
@@ -154,7 +154,7 @@ export default class Release extends Vue {
     type: 1,
     thumb: ''
   }
-  private qn: Qn = {
+  private qn: IQn = {
     token: '',
     key: ''
   }
@@ -175,7 +175,7 @@ export default class Release extends Vue {
   }
 
   @Watch('detail')
-  getArt (val: StoreState.Article): void {
+  private getArt (val: StoreState.Article): void {
     this.form = Object.assign({}, {
       ...val,
       tag: val.tag.map((item: StoreState.Tag) => item._id)
@@ -189,7 +189,7 @@ export default class Release extends Vue {
 
   // 进度条
   private handlePro (e: any): void {
-    this.percent = ~~e.percent
+    this.percent = Math.ceil(e.percent)
   }
 
   // 出错
@@ -226,7 +226,7 @@ export default class Release extends Vue {
     })
   }
 
-  private beforeRouteUpdate (to: Route, form: Route, next: Function): void {
+  private beforeRouteUpdate (to: Route, form: Route, next: () => void): void {
     this.id = ''
     this.form = {
       title: '',
@@ -242,7 +242,7 @@ export default class Release extends Vue {
     next()
   }
 
-  async created (): Promise<void> {
+  private async created (): Promise<void> {
     await Promise.all([
       // 标签列表
       this.$store.dispatch('tag/getTags', {

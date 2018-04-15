@@ -131,15 +131,15 @@ import { Component, Vue } from 'vue-property-decorator'
 import { UAParse, OSParse } from '@/utils/ua-parse'
 import Card from '@/components/Card.vue'
 
-interface Item {
+interface Iitem {
   name: string,
   id: number | string
 }
 
-interface List {
+interface IList {
   name: string,
   typeName: string,
-  list: Item[],
+  list: Iitem[],
   default: string
 }
 
@@ -148,7 +148,7 @@ interface List {
 })
 export default class Heros extends Vue {
   private width: string = '48px'
-  private type: List[] = [
+  private type: IList[] = [
     {
       name: '状态',
       typeName: 'state',
@@ -206,7 +206,7 @@ export default class Heros extends Vue {
     }).then(async () => {
       const res = await this.$store.dispatch('hero/deleteHero', { _id: row._id })
       if (res.code === 1) this.getData()
-    }).catch(() => {})
+    }).catch(error => console.error(error))
   }
 
   // 分页
@@ -225,7 +225,7 @@ export default class Heros extends Vue {
     })
   }
 
-  beforeCreate (): void {
+  private beforeCreate (): void {
     this.$store.dispatch('hero/getHeros', {
       current_page: 1,
       page_size: 16

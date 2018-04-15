@@ -219,7 +219,24 @@
     // 导入包时，不需要按字母排序
     "ordered-imports": false,
 
-    "object-literal-key-quotes": false
+    "object-literal-key-quotes": false,
+
+    "object-literal-sort-keys": false,
+
+    // 允许带一个参数的箭头函数省去括号
+    "arrow-parens": [
+      true,
+      "ban-single-arg-parens"
+    ],
+
+    // 对齐方式
+    "align": [
+      true,
+      "parameters",
+      "statements",
+      "members",
+      "elements"
+    ]
   },
   "rulesDirectory": []
 }

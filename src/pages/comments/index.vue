@@ -189,15 +189,15 @@ import { Component, Vue } from 'vue-property-decorator'
 import { UAParse, OSParse } from '@/utils/ua-parse'
 import Card from '@/components/Card.vue'
 
-interface Item {
+interface IItem {
   name: string,
   id: StoreState.State
 }
 
-interface List {
+interface IList {
   name: string,
   typeName: string,
-  list: Item[],
+  list: IItem[],
   default: string
 }
 
@@ -206,7 +206,7 @@ interface List {
 })
 export default class Comments extends Vue {
   private width: string = '48px'
-  private type: List[] = [
+  private type: IList[] = [
     {
       name: '状态',
       typeName: 'state',
@@ -278,7 +278,7 @@ export default class Comments extends Vue {
          post_ids: row.post_id
       })
       if (res.code === 1) this.getData()
-    }).catch(() => {})
+    }).catch(error => console.error(error))
   }
 
   // 修改
@@ -296,7 +296,7 @@ export default class Comments extends Vue {
       if (valid) {
         (this.form as any).author.name = this.form.name
         delete this.form.name
-        let res: Ajax.AjaxResponse = await this.$store.dispatch('comment/putComment', {
+        const res: Ajax.AjaxResponse = await this.$store.dispatch('comment/putComment', {
           ...this.form,
           post_ids: this.form.post_id,
           author: JSON.stringify(this.form.author)
@@ -326,7 +326,7 @@ export default class Comments extends Vue {
     })
   }
 
-  beforeCreate (): void {
+  private beforeCreate (): void {
     this.$store.dispatch('comment/getComments', {
       current_page: 1,
       page_size: 16

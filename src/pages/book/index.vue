@@ -180,12 +180,12 @@ interface Item {
   id: number | string
 }
 
-interface Qn {
+interface IQn {
   key: string,
   token: string
 }
 
-interface List {
+interface IList {
   name: string,
   typeName: string,
   list: Item[],
@@ -197,7 +197,7 @@ interface List {
 })
 export default class Books extends Vue {
   private width: string = '48px'
-  private qn: Qn = {
+  private qn: IQn = {
     token: '',
     key: ''
   }
@@ -209,7 +209,7 @@ export default class Books extends Vue {
     descript: '',
     thumb: ''
   }
-  private type: List[] = [
+  private type: IList[] = [
     {
       name: '状态',
       typeName: 'state',
@@ -262,7 +262,7 @@ export default class Books extends Vue {
 
   // 进度条
   private handlePro (e: any): void {
-    this.percent = ~~e.percent
+    this.percent = Math.ceil(e.percent)
   }
 
   // 出错
@@ -297,7 +297,7 @@ export default class Books extends Vue {
   }
 
   // 修改书本
-  private editBook (row: StoreState.Book) :void {
+  private editBook (row: StoreState.Book): void {
     this.title = '修改书本'
     this.form = { ...row }
     this.dialogV = true
@@ -309,10 +309,10 @@ export default class Books extends Vue {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       type: 'warning'
-    }).then(async () : Promise<void> => {
+    }).then(async (): Promise<void> => {
       const res = await this.$store.dispatch('book/deleteBook', { _id: row._id })
       if (res.code === 1) this.getData()
-    }).catch(() => {})
+    }).catch(error => console.error(error))
   }
 
   // 表单提交
@@ -333,7 +333,7 @@ export default class Books extends Vue {
           actionName = 'book/postBook'
           params = { ...this.form }
         }
-        let res: Ajax.AjaxResponse = await this.$store.dispatch(actionName, params)
+        const res: Ajax.AjaxResponse = await this.$store.dispatch(actionName, params)
         if (res.code === 1) {
           this.dialogV = false
           this.getData()
@@ -359,7 +359,7 @@ export default class Books extends Vue {
     })
   }
 
-  async created (): Promise<void> {
+  private async created (): Promise<void> {
     await Promise.all([
       // 标签列表
       this.$store.dispatch('book/getBooks', {

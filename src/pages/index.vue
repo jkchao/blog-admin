@@ -75,6 +75,7 @@
 </template>
 
 <script lang="ts">
+
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import { Route } from 'vue-router'
 
@@ -82,7 +83,7 @@ import { Route } from 'vue-router'
 export default class Index extends Vue {
   private indexPath: string = '我的面板'
   private defaultPath: string = ''
-  private defaultOpen: Array<string> = []
+  private defaultOpen: string[] = []
   private currentPathName: string = ''
   private currentPathNameParent: string = ''
 

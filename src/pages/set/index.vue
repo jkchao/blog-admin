@@ -160,23 +160,23 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 
 import { error } from '@/utils/response'
 
-interface Qn {
+interface IQn {
   key: string,
   token: string
 }
 
-interface UserForm extends StoreState.User {
+interface IUserForm extends StoreState.User {
   checkPass: string
 }
 
-interface PasswordRule {
-  newPassword: Array<Object>,
-  checkPass: Array<Object>
+interface IPasswordRule {
+  newPassword: any[]
+  checkPass: any[]
 }
 
 @Component
 export default class Set extends Vue {
-  $refs: {
+  public $refs: {
     baseForm: HTMLFormElement,
     userForm: HTMLFormElement
   }
@@ -191,7 +191,7 @@ export default class Set extends Vue {
     email: '',
     icp: ''
   }
-  private userForm: UserForm = {
+  private userForm: IUserForm = {
     _id: '',
     name: '',
     username: '',
@@ -202,11 +202,11 @@ export default class Set extends Vue {
     checkPass: ''
   }
   private percent: number = 0
-  private qn: Qn = {
+  private qn: IQn = {
     key: '',
     token: ''
   }
-  private passwordRule: PasswordRule = {
+  private passwordRule: IPasswordRule = {
     newPassword: [
       { validator: this.validateNewPassword, trigger: 'blur' }
     ],
@@ -232,7 +232,7 @@ export default class Set extends Vue {
 
   // 上传中
   private handlePro (event: any): void {
-    this.percent = ~~event.percent
+    this.percent = Math.floor(event.percent)
   }
 
   // 出错
@@ -263,7 +263,7 @@ export default class Set extends Vue {
   }
 
   // 网站信息修改
-  submitForm (): void {
+  private submitForm (): void {
     this.$refs.baseForm.validate(async (valid: boolean): Promise<boolean> => {
       if (valid) {
         await this.$store.dispatch('putOpt', { ...this.baseForm })
@@ -290,7 +290,7 @@ export default class Set extends Vue {
   }
 
   // 密码验证
-  private validateNewPassword (rule: Object, value: any, callback: Function) {
+  private validateNewPassword (rule: object, value: any, callback: () => void) {
     if (value !== '') {
       if (value.length < 6) {
         callback(new Error('密码至少6位'))
@@ -305,7 +305,7 @@ export default class Set extends Vue {
   }
 
   // 密码相同验证
-  private validateCheckPass (rule: Object, value: any, callback: Function) {
+  private validateCheckPass (rule: object, value: any, callback: () => void) {
     if (value !== '') {
       if (value !== this.userForm.newPassword) {
         callback(new Error('两次输入密码不一致!'))
@@ -315,7 +315,7 @@ export default class Set extends Vue {
     callback()
   }
 
-  async created (): Promise<void>{
+  private async created (): Promise<void> {
     this.userForm = {
       ...this.user,
       oldPassword: '',

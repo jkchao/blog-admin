@@ -114,7 +114,7 @@ import { error } from '@/utils/response'
 export default class Tags extends Vue {
   private title: string = '增加标签'
   private dialogV: boolean = false
-  private sortable: any = null
+  private sortable: any
   private form: StoreState.Tag = {
     name: '',
     descript: ''
@@ -134,8 +134,8 @@ export default class Tags extends Vue {
   private get tagData (): StoreState.Tag[] {
     return this.$store.state.tag.list
   }
-  private get list (): Array<string>{
-    return this.tagData.map((item: StoreState.Tag) => item._id) as Array<string>
+  private get list (): string[] {
+    return this.tagData.map((item: StoreState.Tag) => item._id) as string[]
   }
 
   // 添加标签
@@ -149,7 +149,7 @@ export default class Tags extends Vue {
   }
 
   // 修改标签
-  private editTag (row: StoreState.Tag) :void {
+  private editTag (row: StoreState.Tag): void {
     this.title = '修改标签'
     this.form = { ...row }
     this.dialogV = true
@@ -161,10 +161,10 @@ export default class Tags extends Vue {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       type: 'warning'
-    }).then(async () : Promise<void> => {
+    }).then(async (): Promise<void> => {
       const res = await this.$store.dispatch('tag/deleteTag', { _id: row._id })
       if (res.code === 1) this.getData()
-    }).catch(() => {})
+    }).catch(error => console.error(error))
   }
 
   // 表单提交
@@ -184,7 +184,7 @@ export default class Tags extends Vue {
           actionName = 'tag/postTag'
           params = { ...this.form }
         }
-        let res: Ajax.AjaxResponse = await this.$store.dispatch(actionName, params)
+        const res: Ajax.AjaxResponse = await this.$store.dispatch(actionName, params)
         if (res.code === 1) {
           this.dialogV = false
           this.getData()
@@ -230,7 +230,7 @@ export default class Tags extends Vue {
     })
   }
 
-  created (): void {
+  private created (): void {
     this.getData()
   }
 }

@@ -154,14 +154,14 @@ interface Item {
   id: number | string
 }
 
-interface List {
+interface IList {
   name: string,
   typeName: string,
   list: Item[],
   default: string
 }
 
-interface Para {
+interface IPara {
   tag: string,
   type: StoreState.State,
   publish: StoreState.State,
@@ -174,7 +174,7 @@ interface Para {
 })
 export default class Article extends Vue {
   private width: string = '48px'
-  private type: List[] = [
+  private type: IList[] = [
     {
       name: '标签',
       typeName: 'tag',
@@ -218,7 +218,7 @@ export default class Article extends Vue {
       default: ''
     }
   ]
-  private para: Para = {
+  private para: IPara = {
     tag: '',
     type: '',
     publish: '',
@@ -241,7 +241,7 @@ export default class Article extends Vue {
   }
 
   @Watch('tag', { deep: true })
-  getTag (val: StoreState.Tag[], oldVal: StoreState.Tag[]): void {
+  private getTag (val: StoreState.Tag[], oldVal: StoreState.Tag[]): void {
     this.type[0].list = [
       { name: '全部', id: '' },
       ...val.map((item: StoreState.Tag) => ({ name: item.name, id: item._id || '' }))
@@ -271,7 +271,7 @@ export default class Article extends Vue {
     type: string,
     state: StoreState.State
   ): Promise<void> {
-    let querys: {
+    const querys: {
       _id: string,
       state?: StoreState.State,
       publish?: StoreState.State,
@@ -293,7 +293,7 @@ export default class Article extends Vue {
     }).then(async (): Promise<void> => {
       const res = await this.$store.dispatch('article/deleteArt', { _id: row._id })
       if (res.code === 1) this.getData()
-    }).catch(() => {})
+    }).catch(error => console.error(error))
   }
 
   // 获取数据
@@ -306,7 +306,7 @@ export default class Article extends Vue {
     })
   }
 
-  beforeCreate (): void {
+  private beforeCreate (): void {
     Promise.all([
       this.$store.dispatch('article/getArts', {
         current_page: 1,

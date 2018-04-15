@@ -1,10 +1,10 @@
 import ax from './axios'
 
-interface Params {
-  _id?: number;
-  current_page?: number;
-  page_size?: number;
-  keyword?: string;
+interface IParams {
+  _id?: number
+  current_page?: number
+  page_size?: number
+  keyword?: string
   state?: StoreState.State
 }
 
@@ -58,7 +58,7 @@ export function putOpt (
 
 // 留言墙列表
 export function getHeros (
-  params: Params
+  params: IParams
 ): Promise<Ajax.AjaxResponse> {
   return ax.get('/hero', { params })
             .then((res: Ajax.AxiosResponse) => res.data)
@@ -85,7 +85,7 @@ export function patchHero (
 
 // 标签列表
 export function getTags (
-  params: Params
+  params: IParams
 ): Promise<Ajax.AjaxResponse> {
   return ax.get('/tag', { params })
             .then((res: Ajax.AxiosResponse) => res.data)
@@ -103,7 +103,7 @@ export function postTag (
 
 // 标签排序
 export function patchTag (
-  params: Array<string>
+  params: string[]
 ): Promise<Ajax.AjaxResponse> {
   return ax.patch(`/tag`, { ...params })
             .then((res: Ajax.AxiosResponse) => res.data)
@@ -130,7 +130,7 @@ export function deleteTag (
 
 // 获取文章列表
 export function getArts (
-  params: Params
+  params: IParams
 ): Promise<Ajax.AjaxResponse> {
   return ax.get('/article', { params })
             .then((res: Ajax.AxiosResponse) => res.data)
@@ -183,7 +183,7 @@ export function patchArt (
 }
 
 // 获取评论
-export function getComments (params: Params): Promise<Ajax.AjaxResponse> {
+export function getComments (params: IParams): Promise<Ajax.AjaxResponse> {
   return ax.get('/comment', { params })
             .then((res: Ajax.AxiosResponse) => res.data)
             .catch((e: string) => console.error(e))
@@ -209,7 +209,7 @@ export function putComment (
 
 // 书本列表
 export function getBooks (
-  params: Params
+  params: IParams
 ): Promise<Ajax.AjaxResponse> {
   return ax.get('/book', { params })
             .then((res: Ajax.AxiosResponse) => res.data)
@@ -254,7 +254,7 @@ export function deleteBook (
 
 // 友链列表
 export function getLinks (
-  params: Params
+  params: IParams
 ): Promise<Ajax.AjaxResponse> {
   return ax.get('/link', { params })
             .then((res: Ajax.AxiosResponse) => res.data)
