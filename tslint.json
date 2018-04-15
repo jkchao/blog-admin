@@ -134,16 +134,6 @@
     // 禁止在一个文件内，多次引用同一module
     "no-duplicate-imports": true,
 
-    // 定义对齐风格
-    "align":[
-      true,
-      "parameters",
-      "arguments",
-      "statements",
-      "members",
-      "elements"
-    ],
-
     // 建议使用T[]方式声明一个数组对象
     "array-type": [true, "array"],
 
