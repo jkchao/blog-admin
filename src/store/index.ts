@@ -15,18 +15,18 @@ import service from '../api'
 Vue.use(Vuex)
 
 interface State {
-  login: boolean;
-  postUser: boolean;
-  postOption: boolean;
-  option: StoreState.Option;
-  user: StoreState.User;
+  login: boolean
+  postUser: boolean
+  postOption: boolean
+  option: StoreState.Option
+  user: StoreState.User
   QNtoken: string
 }
 
 const state: State = {
   login: false,
-  postUser: false,
   postOption: false,
+  postUser: false,
   option: {
     _id: '',
     title: '',

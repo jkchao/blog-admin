@@ -5,7 +5,7 @@ import Component from 'vue-class-component'
 import 'simplemde/dist/simplemde.min.css'
 import 'highlight.js/styles/atom-one-dark.css'
 import hljs from 'highlight.js'
-(<any>window).hljs = hljs
+(window as any).hljs = hljs
 
 
 import App from './layout/App.vue'
