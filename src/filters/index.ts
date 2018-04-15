@@ -8,7 +8,7 @@
  * @returns {string}
  */
 export function format (time: Date, format: string): string {
-  let res: string
+  let res: string = ''
   const date = new Date(time)
   const o: any = {
     'M+': date.getMonth() + 1, // month
