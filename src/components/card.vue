@@ -84,8 +84,6 @@ export default class Card extends Vue {
 
       .el-radio-button__inner {
         border: none;
-        -webkit-border-radius: 4px;
-        -moz-border-radius: 4px;
         border-radius: 4px;
       }
       .is-active {
