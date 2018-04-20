@@ -7,33 +7,33 @@ import { ActionTree, MutationTree } from 'vuex'
 import { success, error } from '../../utils/response'
 import service from '../../api'
 
-interface State {
-  fetch: boolean;
-  posting: boolean;
-  total: number;
-  list: StoreState.Tag[];
+interface IState {
+  fetch: boolean
+  posting: boolean
+  total: number
+  list: StoreState.Tag[]
 }
 
-interface Params {
-  current_page: number;
-  page_size: number;
-  keyword: string;
-  state?: StoreState.State;
+interface IParams {
+  current_page: number
+  page_size: number
+  keyword: string
+  state?: StoreState.State
 }
 
-const state: State = {
+const state: IState = {
   posting: false,
   fetch: false,
   list: [],
   total: 0
 }
 
-const actions: ActionTree<State, any> = {
+const actions: ActionTree<IState, any> = {
 
   // 获取列表
   async getTags (
     { commit },
-    data: Params
+    data: IParams
   ): Promise<Ajax.AjaxResponse> {
     commit('REQUEST_LIST')
     const res: Ajax.AjaxResponse = await service.getTags(data)
@@ -78,7 +78,7 @@ const actions: ActionTree<State, any> = {
   // 排序
   async patchTag (
     { commit },
-    ids: Array<string>
+    ids: string[]
   ): Promise<void> {
     const res: Ajax.AjaxResponse = await service.patchTag(ids)
     if (res && res.code === 1) {
@@ -100,13 +100,13 @@ const actions: ActionTree<State, any> = {
   }
 }
 
-const mutations: MutationTree<State> = {
-  'REQUEST_LIST' (state: State): void {
+const mutations: MutationTree<IState> = {
+  'REQUEST_LIST' (state: IState): void {
     state.fetch = true
   },
 
   'REQUEST_LIST_SUCCESS' (
-    state: State,
+    state: IState,
     payload: { list: StoreState.Tag[], total: number }
   ): void {
     state.fetch = false
@@ -114,34 +114,34 @@ const mutations: MutationTree<State> = {
     state.total = payload.total
   },
 
-  'REQUEST_LIST_FAIL' (state: State): void {
+  'REQUEST_LIST_FAIL' (state: IState): void {
     state.fetch = false
     state.list = []
     state.total = 0
   },
 
-  'POST_TAG' (state: State): void {
+  'POST_TAG' (state: IState): void {
     state.posting = true
   },
 
-  'POST_TAG_FINAL' (state: State): void {
+  'POST_TAG_FINAL' (state: IState): void {
     state.posting = false
   },
 
-  'POST_TAG_SUCCESS' (state: State, tag: StoreState.Tag): void {
-    let item: StoreState.Tag = <StoreState.Tag>(state.list.find((item: StoreState.Tag) => item._id === tag._id))
+  'POST_TAG_SUCCESS' (state: IState, tag: StoreState.Tag): void {
+    const item = (state.list.find((item: StoreState.Tag) => item._id === tag._id) as StoreState.Tag)
     if (item) {
       item.name = tag.name
       item.descript = tag.descript
     }
   },
 
-  'DELETE_TAG' (state: State, tag: { _id: string }): void {
-    (<StoreState.Tag>state.list.find((item: StoreState.Tag) => item._id === tag._id)).deleteing = true
+  'DELETE_TAG' (state: IState, tag: { _id: string }): void {
+    (state.list.find((item: StoreState.Tag) => item._id === tag._id) as StoreState.Tag).deleteing = true
   },
 
-  'DELETE_TAG_FINAL' (state: State, tag: { _id: string }): void {
-    (<StoreState.Tag>state.list.find((item: StoreState.Tag) => item._id === tag._id)).deleteing = false
+  'DELETE_TAG_FINAL' (state: IState, tag: { _id: string }): void {
+    (state.list.find((item: StoreState.Tag) => item._id === tag._id) as StoreState.Tag).deleteing = false
   }
 }
 

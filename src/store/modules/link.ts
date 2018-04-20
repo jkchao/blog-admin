@@ -7,33 +7,33 @@ import { ActionTree, MutationTree } from 'vuex'
 import { success, error } from '../../utils/response'
 import service from '../../api'
 
-interface State {
-  fetch: boolean;
-  posting: boolean;
-  total: number;
-  list: StoreState.Link[];
+interface IState {
+  fetch: boolean
+  posting: boolean
+  total: number
+  list: StoreState.Link[]
 }
 
-interface Params {
-  current_page: number;
-  page_size: number;
-  keyword: string;
-  state?: StoreState.State;
+interface IParams {
+  current_page: number
+  page_size: number
+  keyword: string
+  state?: StoreState.State
 }
 
-const state: State = {
+const state: IState = {
   posting: false,
   fetch: false,
   list: [],
   total: 0
 }
 
-const actions: ActionTree<State, any> = {
+const actions: ActionTree<IState, any> = {
 
   // 获取列表
   async getLinks (
     { commit },
-    data: Params
+    data: IParams
   ): Promise<Ajax.AjaxResponse> {
     commit('REQUEST_LIST')
     const res: Ajax.AjaxResponse = await service.getLinks(data)
@@ -101,13 +101,13 @@ const actions: ActionTree<State, any> = {
   }
 }
 
-const mutations: MutationTree<State> = {
-  'REQUEST_LIST' (state: State): void {
+const mutations: MutationTree<IState> = {
+  'REQUEST_LIST' (state: IState): void {
     state.fetch = true
   },
 
   'REQUEST_LIST_SUCCESS' (
-    state: State,
+    state: IState,
     payload: { list: StoreState.Link[], total: number }
   ): void {
     state.fetch = false
@@ -115,22 +115,22 @@ const mutations: MutationTree<State> = {
     state.total = payload.total
   },
 
-  'REQUEST_LIST_FAIL' (state: State): void {
+  'REQUEST_LIST_FAIL' (state: IState): void {
     state.fetch = false
     state.list = []
     state.total = 0
   },
 
-  'POST_BOOK' (state: State): void {
+  'POST_BOOK' (state: IState): void {
     state.posting = true
   },
 
-  'POST_BOOK_FINAL' (state: State): void {
+  'POST_BOOK_FINAL' (state: IState): void {
     state.posting = false
   },
 
-  'POST_BOOK_SUCCESS' (state: State, link: StoreState.Link): void {
-    let item: StoreState.Link = <StoreState.Link>(state.list.find((item: StoreState.Link) => item._id === link._id))
+  'POST_BOOK_SUCCESS' (state: IState, link: StoreState.Link): void {
+    const item = (state.list.find((item: StoreState.Link) => item._id === link._id) as StoreState.Link)
     if (item) {
       item.name = link.name
       item.url = link.url
@@ -138,18 +138,18 @@ const mutations: MutationTree<State> = {
   },
 
   'PATCH_BOOK_SUCCESS' (
-    state: State,
+    state: IState,
     link: { _id: string, state: StoreState.State }
   ): void {
-    (<StoreState.Link>state.list.find((item: StoreState.Link) => item._id === link._id)).state = link.state
+    (state.list.find((item: StoreState.Link) => item._id === link._id) as StoreState.Link).state = link.state
   },
 
-  'DELETE_BOOK' (state: State, link: { _id: string }): void {
-    (<StoreState.Link>state.list.find((item: StoreState.Link) => item._id === link._id)).deleteing = true
+  'DELETE_BOOK' (state: IState, link: { _id: string }): void {
+    (state.list.find((item: StoreState.Link) => item._id === link._id) as StoreState.Link).deleteing = true
   },
 
-  'DELETE_BOOK_FINAL' (state: State, link: { _id: string }): void {
-    (<StoreState.Link>state.list.find((item: StoreState.Link) => item._id === link._id)).deleteing = false
+  'DELETE_BOOK_FINAL' (state: IState, link: { _id: string }): void {
+    (state.list.find((item: StoreState.Link) => item._id === link._id) as StoreState.Link).deleteing = false
   }
 }
 

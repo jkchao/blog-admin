@@ -7,25 +7,25 @@ import { ActionTree, MutationTree } from 'vuex'
 import { success, error } from '../../utils/response'
 import service from '../../api'
 
-interface State {
-  fetch: boolean;
-  posting: boolean;
-  list: StoreState.Article[];
-  total: number;
-  detail: StoreState.Article;
+interface IState {
+  fetch: boolean
+  posting: boolean
+  list: StoreState.Article[]
+  total: number
+  detail: StoreState.Article
 }
 
-interface Params {
-  tag: string;
-  page_size: number;
-  current_page: number;
-  keyword?: string;
-  state?: StoreState.State;
-  publish?: StoreState.State;
-  type?: StoreState.State;
+interface IParams {
+  tag: string
+  page_size: number
+  current_page: number
+  keyword?: string
+  state?: StoreState.State
+  publish?: StoreState.State
+  type?: StoreState.State
 }
 
-const state: State = {
+const state: IState = {
   posting: false,
   fetch: false,
   list: [],
@@ -42,12 +42,12 @@ const state: State = {
   }
 }
 
-const actions: ActionTree<State, any> = {
+const actions: ActionTree<IState, any> = {
 
   // 获取列表
   async getArts (
     { commit },
-    data: Params
+    data: IParams
   ): Promise<Ajax.AjaxResponse> {
     commit('REQUEST_LIST')
     const res: Ajax.AjaxResponse = await service.getArts(data)
@@ -77,10 +77,10 @@ const actions: ActionTree<State, any> = {
   // 添加文章
   async postArt (
     { commit },
-    Article: StoreState.Article
+    article: StoreState.Article
   ): Promise<Ajax.AjaxResponse> {
     commit('POST_ARTICLE')
-    const res = await service.postArt(Article)
+    const res = await service.postArt(article)
     if (res && res.code === 1) success('添加文章成功')
     else error('添加文章失败')
     commit('POST_ARTICLE_FINAL')
@@ -90,10 +90,10 @@ const actions: ActionTree<State, any> = {
   // 修改文章
   async putArt (
     { commit },
-    Article: StoreState.Article
+    article: StoreState.Article
   ): Promise<Ajax.AjaxResponse> {
     commit('POST_ARTICLE')
-    const res = await service.putArt(Article)
+    const res = await service.putArt(article)
     if (res && res.code === 1) success('修改文章成功')
     else error('修改文章失败')
     commit('POST_ARTICLE_FINAL')
@@ -103,12 +103,12 @@ const actions: ActionTree<State, any> = {
   // 改变状态
   async patchArt (
     { commit },
-    Article: { _id: string; state?: StoreState.State; publish?: StoreState.State; [index: string]: any; }
+    article: { _id: string; state?: StoreState.State; publish?: StoreState.State; [index: string]: any; }
   ): Promise<Ajax.AjaxResponse> {
-    const res: Ajax.AjaxResponse = await service.patchArt(Article)
+    const res: Ajax.AjaxResponse = await service.patchArt(article)
     if (res && res.code === 1) {
       success('修改成功')
-      commit('PATCH_HERO_SUCCESS', Article)
+      commit('PATCH_HERO_SUCCESS', article)
     } else error(res.message)
     return res
   },
@@ -116,24 +116,24 @@ const actions: ActionTree<State, any> = {
   // 删除
   async deleteArt (
     { commit },
-    Article: { _id: string }
+    article: { _id: string }
   ): Promise<Ajax.AjaxResponse> {
-    commit('DELETE_ARTICLE', Article)
-    const res: Ajax.AjaxResponse = await service.deleteArt(Article)
+    commit('DELETE_ARTICLE', article)
+    const res: Ajax.AjaxResponse = await service.deleteArt(article)
     if (res && res.code === 1) success('删除成功')
     else error(res.message)
-    commit('DELETE_ARTICLE_FINAL', Article)
+    commit('DELETE_ARTICLE_FINAL', article)
     return res
   }
 }
 
-const mutations: MutationTree<State> = {
-  'REQUEST_LIST' (state: State): void {
+const mutations: MutationTree<IState> = {
+  'REQUEST_LIST' (state: IState): void {
     state.fetch = true
   },
 
   'REQUEST_LIST_SUCCESS' (
-    state: State,
+    state: IState,
     payload: { list: StoreState.Article[], total: number }
   ): void {
     state.fetch = false
@@ -141,53 +141,57 @@ const mutations: MutationTree<State> = {
     state.total = payload.total
   },
 
-  'REQUEST_LIST_FAIL' (state: State): void {
+  'REQUEST_LIST_FAIL' (state: IState): void {
     state.fetch = false
     state.list = []
     state.total = 0
   },
 
   'DELETE_ARTICLE' (
-    state: State,
-    Article: { _id: string }
+    state: IState,
+    article: { _id: string }
   ): void {
-    (<StoreState.Article>state.list.find((item: StoreState.Article) => item._id === Article._id)).deleteing = true
+    (state.list.find((item: StoreState.Article) => item._id === article._id) as StoreState.Article).deleteing = true
   },
 
   'DELETE_ARTICLE_FINAL' (
-    state: State,
-    Article: { _id: string }
+    state: IState,
+    article: { _id: string }
   ): void {
-    (<StoreState.Article>state.list.find((item: StoreState.Article) => item._id === Article._id)).deleteing = false
+    (state.list.find((item: StoreState.Article) => item._id === article._id) as StoreState.Article).deleteing = false
   },
 
   'PATCH_HERO_SUCCESS' (
-    state: State,
-    Article: { _id: string; state?: StoreState.State; publish?: StoreState.State; [index: string]: any }
+    state: IState,
+    article: { _id: string; state?: StoreState.State; publish?: StoreState.State; [index: string]: any }
   ): void {
-    let list: StoreState.Article = (<StoreState.Article>state.list.find((item: StoreState.Article) => item._id === Article._id))
-    for (let i in Article) {
-      list[i] = Article[i]
+    const list: StoreState.Article = (
+      state.list.find((item: StoreState.Article) => item._id === article._id) as StoreState.Article
+    )
+    for (const key in article) {
+      if (article.hasOwnProperty(key)) {
+        list[key] = article[key]
+      }
     }
   },
 
   'REQUEST_DETAIL_SUCCESS' (
-    state: State,
-    Article: StoreState.Article
+    state: IState,
+    article: StoreState.Article
   ): void {
-    state.detail = { ...Article }
+    state.detail = { ...article }
     state.fetch = false
   },
 
-  'REQUEST_DETAIL_FAIL' (state: State) {
+  'REQUEST_DETAIL_FAIL' (state: IState) {
     state.fetch = false
   },
 
-  'POST_ARTICLE' (state: State) {
+  'POST_ARTICLE' (state: IState) {
     state.posting = true
   },
 
-  'POST_ARTICLE_FINAL' (state: State) {
+  'POST_ARTICLE_FINAL' (state: IState) {
     state.posting = false
   }
 }

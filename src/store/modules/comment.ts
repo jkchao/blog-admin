@@ -7,32 +7,32 @@ import { ActionTree, MutationTree } from 'vuex'
 import { success, error } from '../../utils/response'
 import service from '../../api'
 
-interface State {
+interface IState {
   fetch: boolean
   posting: boolean
   list: StoreState.Comment[]
   total: number
 }
 
-interface Params {
-  page_size: number;
-  current_page: number;
-  keyword?: string;
+interface IParams {
+  page_size: number
+  current_page: number
+  keyword?: string
   state?: StoreState.State
 }
 
-const state: State = {
+const state: IState = {
   fetch: false,
   posting: false,
   list: [],
   total: 0
 }
 
-const actions: ActionTree<State, any> = {
+const actions: ActionTree<IState, any> = {
   // 获取列表
   async getComments (
     { commit },
-    data: Params
+    data: IParams
   ): Promise<Ajax.AjaxResponse> {
     commit('REQUEST_LIST')
     const res: Ajax.AjaxResponse = await service.getComments(data)
@@ -49,13 +49,13 @@ const actions: ActionTree<State, any> = {
   // 修改评论
   async putComment (
     { commit },
-    Comment: { _id: string, state: StoreState.State, post_ids: string }
+    comment: { _id: string, state: StoreState.State, post_ids: string }
   ): Promise<Ajax.AjaxResponse> {
     commit('POSTING_COMMENT')
-    const res: Ajax.AjaxResponse = await service.putComment(Comment)
+    const res: Ajax.AjaxResponse = await service.putComment(comment)
     if (res && res.code === 1) {
       success('修改成功')
-      commit('PUT_COMMENT_SUCCESS', Comment)
+      commit('PUT_COMMENT_SUCCESS', comment)
     } else error(res.message)
     commit('POSTING_COMMENT_FINAL')
     return res
@@ -64,24 +64,24 @@ const actions: ActionTree<State, any> = {
   // 删除
   async deleteComment (
     { commit },
-    Comment: { _id: string, post_ids: string }
+    comment: { _id: string, post_ids: string }
   ): Promise<Ajax.AjaxResponse> {
-    commit('DELETE_COMMENT', Comment)
-    const res: Ajax.AjaxResponse = await service.deleteComment(Comment)
+    commit('DELETE_COMMENT', comment)
+    const res: Ajax.AjaxResponse = await service.deleteComment(comment)
     if (res && res.code === 1) success('删除成功')
     else error(res.message)
-    commit('DELETE_COMMENT_FINAL', Comment)
+    commit('DELETE_COMMENT_FINAL', comment)
     return res
   }
 }
 
-const mutations: MutationTree<State> = {
-  'REQUEST_LIST' (state: State): void {
+const mutations: MutationTree<IState> = {
+  'REQUEST_LIST' (state: IState): void {
     state.fetch = true
   },
 
   'REQUEST_LIST_SUCCESS' (
-    state: State,
+    state: IState,
     payload: { list: StoreState.Comment[], total: number }
   ): void {
     state.fetch = false
@@ -89,43 +89,45 @@ const mutations: MutationTree<State> = {
     state.total = payload.total
   },
 
-  'REQUEST_LIST_FAIL' (state: State): void {
+  'REQUEST_LIST_FAIL' (state: IState): void {
     state.fetch = false
     state.list = []
     state.total = 0
   },
 
   'DELETE_COMMENT' (
-    state: State,
-    Comment: StoreState.Comment
+    state: IState,
+    comment: StoreState.Comment
   ): void {
-    (<StoreState.Comment>state.list.find((item: StoreState.Comment) => item._id === Comment._id)).deleteing = true
+    (state.list.find((item: StoreState.Comment) => item._id === comment._id) as StoreState.Comment).deleteing = true
   },
 
   'DELETE_COMMENT_FINAL' (
-    state: State,
-    Comment: { _id: string, post_ids: string }
+    state: IState,
+    comment: { _id: string, post_ids: string }
   ): void {
-    (<StoreState.Comment>state.list.find((item: StoreState.Comment) => item._id === Comment._id)).deleteing = false
+    (state.list.find((item: StoreState.Comment) => item._id === comment._id) as StoreState.Comment).deleteing = false
   },
 
   'POSTING_COMMENT' (
-    state: State
+    state: IState
   ) {
     state.posting = true
   },
 
   'POSTING_COMMENT_FINAL' (
-    state: State
+    state: IState
   ) {
     state.posting = false
   },
 
   'PUT_COMMENT_SUCCESS' (
-    state: State,
-    Comment: { _id: string, state: StoreState.State, post_ids: string }
+    state: IState,
+    comment: { _id: string, state: StoreState.State, post_ids: string }
   ): void {
-    (<StoreState.Comment>state.list.find((item: StoreState.Comment) => item._id === Comment._id)).state = Comment.state
+    (
+      state.list.find((item: StoreState.Comment) => item._id === comment._id) as StoreState.Comment
+    ).state = comment.state
   }
 }
 

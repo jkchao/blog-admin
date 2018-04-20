@@ -1,5 +1,5 @@
 import Vue, { AsyncComponent } from 'vue'
-import Router, { RouteConfig, Route, NavigationGuard } from 'vue-router'
+import Router, { RouteConfig, Route, NavigationGuard, RawLocation } from 'vue-router'
 
 import { loginIn } from '@/utils/loginIn'
 
@@ -116,7 +116,7 @@ const router: Router = new Router({
   routes
 })
 
-router.beforeEach((to: Route, from: Route, next: Function): void => {
+router.beforeEach((to: Route, from: Route, next: any): void => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!loginIn()) {
       next({
