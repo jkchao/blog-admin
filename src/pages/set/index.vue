@@ -290,7 +290,7 @@ export default class Set extends Vue {
   }
 
   // 密码验证
-  private validateNewPassword (rule: object, value: any, callback: () => void) {
+  private validateNewPassword (rule: object, value: any, callback: (Error?: any) => void) {
     if (value !== '') {
       if (value.length < 6) {
         callback(new Error('密码至少6位'))
@@ -305,7 +305,7 @@ export default class Set extends Vue {
   }
 
   // 密码相同验证
-  private validateCheckPass (rule: object, value: any, callback: () => void) {
+  private validateCheckPass (rule: object, value: any, callback: (Error?: any) => void) {
     if (value !== '') {
       if (value !== this.userForm.newPassword) {
         callback(new Error('两次输入密码不一致!'))

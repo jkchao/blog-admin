@@ -42,7 +42,7 @@
                 <span v-html="UAParse(props.row.agent)"></span>
               </el-form-item>
               <el-form-item label="系统：">
-                <span v-html="OSParse(props.row.agent)"></span>
+                <span v-html="osParse(props.row.agent)"></span>
               </el-form-item>
               <el-form-item label="内容：">
                 <span>{{ props.row.content }}</span>
@@ -128,7 +128,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 
-import { UAParse, OSParse } from '@/utils/ua-parse'
+import { UAParse, osParse } from '@/utils/ua-parse'
 import Card from '@/components/Card.vue'
 
 interface Iitem {
@@ -179,8 +179,8 @@ export default class Heros extends Vue {
     return UAParse(e)
   }
 
-  private OSParse (e: string): string {
-    return OSParse(e)
+  private osParse (e: string): string {
+    return osParse(e)
   }
 
   // 筛选类型
