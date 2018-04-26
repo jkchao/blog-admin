@@ -39,7 +39,7 @@
                 <span>{{props.row.country}} {{ props.row.city }}</span>
               </el-form-item>
               <el-form-item label="浏览器：">
-                <span v-html="UAParse(props.row.agent)"></span>
+                <span v-html="uaParse(props.row.agent)"></span>
               </el-form-item>
               <el-form-item label="系统：">
                 <span v-html="osParse(props.row.agent)"></span>
@@ -128,7 +128,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 
-import { UAParse, osParse } from '@/utils/ua-parse'
+import { uaParse, osParse } from '@/utils/ua-parse'
 import Card from '@/components/Card.vue'
 
 interface Iitem {
@@ -175,8 +175,8 @@ export default class Heros extends Vue {
     return this.$store.state.hero.total
   }
 
-  private UAParse (e: string): string {
-    return UAParse(e)
+  private uaParse (e: string): string {
+    return uaParse(e)
   }
 
   private osParse (e: string): string {

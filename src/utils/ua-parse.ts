@@ -72,7 +72,7 @@ export const uaParse = (e: string): string => {
 }
 
 // os解析
-export const OSParse = (e: string): string => {
+export const osParse = (e: string): string => {
   let os: string = ''
   if (e.match(/win/gi)) {
     if (e.match(/nt 5.1/gi)) {
