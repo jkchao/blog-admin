@@ -4,7 +4,7 @@ import querystring from 'querystring'
 import { loginIn } from '../utils/loginIn'
 import app from '../main'
 
-const ax: any = axios.create({
+const ax = axios.create({
   baseURL: config.API_ROOT
 })
 
