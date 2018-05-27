@@ -1,0 +1,8 @@
+[
+  {
+    "name": "getArts",
+    "des": "获取文章列表",
+    "method": "get",
+    "url": "/article"
+  }
+]

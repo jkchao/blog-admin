@@ -1,0 +1,32 @@
+[
+  {
+    "name": "login",
+    "des": "登录",
+    "method": "post",
+    "url": "/login"
+  },
+  {
+    "name": "getAuth",
+    "des": "获取用户信息",
+    "method": "get",
+    "url": "/auth"
+  },
+  {
+    "name": "putAuth",
+    "des": "修改用户信息",
+    "method": "put",
+    "url": "/auth"
+  },
+  {
+    "name": "getOpt",
+    "des": "获取网站配置项",
+    "method": "get",
+    "url": "/option"
+  },
+  {
+    "name": "putOpt",
+    "des": "修改网站配置项",
+    "method": "put",
+    "url": "/option"
+  }
+]
