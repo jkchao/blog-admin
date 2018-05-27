@@ -13,7 +13,7 @@ export function getLinks (
 export function postLink (
   params: any
 ): Promise<Ajax.AjaxResponse> {
-  return ax.post('/link', { ...params })
+  return ax.post('/link', params)
             .then(res => res.data)
             .catch(e => console.error(e))
 }
@@ -22,7 +22,7 @@ export function postLink (
 export function patchLink (
   params: any
 ): Promise<Ajax.AjaxResponse> {
-  return ax.patch(`/link/${params._id}`, { ...params })
+  return ax.patch(`/link/${params._id}`, params)
             .then(res => res.data)
             .catch(e => console.error(e))
 }
@@ -31,7 +31,7 @@ export function patchLink (
 export function putLink (
   params: any
 ): Promise<Ajax.AjaxResponse> {
-  return ax.put(`/link/${params._id}`, { ...params })
+  return ax.put(`/link/${params._id}`, params)
             .then(res => res.data)
             .catch(e => console.error(e))
 }

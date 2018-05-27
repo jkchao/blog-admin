@@ -13,7 +13,7 @@ export function getTags (
 export function postTag (
   params: any
 ): Promise<Ajax.AjaxResponse> {
-  return ax.post('/tag', { ...params })
+  return ax.post('/tag', params)
             .then(res => res.data)
             .catch(e => console.error(e))
 }
@@ -22,7 +22,7 @@ export function postTag (
 export function patchTag (
   params: any
 ): Promise<Ajax.AjaxResponse> {
-  return ax.patch(`/tag`, { ...params })
+  return ax.patch(`/tag`, params)
             .then(res => res.data)
             .catch(e => console.error(e))
 }
@@ -31,7 +31,7 @@ export function patchTag (
 export function putTag (
   params: any
 ): Promise<Ajax.AjaxResponse> {
-  return ax.put(`/tag/${params._id}`, { ...params })
+  return ax.put(`/tag/${params._id}`, params)
             .then(res => res.data)
             .catch(e => console.error(e))
 }

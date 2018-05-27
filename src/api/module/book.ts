@@ -13,7 +13,7 @@ export function getBooks (
 export function postBook (
   params: any
 ): Promise<Ajax.AjaxResponse> {
-  return ax.post('/book', { ...params })
+  return ax.post('/book', params)
             .then(res => res.data)
             .catch(e => console.error(e))
 }
@@ -22,7 +22,7 @@ export function postBook (
 export function patchBook (
   params: any
 ): Promise<Ajax.AjaxResponse> {
-  return ax.patch(`/book/${params._id}`, { ...params })
+  return ax.patch(`/book/${params._id}`, params)
             .then(res => res.data)
             .catch(e => console.error(e))
 }
@@ -31,7 +31,7 @@ export function patchBook (
 export function putBook (
   params: any
 ): Promise<Ajax.AjaxResponse> {
-  return ax.put(`/book/${params._id}`, { ...params })
+  return ax.put(`/book/${params._id}`, params)
             .then(res => res.data)
             .catch(e => console.error(e))
 }

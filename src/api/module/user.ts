@@ -4,13 +4,15 @@ import ax from '../axios'
 export function login (
   params: any
 ): Promise<Ajax.AjaxResponse> {
-  return ax.post('/login', { ...params })
+  return ax.post('/login', params)
             .then(res => res.data)
             .catch(e => console.error(e))
 }
 
 // 获取用户信息
-export function getAuth (): Promise<Ajax.AjaxResponse> {
+export function getAuth (
+  params?: any
+): Promise<Ajax.AjaxResponse> {
   return ax.get('/auth')
             .then(res => res.data)
             .catch(e => console.error(e))
@@ -20,7 +22,7 @@ export function getAuth (): Promise<Ajax.AjaxResponse> {
 export function putAuth (
   params: any
 ): Promise<Ajax.AjaxResponse> {
-  return ax.put('/auth', { ...params })
+  return ax.put('/auth', params)
             .then(res => res.data)
             .catch(e => console.error(e))
 }
@@ -36,7 +38,7 @@ export function getOpt (): Promise<Ajax.AjaxResponse> {
 export function putOpt (
   params: any
 ): Promise<Ajax.AjaxResponse> {
-  return ax.put('/option', { ...params })
+  return ax.put('/option', params)
             .then(res => res.data)
             .catch(e => console.error(e))
 }

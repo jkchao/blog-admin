@@ -20,7 +20,7 @@ export function deleteComment (
 export function putComment (
   params: any
 ): Promise<Ajax.AjaxResponse> {
-  return ax.put(`/comment/${params._id}`, { ...params })
+  return ax.put(`/comment/${params._id}`, params)
             .then(res => res.data)
             .catch(e => console.error(e))
 }

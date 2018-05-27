@@ -22,7 +22,7 @@ export function deleteHero (
 export function patchHero (
   params: any
 ): Promise<Ajax.AjaxResponse> {
-  return ax.patch('/hero', { ...params })
+  return ax.patch('/hero', params)
             .then(res => res.data)
             .catch(e => console.error(e))
 }

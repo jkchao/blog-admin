@@ -22,7 +22,7 @@ export function getArt (
 export function putArt (
   params: any
 ): Promise<Ajax.AjaxResponse> {
-  return ax.put(`/article/${params._id}`, { ...params })
+  return ax.put(`/article/${params._id}`, params)
             .then(res => res.data)
             .catch(e => console.error(e))
 }
@@ -40,7 +40,7 @@ export function deleteArt (
 export function postArt (
   params: any
 ): Promise<Ajax.AjaxResponse> {
-  return ax.post('/article', { ...params })
+  return ax.post('/article', params)
             .then(res => res.data)
             .catch(e => console.error(e))
 }
@@ -49,7 +49,7 @@ export function postArt (
 export function patchArt (
   params: any
 ): Promise<Ajax.AjaxResponse> {
-  return ax.patch(`/article/${params._id}`, { ...params })
+  return ax.patch(`/article/${params._id}`, params)
             .then(res => res.data)
             .catch(e => console.error(e))
 }
