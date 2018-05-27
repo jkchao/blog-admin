@@ -21,7 +21,7 @@ files.forEach(file => {
 
   content.forEach(item => {
     result += `// ${item.des}\n` +
-              `export function ${item.name} (params: any)` +
+              `export function ${item.name} (params?: any)` +
               `: Promise<Ajax.AjaxResponse> {\n` +
               `  return Ax.${item.method}('${item.url}', ` +
               `${item.method === 'get' ? '{ params }' : '{ ...params }'})\n` +
