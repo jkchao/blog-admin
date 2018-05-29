@@ -2,15 +2,9 @@ import Vue from 'vue'
 import Vuex, { ActionTree, MutationTree } from 'vuex'
 import 'babel-polyfill'
 
-import tag from './modules/tag'
-import hero from './modules/hero'
-import comment from './modules/comment'
-import article from './modules/article'
-import book from './modules/book'
-import link from './modules/link'
-
 import { success, error } from '../utils/response'
 import service from '../api'
+import modules from './modules'
 
 Vue.use(Vuex)
 
@@ -155,11 +149,6 @@ export default new Vuex.Store({
   actions,
   mutations,
   modules: {
-    tag,
-    hero,
-    comment,
-    article,
-    book,
-    link
+    modules
   }
 })

@@ -7,7 +7,6 @@ import 'highlight.js/styles/atom-one-dark.css'
 import hljs from 'highlight.js'
 (window as any).hljs = hljs
 
-
 import App from './layout/App.vue'
 import router from './router/index'
 import store from './store'
