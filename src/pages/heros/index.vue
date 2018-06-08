@@ -147,7 +147,7 @@ interface IList {
   components: { Card }
 })
 export default class Heros extends Vue {
-  private width: string = '48px'
+  private width = '48px'
   private type: IList[] = [
     {
       name: '状态',
@@ -162,8 +162,8 @@ export default class Heros extends Vue {
     }
   ]
   private state: StoreState.State
-  private keyword: string = ''
-  private currentPage: number = 1
+  private keyword = ''
+  private currentPage = 1
 
   private get fetch (): boolean {
     return this.$store.state.hero.fetch

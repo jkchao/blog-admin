@@ -81,11 +81,11 @@ import { Route } from 'vue-router'
 
 @Component
 export default class Index extends Vue {
-  private indexPath: string = '我的面板'
-  private defaultPath: string = ''
+  private indexPath = '我的面板'
+  private defaultPath = ''
   private defaultOpen: string[] = []
-  private currentPathName: string = ''
-  private currentPathNameParent: string = ''
+  private currentPathName = ''
+  private currentPathNameParent = ''
 
   private get user (): StoreState.User {
     return this.$store.state.user

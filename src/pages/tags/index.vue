@@ -112,14 +112,14 @@ import { error } from '@/utils/response'
 
 @Component
 export default class Tags extends Vue {
-  private title: string = '增加标签'
-  private dialogV: boolean = false
+  private title = '增加标签'
+  private dialogV = false
   private sortable: any
   private form: StoreState.Tag = {
     name: '',
     descript: ''
   }
-  private keyword: string = ''
+  private keyword = ''
   private currentPage: number = 1
 
   private get fetch (): boolean {

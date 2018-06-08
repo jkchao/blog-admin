@@ -196,14 +196,14 @@ interface IList {
   components: { Card }
 })
 export default class Books extends Vue {
-  private width: string = '48px'
+  private width = '48px'
   private qn: IQn = {
     token: '',
     key: ''
   }
   private percent: number = 0
-  private title: string = '增加书本'
-  private dialogV: boolean = false
+  private title = '增加书本'
+  private dialogV = false
   private form: StoreState.Book = {
     name: '',
     descript: '',

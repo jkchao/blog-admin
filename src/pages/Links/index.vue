@@ -139,10 +139,10 @@ interface Item {
   components: { Card }
 })
 export default class Links extends Vue {
-  private width: string = '48px'
-  private percent: number = 0
-  private title: string = '增加友链'
-  private dialogV: boolean = false
+  private width = '48px'
+  private percent = 0
+  private title = '增加友链'
+  private dialogV= false
   private form: StoreState.Link = {
     name: '',
     url: ''

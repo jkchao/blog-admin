@@ -205,7 +205,7 @@ interface IList {
   components: { Card }
 })
 export default class Comments extends Vue {
-  private width: string = '48px'
+  private width = '48px'
   private type: IList[] = [
     {
       name: '状态',
@@ -219,9 +219,9 @@ export default class Comments extends Vue {
     }
   ]
   private state: StoreState.State
-  private keyword: string = ''
-  private currentPage: number = 1
-  private dialogV: boolean = false
+  private keyword = ''
+  private currentPage = 1
+  private dialogV = false
   private form: StoreState.Comment = {
     author: {
       name: ''
