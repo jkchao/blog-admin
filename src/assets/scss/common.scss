@@ -1,0 +1,193 @@
+html,
+body {
+  margin: 0;
+  color: $text;
+  letter-spacing: 0.5px;
+  font-family: 'Futura', "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  font-size: $font-size-base;
+  background: #f2f2f2;  
+  font-weight: 400;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+}
+
+
+@font-face {
+  font-family: 'Futura';
+  src: url('/static/fonts/Futura.ttc')
+}
+
+*, *:hover {
+  @include transition(background-color .25s linear,
+                      color .10s linear,
+                      margin .25s linear,
+                      opacity .25s linear,
+                      filter .25s linear,
+                      visibility .25s linear,
+                      transform .25s linear,
+                      border-color .25s linear);
+}
+
+// 内容区域
+
+.container {
+  width: $container-width;
+  margin: 0 auto;
+}
+
+// 字体
+.font-futura {
+  font-family: Futura;
+}
+
+.iconfont.mar {
+  margin-right: 4px;
+}
+
+// 内容表格
+.table {
+  padding: $normal-pad;
+  background: $white;
+
+  >.pagination {
+    margin-top: 1rem;
+    text-align: right;
+  }
+}
+
+.el-form-item__label{
+  &::before {
+    content: '';
+    display: none;
+  }
+}
+
+
+// 清除浮动
+.clearfix {
+  &:after {
+    content: '';
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+  }
+}
+
+// el-check-group
+
+.el-checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+
+  >.el-checkbox-button {
+    margin: 4px;
+
+    >.el-checkbox-button__inner  {
+      border: 1px solid rgb(191, 201, 217);
+      border-radius: 4px;
+    }
+  }
+}
+
+// picture
+
+.avatar-uploader {
+  
+  .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .el-upload:hover {
+    border-color: $black;
+  }
+}
+
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px !important;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  // height: 178px;
+  display: block;
+}
+
+// el-dialog
+
+.el-dialog--tiny {
+  width: 420px;
+
+  .el-dialog__body {
+    padding: 10px 20px 0; 
+
+    .descript {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+// 面包屑
+
+.el-breadcrumb__inner {
+  font-weight: normal !important;
+}
+
+.el-breadcrumb__separator {
+  margin: 0 4px !important;
+  font-weight: normal !important;
+}
+
+::-webkit-input-placeholder {
+  /* WebKit browsers */
+  color: $disabled;
+  font-size: 1rem;
+}
+
+:-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+  color: $disabled;
+  font-size: 1rem;
+}
+
+::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+  color: $disabled;
+  font-size: 1rem;
+}
+
+:-ms-input-placeholder {
+  /* Internet Explorer 10+ */
+  color: $disabled;
+  font-size: 1rem;
+}
+
+
+::-webkit-scrollbar {
+  width: .5rem;
+  height: .5rem;
+  background: hsla(0, 0%, 100%, 0.6);
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 0;
+  background-color: rgba(95,95,95,.4);
+  transition: all .2s;
+  border-radius: .5rem;
+
+  &:hover {
+    background-color: rgba(95,95,95, .7);
+  }
+}

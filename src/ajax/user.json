@@ -1,0 +1,22 @@
+[
+  {
+    "name": "login",
+    "des": "登录",
+    "method": "post",
+    "url": "/login"
+  },
+  {
+    "name": "getAuth",
+    "des": "获取用户信息",
+    "method": "get",
+    "url": "/auth"
+  },
+  {
+    "name": "putAuth",
+    "des": "修改用户信息",
+    "method": "put",
+    "url": "/auth"
+  }
+]
+
+

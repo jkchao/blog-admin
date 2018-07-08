@@ -1,0 +1,49 @@
+// container
+$container-width: 70rem;
+$container-min-width: 50rem;
+$body-bg: #eee;
+$header-height: 4rem;
+
+$module-bg: rgba(255,255,255,0.6);
+$module-hover-bg: rgba(0, 0, 0, 0.12);
+$header-fix-bg: rgba(255, 255, 255, 0.80);
+$mobile-aside-bg: #34393d;
+$mobile-bg: rgba(200, 200, 200, .3);
+$admin-bg: #24292e;
+
+// color
+$white: #fff;
+$black: #24292e;
+$darkBlack: darken($black, 3%);
+$lightBlack: lighten($black, 3);
+$blue: #20A0FF;
+$green: #5ab95c;
+$gyey: #efefef;
+$black-light: #555;
+$border-color: #d1d5da;
+$form-hover: #8391a5;
+
+// radius
+$radius: 4px;
+
+// padding
+$br: 4px;
+$xs-pad: .3rem;
+$sm-pad: .5rem;
+$normal-pad: 1rem;
+$md-pad: 1.2rem;
+$lg-pad: 1.5rem;
+$xlg-pad: 3rem;
+
+//text
+$text: $black-light;
+$secondary: rgba(0, 0, 0, .54);
+$disabled: rgba(0, 0, 0, .38);
+$dividers: rgba(0, 0, 0, .26);
+$light-dark: $module-hover-bg;
+
+// font-sisze
+$font-size-base: 14px;
+$font-size-logo: 2rem;
+$font-size-large: 1.6rem;
+$font-size-small: .85rem;

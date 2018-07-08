@@ -1,0 +1,10 @@
+$--color-primary: #24292e;
+
+$--color-success: #5ab95c;
+$--color-warning: #efad4c;
+$--color-danger: #d9544e;
+$--color-info: #5ac1dd;
+
+$--font-path: '../../../node_modules/element-ui/lib/theme-chalk/fonts';
+
+@import '../../../node_modules/element-ui/packages/theme-chalk/src/index';
