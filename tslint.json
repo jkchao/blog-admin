@@ -168,13 +168,13 @@
     "no-unnecessary-initializer": true,
 
     // 定义变量命名规则
-    "variable-name": [
-      true,
-      "check-format",
-      "allow-leading-underscore",
-      "allow-trailing-underscore",
-      "ban-keywords"
-    ],
+    // "variable-name": [
+    //   true,
+    //   "check-format",
+    //   "allow-leading-underscore",
+    //   "allow-trailing-underscore",
+    //   "ban-keywords"
+    // ],
 
     // 句尾逗号
     "trailing-comma": [
