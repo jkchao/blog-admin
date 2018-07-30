@@ -148,7 +148,5 @@ export default new Vuex.Store({
   state,
   actions,
   mutations,
-  modules: {
-    modules
-  }
+  modules
 })
