@@ -23,7 +23,7 @@ const getClientEnvironment = require('./env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin-alt');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
-
+const tslintLoader = require('tslint-loader');
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
@@ -294,16 +294,16 @@ module.exports = function(webpackEnv) {
         // First, run the linter.
         // It's important to do this before Babel processes the JS.
         {
-          test: /\.(js|mjs|jsx)$/,
+          test: /\.(js|mjs|jsx|tsx|ts)$/,
           enforce: 'pre',
           use: [
             {
               options: {
-                formatter: require.resolve('react-dev-utils/eslintFormatter'),
-                eslintPath: require.resolve('eslint'),
-                
+                configFile: paths.appTsLint,
+                emitErrors: true,
+                failOnHint: true
               },
-              loader: require.resolve('eslint-loader'),
+              loader: 'tslint-loader',
             },
           ],
           include: paths.appSrc,
@@ -581,7 +581,7 @@ module.exports = function(webpackEnv) {
             noEmit: true,
             jsx: 'preserve',
           },
-          tslint: paths.appTsLint,
+          // tslint: paths.appTsLint,
           reportFiles: [
             '**',
             '!**/*.json',
