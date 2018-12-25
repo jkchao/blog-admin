@@ -62,9 +62,11 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "precommit": "lint-staged",
+    "lint": "tslint -c tslint.json -p tsconfig.json"
   },
-   "lint-staged": {
+  "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
       "prettier --write",
       "git add"
