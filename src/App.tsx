@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
+import { Button, Row, Col } from 'antd';
 import './App.css';
 
 class App extends Component {
@@ -11,6 +12,11 @@ class App extends Component {
           <p>
             Edit <code>src/App.tsx</code> and save to reload.
           </p>
+          <Button type="primary">Button</Button>
+          <Row>
+            <Col span={12}>col-12</Col>
+            <Col span={12}>col-12</Col>
+          </Row>
           <a
             className="App-link"
             href="https://reactjs.org"
