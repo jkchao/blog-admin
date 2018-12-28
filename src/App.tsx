@@ -1,32 +1,52 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import { Button, Row, Col } from 'antd';
+import React from 'react';
 import './App.css';
 
-class App extends Component {
+import { Layout } from 'antd';
+import { Header } from './layouts/Header';
+import { Menu } from './layouts/Menu';
+
+const { Sider, Content } = Layout;
+
+class App extends React.Component {
+  state = {
+    collapsed: false
+  };
+
+  toggle = () => {
+    this.setState({
+      collapsed: !this.state.collapsed
+    });
+  };
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-          <Button type="primary">Button</Button>
-          <Row>
-            <Col span={12}>col-12</Col>
-            <Col span={12}>col-12</Col>
-          </Row>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
+      <Layout>
+        <Sider
+          trigger={null}
+          collapsible
+          collapsed={this.state.collapsed}
+          style={{
+            overflow: 'auto',
+            height: '100vh'
+          }}
+        >
+          <div className="logo" />
+          <Menu />
+        </Sider>
+        <Layout>
+          <Header collapsed={this.state.collapsed} toggle={this.toggle} />
+          <Content
+            style={{
+              margin: '24px 16px',
+              padding: 24,
+              background: '#fff',
+              minHeight: 280
+            }}
           >
-            Learn React
-          </a>
-        </header>
-      </div>
+            Content
+          </Content>
+        </Layout>
+      </Layout>
     );
   }
 }
