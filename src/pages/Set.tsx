@@ -1,3 +1,7 @@
 import React from 'react';
 
-export const Set = () => <div>Set</div>;
+export default class extends React.Component {
+  render() {
+    return <div>Set</div>;
+  }
+}

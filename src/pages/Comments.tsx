@@ -1,3 +1,7 @@
 import React from 'react';
 
-export const Comments = () => <div>Comments</div>;
+export default class extends React.Component {
+  render() {
+    return <div>Comments</div>;
+  }
+}

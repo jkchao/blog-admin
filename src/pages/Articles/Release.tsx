@@ -2,6 +2,6 @@ import React from 'react';
 
 export default class extends React.Component {
   render() {
-    return <div>Links</div>;
+    return <div>Release</div>;
   }
 }

@@ -1,3 +1,7 @@
 import React from 'react';
 
-export const Tags = () => <div>Tags</div>;
+export default class extends React.Component {
+  render() {
+    return <div>Tags</div>;
+  }
+}

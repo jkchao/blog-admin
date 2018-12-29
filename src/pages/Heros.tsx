@@ -1,3 +1,7 @@
 import React from 'react';
 
-export const Heros = () => <div>Heros</div>;
+export default class extends React.Component {
+  render() {
+    return <div>Heros</div>;
+  }
+}
