@@ -28,6 +28,8 @@
     // 设置成员对象的访问权限（public,private,protect)
     "member-access": [true, "no-public"],
 
+    "interface-over-type-literal": false,
+
     // 设置修饰符顺序
     "member-ordering": [
       true,
