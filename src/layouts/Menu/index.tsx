@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { MenuProps as AntMenuProps } from 'antd/lib/menu';
 
 interface MenuItem {
-  key: string;
+  path: string;
   title: string;
   icon: string;
   subMenu?: MenuItem[];
@@ -16,8 +16,8 @@ type MenuProps = {
 } & AntMenuProps;
 
 const renderMenuItem = (item: MenuItem) => (
-  <AntMenu.Item key={item.key}>
-    <Link to={item.key}>
+  <AntMenu.Item key={item.path}>
+    <Link to={item.path}>
       {item.icon && <Icon type={item.icon} />}
       <span className="nav-text">{item.title}</span>
     </Link>
@@ -26,7 +26,7 @@ const renderMenuItem = (item: MenuItem) => (
 
 const renderSubMenu = (item: MenuItem) => (
   <AntMenu.SubMenu
-    key={item.key}
+    key={item.path}
     title={
       <span>
         {item.icon && <Icon type={item.icon} />}
@@ -38,7 +38,7 @@ const renderSubMenu = (item: MenuItem) => (
   </AntMenu.SubMenu>
 );
 
-export const Menu = ({ menu, ...props }: MenuProps) => (
+export const BaseMenu = ({ menu, ...props }: MenuProps) => (
   <AntMenu {...props}>
     {menu.map(item =>
       item.subMenu ? renderSubMenu(item) : renderMenuItem(item)

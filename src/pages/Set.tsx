@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class extends React.Component {
+export default class Set extends React.Component {
   render() {
     return <div>Set</div>;
   }

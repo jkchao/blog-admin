@@ -1,23 +1,22 @@
 import React, { Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { Menus } from './config';
+import { NotFound } from '@/pages/404';
+import { PageLoading } from '@/components/PageLoading';
 
 export const Routers = () => (
-  <Suspense fallback={<div>Loading...</div>}>
+  <Suspense fallback={<PageLoading />}>
     <Switch>
       {Menus.map(menu => {
         const route = (r: typeof menu) => (
-          <Route
-            key={menu.key}
-            path={menu.key}
-            exact
-            component={menu.component}
-          />
+          <Route key={r.path} path={r.path} exact component={r.component} />
         );
-        return menu.subMenu
-          ? menu.subMenu.map(item => route(item))
-          : route(menu);
+        return menu.component
+          ? route(menu)
+          : menu.subMenu.map(item => route(item));
       })}
+
+      <Route component={NotFound} />
     </Switch>
   </Suspense>
 );
