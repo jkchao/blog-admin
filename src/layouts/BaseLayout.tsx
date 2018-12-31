@@ -3,7 +3,7 @@ import React from 'react';
 import { Layout } from 'antd';
 import { Header } from './Header';
 import { BaseMenu } from './Menu';
-import { Routers } from '@/router';
+import { BaseRouters } from '@/router';
 import { Menus } from '@/router/config';
 import { Location } from 'history';
 import { urlToList } from '@/utils';
@@ -79,7 +79,7 @@ export default class BaseLayout extends React.Component<
               background: '#fff'
             }}
           >
-            <Routers />
+            <BaseRouters />
           </Content>
         </Layout>
       </Layout>

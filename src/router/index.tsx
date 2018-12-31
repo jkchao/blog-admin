@@ -1,15 +1,16 @@
 import React, { Suspense } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { Menus } from './config';
 import { NotFound } from '@/pages/404';
 import { PageLoading } from '@/components/PageLoading';
 
-export const Routers = () => (
+export const BaseRouters = () => (
   <Suspense fallback={<PageLoading />}>
     <Switch>
+      <Redirect from="/" to={Menus[0].path} exact />
       {Menus.map(menu => {
-        const route = (r: typeof menu) => (
-          <Route key={r.path} path={r.path} exact component={r.component} />
+        const route = ({ component: Component, path }: typeof menu) => (
+          <Route key={path} path={path} exact component={Component} />
         );
         return menu.component
           ? route(menu)
