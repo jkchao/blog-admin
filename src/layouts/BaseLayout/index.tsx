@@ -29,8 +29,9 @@ export default class BaseLayout extends React.Component<
   state = {
     collapsed: false,
     currentUser: {
-      name: '',
-      avatar: ''
+      name: 'jkchao',
+      avatar:
+        'https://static.jkchao.cn/DB4EAD57ED7554C1602B27807B386087.png?imageView2/1/w/36/h/36'
     }
   };
 

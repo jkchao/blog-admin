@@ -32,14 +32,9 @@ export class HeaderRightContent extends React.PureComponent<HeaderProps> {
     );
 
     return (
-      <Dropdown overlay={HeaderMenu}>
-        <span className={`${styles.action} ${styles.account}`}>
-          <Avatar
-            size="small"
-            className={styles.avatar}
-            src={currentUser.avatar}
-            alt="avatar"
-          />
+      <Dropdown overlay={HeaderMenu} className={styles.right}>
+        <span>
+          <Avatar size="small" src={currentUser.avatar} alt="avatar" />
           <span className={styles.name}>{currentUser.name}</span>
         </span>
       </Dropdown>
