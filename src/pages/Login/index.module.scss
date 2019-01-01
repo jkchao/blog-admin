@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  background: url(https://static.jkchao.cn/main_bg.jpg) no-repeat 20% 20%;
+  background-size: cover;
+}
+
+.form {
+  width: 250px;
+}
+
+.form-button {
+  width: 100%;
+}

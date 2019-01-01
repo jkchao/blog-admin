@@ -1,12 +1,15 @@
 import React from 'react';
 
 import { Layout } from 'antd';
-import { Header } from './Header';
-import { BaseMenu } from './Menu';
+import { Header } from '../Header';
+import { BaseMenu } from '../Menu';
 import { BaseRouters } from '@/router';
 import { Menus } from '@/router/config';
 import { Location } from 'history';
 import { urlToList } from '@/utils';
+import logo from '@/assets/images/logo.png';
+
+import styles from './index.module.scss';
 
 const { Sider, Content } = Layout;
 
@@ -60,15 +63,11 @@ export default class BaseLayout extends React.Component<
             height: '100vh'
           }}
         >
-          <div className="logo" />
-          <BaseMenu
-            menu={Menus}
-            theme="dark"
-            mode="inline"
-            {...props}
-            // selectedKeys={[pathname]}
-            // openKeys={[]}
-          />
+          <div className={styles.logo}>
+            <img src={logo} alt="" />
+            {!this.state.collapsed && <span>后台管理</span>}
+          </div>
+          <BaseMenu menu={Menus} theme="dark" mode="inline" {...props} />
         </Sider>
         <Layout>
           <Header collapsed={this.state.collapsed} toggle={this.toggle} />
