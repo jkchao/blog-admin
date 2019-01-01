@@ -3,12 +3,20 @@ import { Layout, Icon } from 'antd';
 
 const { Header: AntHeader } = Layout;
 import styles from './index.module.scss';
+import { HeaderRightContent } from './HeaderRightContent';
+
+export interface CurrentUser {
+  avatar: string;
+  name: string;
+}
 interface HeaderProps {
   collapsed: boolean;
+  currentUser: CurrentUser;
   toggle: () => void;
+  onMenuClick: () => void;
 }
 
-export const Header = ({ collapsed, toggle }: HeaderProps) => {
+export const Header = ({ collapsed, toggle, ...rest }: HeaderProps) => {
   return (
     <>
       <AntHeader style={{ background: '#fff', padding: 0 }}>
@@ -17,6 +25,8 @@ export const Header = ({ collapsed, toggle }: HeaderProps) => {
           type={collapsed ? 'menu-unfold' : 'menu-fold'}
           onClick={toggle}
         />
+
+        <HeaderRightContent {...rest} />
       </AntHeader>
     </>
   );

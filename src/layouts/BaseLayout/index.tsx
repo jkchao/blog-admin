@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Layout } from 'antd';
-import { Header } from '../Header';
+import { Header, CurrentUser } from '../Header';
 import { BaseMenu } from '../Menu';
 import { BaseRouters } from '@/router';
 import { Menus } from '@/router/config';
@@ -19,6 +19,7 @@ type BaseLayoutProps = {
 
 type BaseLayoutState = {
   collapsed: boolean;
+  currentUser: CurrentUser;
 };
 
 export default class BaseLayout extends React.Component<
@@ -26,7 +27,11 @@ export default class BaseLayout extends React.Component<
   BaseLayoutState
 > {
   state = {
-    collapsed: false
+    collapsed: false,
+    currentUser: {
+      name: '',
+      avatar: ''
+    }
   };
 
   toggle = () => {
@@ -35,10 +40,17 @@ export default class BaseLayout extends React.Component<
     });
   };
 
+  onMenuClick = () => {
+    // ..
+  };
+
   render() {
     const {
       location: { pathname }
     } = this.props;
+
+    const { collapsed, currentUser } = this.state;
+
     const openKeys = urlToList(pathname)[0];
 
     const props: {
@@ -57,7 +69,7 @@ export default class BaseLayout extends React.Component<
         <Sider
           trigger={null}
           collapsible
-          collapsed={this.state.collapsed}
+          collapsed={collapsed}
           style={{
             overflow: 'auto',
             height: '100vh'
@@ -70,7 +82,12 @@ export default class BaseLayout extends React.Component<
           <BaseMenu menu={Menus} theme="dark" mode="inline" {...props} />
         </Sider>
         <Layout>
-          <Header collapsed={this.state.collapsed} toggle={this.toggle} />
+          <Header
+            collapsed={this.state.collapsed}
+            toggle={this.toggle}
+            currentUser={currentUser}
+            onMenuClick={this.onMenuClick}
+          />
           <Content
             style={{
               margin: '24px 16px',
