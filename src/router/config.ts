@@ -9,7 +9,6 @@ const Links = lazy(() => import('@/pages/Links'));
 const Tags = lazy(() => import('@/pages/Tags'));
 const Set = lazy(() => import('@/pages/Set'));
 
-// TODO:懒加载
 export const Menus = [
   {
     path: '/dashboard',

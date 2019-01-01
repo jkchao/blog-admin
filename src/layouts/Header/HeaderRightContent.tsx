@@ -1,13 +1,12 @@
 import React from 'react';
 import { Menu, Icon, Dropdown, Avatar } from 'antd';
 import styles from './index.module.scss';
+import { ClickParam } from 'antd/lib/menu';
+import { CurrentUser } from '.';
 
 interface HeaderProps {
-  onMenuClick: () => void;
-  currentUser: {
-    avatar: string;
-    name: string;
-  };
+  onMenuClick: (param: ClickParam) => void;
+  currentUser: CurrentUser;
 }
 
 export class HeaderRightContent extends React.PureComponent<HeaderProps> {
@@ -15,15 +14,10 @@ export class HeaderRightContent extends React.PureComponent<HeaderProps> {
     const { onMenuClick, currentUser } = this.props;
     const HeaderMenu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
-        <Menu.Item key="userCenter">
-          <Icon type="user" />
-          <span>account center</span>
-        </Menu.Item>
-        <Menu.Item key="userinfo">
+        <Menu.Item key="set">
           <Icon type="setting" />
           <span>account settings</span>
         </Menu.Item>
-        <Menu.Divider />
         <Menu.Item key="logout">
           <Icon type="logout" />
           <span>logout</span>

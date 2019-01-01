@@ -3,9 +3,9 @@ import styles from './index.module.scss';
 
 import { Form, Icon, Input, Button } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
-import { RouterProps } from 'react-router';
+import { RouteComponentProps } from 'react-router';
 
-interface UserFormProps extends FormComponentProps, RouterProps {
+interface UserFormProps extends FormComponentProps, RouteComponentProps {
   username: string;
   password: string;
 }

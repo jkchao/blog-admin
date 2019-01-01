@@ -10,12 +10,12 @@ import { urlToList } from '@/utils';
 import logo from '@/assets/images/logo.png';
 
 import styles from './index.module.scss';
+import { ClickParam } from 'antd/lib/menu';
+import { RouteComponentProps } from 'react-router';
 
 const { Sider, Content } = Layout;
 
-type BaseLayoutProps = {
-  location: Location;
-};
+type BaseLayoutProps = RouteComponentProps;
 
 type BaseLayoutState = {
   collapsed: boolean;
@@ -41,8 +41,10 @@ export default class BaseLayout extends React.Component<
     });
   };
 
-  onMenuClick = () => {
-    // ..
+  onMenuClick = ({ key }: ClickParam) => {
+    if (key === 'set') {
+      this.props.history.push('/set');
+    }
   };
 
   render() {

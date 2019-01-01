@@ -4,6 +4,7 @@ import { Layout, Icon } from 'antd';
 const { Header: AntHeader } = Layout;
 import styles from './index.module.scss';
 import { HeaderRightContent } from './HeaderRightContent';
+import { ClickParam } from 'antd/lib/menu';
 
 export interface CurrentUser {
   avatar: string;
@@ -13,7 +14,7 @@ interface HeaderProps {
   collapsed: boolean;
   currentUser: CurrentUser;
   toggle: () => void;
-  onMenuClick: () => void;
+  onMenuClick: (param: ClickParam) => void;
 }
 
 export const Header = ({ collapsed, toggle, ...rest }: HeaderProps) => {
