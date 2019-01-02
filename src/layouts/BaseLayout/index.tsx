@@ -5,13 +5,13 @@ import { Header, CurrentUser } from '../Header';
 import { BaseMenu } from '../Menu';
 import { BaseRouters } from '@/router';
 import { Menus } from '@/router/config';
-import { Location } from 'history';
 import { urlToList } from '@/utils';
 import logo from '@/assets/images/logo.png';
 
 import styles from './index.module.scss';
 import { ClickParam } from 'antd/lib/menu';
 import { RouteComponentProps } from 'react-router';
+import { BreadcrumbView } from '@/components/breadcrumb';
 
 const { Sider, Content } = Layout;
 
@@ -52,6 +52,8 @@ export default class BaseLayout extends React.Component<
       location: { pathname }
     } = this.props;
 
+    console.log(pathname);
+
     const { collapsed, currentUser } = this.state;
 
     const openKeys = urlToList(pathname)[0];
@@ -91,13 +93,8 @@ export default class BaseLayout extends React.Component<
             currentUser={currentUser}
             onMenuClick={this.onMenuClick}
           />
-          <Content
-            style={{
-              margin: '24px 16px',
-              padding: 24,
-              background: '#fff'
-            }}
-          >
+          <BreadcrumbView />
+          <Content className={styles.content}>
             <BaseRouters />
           </Content>
         </Layout>

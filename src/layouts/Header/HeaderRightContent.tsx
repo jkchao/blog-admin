@@ -13,7 +13,7 @@ export class HeaderRightContent extends React.PureComponent<HeaderProps> {
   render() {
     const { onMenuClick, currentUser } = this.props;
     const HeaderMenu = (
-      <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
+      <Menu className={styles.menu} onClick={onMenuClick}>
         <Menu.Item key="set">
           <Icon type="setting" />
           <span>account settings</span>
