@@ -12,42 +12,42 @@ const Set = lazy(() => import('@/pages/Set'));
 export const Menus = [
   {
     path: '/dashboard',
-    title: '首页',
+    title: 'Home',
     icon: 'home',
     component: Dashboard
   },
   {
     path: '/article',
-    title: '文章',
+    title: 'Articles',
     icon: 'project',
     subMenu: [
       {
         path: '/article/list',
-        title: '文章列表',
+        title: 'List',
         icon: 'bars',
         component: ArticlesList
       },
       {
         path: '/article/release',
-        title: '文章编辑',
+        title: 'Edit',
         icon: 'edit',
         component: ArticlesRelease
       }
     ]
   },
-  { path: '/tag', title: '标签', icon: 'tags', component: Tags },
+  { path: '/tag', title: 'Tags', icon: 'tags', component: Tags },
   {
     path: '/comment',
-    title: '评论',
+    title: 'Comment',
     icon: 'message',
     component: Comments
   },
-  { path: '/heros', title: '留言墙', icon: 'home', component: Heros },
+  { path: '/heros', title: 'Mall', icon: 'home', component: Heros },
   {
     path: '/links',
-    title: '友情链接',
+    title: 'Links',
     icon: 'link',
     component: Links
   },
-  { path: '/set', title: '设置', icon: 'setting', component: Set }
+  { path: '/set', title: 'Set', icon: 'setting', component: Set }
 ];

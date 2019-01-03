@@ -9,6 +9,7 @@ import { urlToList } from '@/utils';
 import logo from '@/assets/images/logo.png';
 
 import styles from './index.module.scss';
+
 import { ClickParam } from 'antd/lib/menu';
 import { RouteComponentProps } from 'react-router';
 import { BreadcrumbView } from '@/components/breadcrumb';
@@ -69,6 +70,7 @@ export default class BaseLayout extends React.Component<
     if (openKeys !== pathname) {
       props.openKeys = [openKeys];
     }
+
     return (
       <Layout>
         <Sider

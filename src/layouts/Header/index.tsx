@@ -19,16 +19,14 @@ interface HeaderProps {
 
 export const Header = ({ collapsed, toggle, ...rest }: HeaderProps) => {
   return (
-    <>
-      <AntHeader style={{ background: '#fff', padding: 0 }}>
-        <Icon
-          className={styles.trigger}
-          type={collapsed ? 'menu-unfold' : 'menu-fold'}
-          onClick={toggle}
-        />
+    <AntHeader className={styles.header}>
+      <Icon
+        className={styles.trigger}
+        type={collapsed ? 'menu-unfold' : 'menu-fold'}
+        onClick={toggle}
+      />
 
-        <HeaderRightContent {...rest} />
-      </AntHeader>
-    </>
+      <HeaderRightContent {...rest} />
+    </AntHeader>
   );
 };

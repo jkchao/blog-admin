@@ -9,8 +9,8 @@ export const BaseRouters = () => (
     <Switch>
       <Redirect from="/" to={Menus[0].path} exact />
       {Menus.map(menu => {
-        const route = ({ component: Component, path }: typeof menu) => (
-          <Route key={path} path={path} exact component={Component} />
+        const route = ({ component: Component, path, title }: typeof menu) => (
+          <Route key={title} path={path} exact component={Component} />
         );
         return menu.component
           ? route(menu)
