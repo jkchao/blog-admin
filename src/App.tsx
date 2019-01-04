@@ -1,5 +1,7 @@
 import React, { Suspense, ErrorInfo } from 'react';
 
+import { ApolloProvider } from 'react-apollo';
+
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import BaseLayout from './layouts/BaseLayout';
@@ -8,6 +10,7 @@ import { AuthRoute } from './router/auth';
 import './App.css';
 import './assets/scss/index.scss';
 import { notification } from 'antd';
+import { client } from './plugin/apollo';
 
 export class App extends React.PureComponent {
   componentDidCatch(error: Error, info: ErrorInfo) {
@@ -21,12 +24,14 @@ export class App extends React.PureComponent {
   render() {
     return (
       <BrowserRouter>
-        <Suspense fallback={<PageLoading />}>
-          <Switch>
-            <Route path="/login" exact component={Login} />
-            <AuthRoute path="/" component={BaseLayout} />
-          </Switch>
-        </Suspense>
+        <ApolloProvider client={client}>
+          <Suspense fallback={<PageLoading />}>
+            <Switch>
+              <Route path="/login" exact component={Login} />
+              <AuthRoute path="/" component={BaseLayout} />
+            </Switch>
+          </Suspense>
+        </ApolloProvider>
       </BrowserRouter>
     );
   }

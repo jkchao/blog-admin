@@ -12,7 +12,7 @@ import styles from './index.module.scss';
 
 import { ClickParam } from 'antd/lib/menu';
 import { RouteComponentProps } from 'react-router';
-import { BreadcrumbView } from '@/components/breadcrumb';
+import { BreadcrumbView } from '@/components/Breadcrumb';
 
 const { Sider, Content } = Layout;
 
