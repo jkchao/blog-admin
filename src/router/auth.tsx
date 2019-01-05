@@ -7,22 +7,20 @@ type Props = {
   component: React.ComponentClass | React.FunctionComponent;
 } & RouteProps;
 
-export const AuthRoute = ({ component: Component, ...rest }: Props) => {
-  return (
-    <Route
-      {...rest}
-      render={props =>
-        checkLogin() ? (
-          <Component {...props} />
-        ) : (
-          <Redirect
-            to={{
-              pathname: '/login',
-              state: { from: props.location }
-            }}
-          />
-        )
-      }
-    />
-  );
-};
+export const AuthRoute = ({ component: Component, ...rest }: Props) => (
+  <Route
+    {...rest}
+    render={props =>
+      checkLogin() ? (
+        <Component {...props} />
+      ) : (
+        <Redirect
+          to={{
+            pathname: '/login',
+            state: { from: props.location }
+          }}
+        />
+      )
+    }
+  />
+);
