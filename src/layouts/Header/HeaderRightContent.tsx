@@ -2,21 +2,25 @@ import React from 'react';
 import { Menu, Icon, Dropdown, Avatar } from 'antd';
 import styles from './index.module.scss';
 import { ClickParam } from 'antd/lib/menu';
-import { CurrentUser } from '.';
+import { User } from '../BaseLayout';
 
 interface HeaderProps {
   onMenuClick: (param: ClickParam) => void;
-  currentUser: CurrentUser;
+  currentUser?: User;
 }
 
 export class HeaderRightContent extends React.PureComponent<HeaderProps> {
   render() {
-    const { onMenuClick, currentUser } = this.props;
+    const {
+      onMenuClick,
+      currentUser = { username: 'jkchao', gravatar: '' }
+    } = this.props;
+
     const HeaderMenu = (
       <Menu className={styles.menu} onClick={onMenuClick}>
         <Menu.Item key="set">
           <Icon type="setting" />
-          <span>account settings</span>
+          <span>settings</span>
         </Menu.Item>
         <Menu.Item key="logout">
           <Icon type="logout" />
@@ -28,8 +32,8 @@ export class HeaderRightContent extends React.PureComponent<HeaderProps> {
     return (
       <Dropdown overlay={HeaderMenu} className={styles.right}>
         <span>
-          <Avatar size="small" src={currentUser.avatar} alt="avatar" />
-          <span className={styles.name}>{currentUser.name}</span>
+          <Avatar size="small" src={currentUser.gravatar} alt="avatar" />
+          <span className={styles.name}>{currentUser.username}</span>
         </span>
       </Dropdown>
     );

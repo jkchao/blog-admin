@@ -4,7 +4,7 @@ import { checkLogin } from '@/utils';
 
 // RouteProps 的 component 有问题，需要覆盖掉
 type Props = {
-  component: typeof React.Component;
+  component: React.ComponentClass | React.FunctionComponent;
 } & RouteProps;
 
 export const AuthRoute = ({ component: Component, ...rest }: Props) => {

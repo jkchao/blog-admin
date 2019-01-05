@@ -5,14 +5,11 @@ const { Header: AntHeader } = Layout;
 import styles from './index.module.scss';
 import { HeaderRightContent } from './HeaderRightContent';
 import { ClickParam } from 'antd/lib/menu';
+import { User } from '../BaseLayout';
 
-export interface CurrentUser {
-  avatar: string;
-  name: string;
-}
 interface HeaderProps {
   collapsed: boolean;
-  currentUser: CurrentUser;
+  currentUser?: User;
   toggle: () => void;
   onMenuClick: (param: ClickParam) => void;
 }

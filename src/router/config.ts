@@ -42,7 +42,7 @@ export const Menus = [
     icon: 'message',
     component: Comments
   },
-  { path: '/heros', title: 'Mall', icon: 'home', component: Heros },
+  { path: '/heros', title: 'Heros', icon: 'fire', component: Heros },
   {
     path: '/links',
     title: 'Links',

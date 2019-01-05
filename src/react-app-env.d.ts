@@ -6,7 +6,7 @@ declare namespace NodeJS {
   interface ProcessEnv {
     NODE_ENV: 'development' | 'production' | 'test';
     PUBLIC_URL: string;
-    REACT_APOLLO_PATH: string;
+    REACT_APP_APOLLO_PATH: string;
   }
 }
 

@@ -1,26 +1,71 @@
 import React from 'react';
 import styles from './index.module.scss';
 
-import { Form, Icon, Input, Button } from 'antd';
+import { Form, Icon, Input, Button, notification } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { RouteComponentProps } from 'react-router';
+import { LoginButton } from './Button';
+import { LOGIN } from './query';
+import ApolloClient from 'apollo-client';
 
-interface UserFormProps extends FormComponentProps, RouteComponentProps {
+export interface Variables {
   username: string;
   password: string;
 }
 
-class Login extends React.Component<UserFormProps> {
-  handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+interface LoginState {
+  loading: boolean;
+}
+
+interface Response {
+  login: {
+    lifeTime: number;
+    token: string;
+  };
+}
+
+interface UserFormProps
+  extends FormComponentProps,
+    RouteComponentProps,
+    Variables {}
+
+class Login extends React.Component<UserFormProps, LoginState> {
+  state = {
+    loading: false
+  };
+
+  handleSubmit = (e: React.MouseEvent, client: ApolloClient<any>) => {
+    this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
-        window.localStorage.setItem(
-          'TOKEN',
-          JSON.stringify({ lifeTime: new Date().getTime() })
-        );
-        this.props.history.push('/');
+        this.setState({
+          loading: true
+        });
+        const {
+          data: { login },
+          errors
+        } = await client.query<Response, Variables>({
+          query: LOGIN,
+          variables: values,
+          errorPolicy: 'all'
+        });
+        this.setState({
+          loading: false
+        });
+
+        errors &&
+          notification.error({
+            message: 'GraphQL error',
+            description: errors.map(
+              ({ message }) => `Message: ${message.message}`
+            ),
+            duration: 5
+          });
+
+        if (login) {
+          window.localStorage.setItem('TOKEN', JSON.stringify(login));
+          const path = this.props.location.state.from.pathname;
+          this.props.history.push(path || '/dashboard');
+        }
       }
     });
   };
@@ -29,9 +74,9 @@ class Login extends React.Component<UserFormProps> {
     const { getFieldDecorator } = this.props.form;
     return (
       <div className={styles.container}>
-        <Form onSubmit={this.handleSubmit} className={styles.form}>
+        <Form className={styles.form}>
           <Form.Item hasFeedback>
-            {getFieldDecorator('userName', {
+            {getFieldDecorator('username', {
               rules: [
                 { required: true, message: '请输入姓名' },
                 { min: 6, message: '最小长度为 6 位' }
@@ -61,13 +106,15 @@ class Login extends React.Component<UserFormProps> {
             )}
           </Form.Item>
           <Form.Item>
-            <Button
+            <LoginButton
               type="primary"
               htmlType="submit"
               className={styles['form-button']}
+              login={this.handleSubmit}
+              loading={this.state.loading}
             >
               Log in
-            </Button>
+            </LoginButton>
           </Form.Item>
         </Form>
       </div>
