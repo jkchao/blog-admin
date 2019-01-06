@@ -1,0 +1,28 @@
+.radio-list {
+  margin: 24px;
+  padding: 24px;
+  background: #fff;
+
+  .radio-item:last-child {
+    border-bottom: 0;
+    margin-bottom: 0;
+    padding-bottom: 0px;
+  }
+
+  .radio-item {
+    display: flex;
+    position: relative;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    line-height: 32px;
+    border-bottom: 1px dashed rgb(210, 210, 210);
+
+    .ant-radio-group {
+      margin-left: 10px;
+
+      .ant-radio-button {
+        margin: 0 3px;
+      }
+    }
+  }
+}

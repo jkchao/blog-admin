@@ -1,6 +1,8 @@
 import React from 'react';
 import { Radio } from 'antd';
 
+import styles from './index.module.scss';
+import { Search } from './Search';
 interface Item {
   name: string;
   id: number | string;
@@ -14,22 +16,34 @@ export interface TypeList {
 }
 
 interface RadioSelectProps {
+  hasSearch?: boolean;
   typeList: TypeList[];
-  children: React.ReactNode;
 }
 
-export const RadioSelect = ({ typeList, children }: RadioSelectProps) => (
-  <div>
+export const RadioSelect = ({
+  typeList,
+  hasSearch = false
+}: RadioSelectProps) => (
+  <div className={styles['radio-list']}>
     {typeList.map(types => (
-      <>
-        <span>{types.name}</span>
-        <Radio.Group defaultValue={types.defaultValue}>
+      <div className={styles['radio-item']}>
+        <span>{types.name}：</span>
+        <Radio.Group
+          defaultValue={types.defaultValue}
+          buttonStyle="solid"
+          className={styles['ant-radio-group']}
+        >
           {types.list.map(item => (
-            <Radio.Button value={item.id}>{item.name}</Radio.Button>
+            <Radio.Button
+              value={item.id}
+              className={styles['ant-radio-button']}
+            >
+              {item.name}
+            </Radio.Button>
           ))}
         </Radio.Group>
-      </>
+      </div>
     ))}
-    {children}
+    {hasSearch && <Search />}
   </div>
 );

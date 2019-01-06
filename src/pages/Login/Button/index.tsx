@@ -1,7 +1,7 @@
 import React from 'react';
 import Button, { ButtonProps } from 'antd/lib/button';
 import { ApolloConsumer } from 'react-apollo';
-import ApolloClient, { QueryOptions } from 'apollo-client';
+import ApolloClient from 'apollo-client';
 
 type LoginButtonProps = {
   login: (e: React.MouseEvent, client: ApolloClient<any>) => void;
