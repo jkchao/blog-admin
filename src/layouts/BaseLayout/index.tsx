@@ -13,10 +13,8 @@ export interface User {
   gravatar: string;
 }
 
-class AuthQuery extends Query<{ getInfo: User }> {}
-
 const BaseLayout = () => (
-  <AuthQuery query={GET_INFO}>
+  <Query<{ getInfo: User }> query={GET_INFO}>
     {({ data, loading, error }) => {
       if (loading) {
         return <PageLoading />;
@@ -35,7 +33,7 @@ const BaseLayout = () => (
 
       return <ContentLayout useInfo={data} />;
     }}
-  </AuthQuery>
+  </Query>
 );
 
 export default BaseLayout;

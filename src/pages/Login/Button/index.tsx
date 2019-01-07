@@ -1,5 +1,6 @@
 import React from 'react';
-import Button, { ButtonProps } from 'antd/lib/button';
+import { ButtonProps } from 'antd/lib/button';
+import { Button } from 'antd';
 import { ApolloConsumer } from 'react-apollo';
 import ApolloClient from 'apollo-client';
 
