@@ -14,3 +14,8 @@
     vertical-align: middle;
   }
 }
+
+.content {
+  height: calc(100vh - 64px - 54px);
+  overflow: auto;
+}

@@ -16,14 +16,12 @@ export interface TypeList {
 }
 
 interface RadioSelectProps {
-  hasSearch?: boolean;
   typeList: TypeList[];
+  onSearch: (value: string) => void;
+  hasAddBtn?: boolean;
 }
 
-export const RadioSelect = ({
-  typeList,
-  hasSearch = false
-}: RadioSelectProps) => (
+export const RadioSelect = ({ typeList, ...props }: RadioSelectProps) => (
   <div className={styles['radio-list']}>
     {typeList.map(types => (
       <div className={styles['radio-item']}>
@@ -44,6 +42,6 @@ export const RadioSelect = ({
         </Radio.Group>
       </div>
     ))}
-    {hasSearch && <Search />}
+    {props.onSearch && <Search {...props} />}
   </div>
 );

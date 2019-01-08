@@ -4,25 +4,13 @@ import { Table, notification } from 'antd';
 import { ColumnProps } from 'antd/lib/table';
 import { Query } from 'react-apollo';
 import { GET_LINKS } from './query';
+import { PaginationProps } from 'antd/lib/pagination';
 
 interface LinksItem {
   _id: string;
   name: string;
   url: string;
 }
-
-const columns: ColumnProps<LinksItem>[] = [
-  {
-    key: 'name',
-    title: 'Name',
-    dataIndex: 'name'
-  },
-  {
-    key: 'url',
-    title: 'Url',
-    dataIndex: 'url'
-  }
-];
 
 interface Response {
   getLinks: {
@@ -33,41 +21,96 @@ interface Response {
   };
 }
 
-export default class Links extends React.Component {
+interface LinksState {
+  offset: number;
+  limit: number;
+  keyword: string;
+}
+
+export default class Links extends React.Component<{}, LinksState> {
   state = {
     offset: 0,
-    limit: 10
+    limit: 10,
+    keyword: ''
+  };
+  columns: ColumnProps<LinksItem>[];
+
+  constructor(props: {}) {
+    super(props);
+
+    this.columns = [
+      {
+        key: 'name',
+        title: 'Name',
+        dataIndex: 'name',
+        width: 300
+      },
+      {
+        key: 'url',
+        title: 'Url',
+        dataIndex: 'url'
+      },
+      {
+        title: 'Action',
+        key: 'operation',
+        fixed: 'right',
+        width: 200,
+        render: () => <a href="javascript:;">编辑</a>
+      }
+    ];
+  }
+
+  pageChange = (page: number) => {
+    this.setState({
+      offset: Number(`${(page - 1) * 10}`)
+    });
+  };
+
+  search = (keyword: string) => {
+    this.setState({
+      keyword
+    });
   };
 
   render() {
-    const { offset, limit } = this.state;
+    const { offset, limit, keyword } = this.state;
     return (
       <div>
-        <RadioSelect typeList={[]} hasSearch />
+        <RadioSelect typeList={[]} onSearch={this.search} hasAddBtn />
 
-        <Query<Response> query={GET_LINKS} variables={{ offset, limit }}>
-          {({ data, loading, error }) => {
-            error &&
-              notification.error({
-                message: 'GraphQL error',
-                description: error.message,
-                duration: 5
-              });
+        <div className="content">
+          <Query<Response>
+            query={GET_LINKS}
+            variables={{ offset, limit, keyword }}
+          >
+            {({ data, loading, error }) => {
+              error &&
+                notification.error({
+                  message: 'GraphQL error',
+                  description: error.message,
+                  duration: 5
+                });
 
-            const result = (data && data.getLinks) || { docs: [], total: 0 };
-            const pagination = { total: result.total, pageSize: limit };
+              const result = (data && data.getLinks) || { docs: [], total: 0 };
 
-            return (
-              <Table<LinksItem>
-                columns={columns}
-                dataSource={result.docs}
-                loading={loading}
-                rowKey="_id"
-                pagination={pagination}
-              />
-            );
-          }}
-        </Query>
+              const pagination: PaginationProps = {
+                total: result.total,
+                pageSize: limit,
+                onChange: this.pageChange
+              };
+
+              return (
+                <Table<LinksItem>
+                  columns={this.columns}
+                  dataSource={result.docs}
+                  loading={loading}
+                  rowKey="_id"
+                  pagination={pagination}
+                />
+              );
+            }}
+          </Query>
+        </div>
       </div>
     );
   }
