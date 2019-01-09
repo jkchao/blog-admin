@@ -7,6 +7,7 @@ export const GET_LINKS = gql`
       limit
       offset
       docs {
+        _id
         url
         name
       }

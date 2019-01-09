@@ -1,10 +1,12 @@
 import React from 'react';
 import { RadioSelect } from '@/components/RadioSelect';
-import { Table, notification } from 'antd';
+import { Table, notification, Divider, Popconfirm } from 'antd';
 import { ColumnProps } from 'antd/lib/table';
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 import { GET_LINKS } from './query';
 import { PaginationProps } from 'antd/lib/pagination';
+import { DELETE_LINK } from './mutation';
+import Column from 'antd/lib/table/Column';
 
 interface LinksItem {
   _id: string;
@@ -33,31 +35,10 @@ export default class Links extends React.Component<{}, LinksState> {
     limit: 10,
     keyword: ''
   };
-  columns: ColumnProps<LinksItem>[];
+  // columns: ColumnProps<LinksItem>[];
 
   constructor(props: {}) {
     super(props);
-
-    this.columns = [
-      {
-        key: 'name',
-        title: 'Name',
-        dataIndex: 'name',
-        width: 300
-      },
-      {
-        key: 'url',
-        title: 'Url',
-        dataIndex: 'url'
-      },
-      {
-        title: 'Action',
-        key: 'operation',
-        fixed: 'right',
-        width: 200,
-        render: () => <a href="javascript:;">编辑</a>
-      }
-    ];
   }
 
   pageChange = (page: number) => {
@@ -70,6 +51,10 @@ export default class Links extends React.Component<{}, LinksState> {
     this.setState({
       keyword
     });
+  };
+
+  handleDelete = (id: string) => {
+    // ..
   };
 
   render() {
@@ -101,12 +86,60 @@ export default class Links extends React.Component<{}, LinksState> {
 
               return (
                 <Table<LinksItem>
-                  columns={this.columns}
                   dataSource={result.docs}
                   loading={loading}
                   rowKey="_id"
                   pagination={pagination}
-                />
+                >
+                  <Column
+                    key="name"
+                    title="Name"
+                    dataIndex="name"
+                    width="300px"
+                  />
+                  <Column key="url" title="Url" dataIndex="url" />
+
+                  <Column
+                    title="Action"
+                    key="action"
+                    width="300px"
+                    render={(text, record: LinksItem) => {
+                      const quert = [
+                        {
+                          query: GET_LINKS,
+                          variables: { offset, limit, keyword }
+                        }
+                      ];
+                      return (
+                        <span>
+                          <a href="javascript:;">edit</a>
+                          <Divider type="vertical" />
+                          <Mutation
+                            mutation={DELETE_LINK}
+                            refetchQueries={quert}
+                          >
+                            {(deleteLink, { loading, error }) => {
+                              error && console.log('error');
+                              return (
+                                // tslint:disable-next-line:max-line-length
+                                <Popconfirm
+                                  title="Sure to delete?"
+                                  onConfirm={() =>
+                                    deleteLink({
+                                      variables: { _id: record._id }
+                                    })
+                                  }
+                                >
+                                  <a href="javascript:;">Delete</a>
+                                </Popconfirm>
+                              );
+                            }}
+                          </Mutation>
+                        </span>
+                      );
+                    }}
+                  />
+                </Table>
               );
             }}
           </Query>
