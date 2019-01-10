@@ -7,8 +7,9 @@ import { GET_LINKS } from './query';
 import { PaginationProps } from 'antd/lib/pagination';
 import { DELETE_LINK } from './mutation';
 import Column from 'antd/lib/table/Column';
+import { DeleteLink } from './DeleteLink';
 
-interface LinksItem {
+export interface LinksItem {
   _id: string;
   name: string;
   url: string;
@@ -35,11 +36,6 @@ export default class Links extends React.Component<{}, LinksState> {
     limit: 10,
     keyword: ''
   };
-  // columns: ColumnProps<LinksItem>[];
-
-  constructor(props: {}) {
-    super(props);
-  }
 
   pageChange = (page: number) => {
     this.setState({
@@ -53,8 +49,12 @@ export default class Links extends React.Component<{}, LinksState> {
     });
   };
 
-  handleDelete = (id: string) => {
-    // ..
+  handleError = (message: string) => {
+    notification.error({
+      message: 'GraphQL error',
+      description: message,
+      duration: 5
+    });
   };
 
   render() {
@@ -67,14 +67,10 @@ export default class Links extends React.Component<{}, LinksState> {
           <Query<Response>
             query={GET_LINKS}
             variables={{ offset, limit, keyword }}
+            notifyOnNetworkStatusChange
           >
-            {({ data, loading, error }) => {
-              error &&
-                notification.error({
-                  message: 'GraphQL error',
-                  description: error.message,
-                  duration: 5
-                });
+            {({ data, loading, error, networkStatus, refetch }) => {
+              error && this.handleError(error.message);
 
               const result = (data && data.getLinks) || { docs: [], total: 0 };
 
@@ -87,7 +83,7 @@ export default class Links extends React.Component<{}, LinksState> {
               return (
                 <Table<LinksItem>
                   dataSource={result.docs}
-                  loading={loading}
+                  loading={loading || networkStatus === 4}
                   rowKey="_id"
                   pagination={pagination}
                 >
@@ -104,38 +100,17 @@ export default class Links extends React.Component<{}, LinksState> {
                     key="action"
                     width="300px"
                     render={(text, record: LinksItem) => {
-                      const quert = [
-                        {
-                          query: GET_LINKS,
-                          variables: { offset, limit, keyword }
-                        }
-                      ];
                       return (
-                        <span>
+                        <>
                           <a href="javascript:;">edit</a>
                           <Divider type="vertical" />
-                          <Mutation
-                            mutation={DELETE_LINK}
-                            refetchQueries={quert}
-                          >
-                            {(deleteLink, { loading, error }) => {
-                              error && console.log('error');
-                              return (
-                                // tslint:disable-next-line:max-line-length
-                                <Popconfirm
-                                  title="Sure to delete?"
-                                  onConfirm={() =>
-                                    deleteLink({
-                                      variables: { _id: record._id }
-                                    })
-                                  }
-                                >
-                                  <a href="javascript:;">Delete</a>
-                                </Popconfirm>
-                              );
-                            }}
-                          </Mutation>
-                        </span>
+                          <DeleteLink
+                            record={record}
+                            refetch={refetch}
+                            type={DELETE_LINK}
+                            handleError={this.handleError}
+                          />
+                        </>
                       );
                     }}
                   />
