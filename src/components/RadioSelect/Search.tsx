@@ -3,10 +3,10 @@ import { Input, Button } from 'antd';
 
 interface SearchProp {
   onSearch: (value: string) => void;
-  hasAddBtn?: boolean;
+  handleClick?: () => void;
 }
 
-export const Search = ({ onSearch, hasAddBtn = false }: SearchProp) => (
+export const Search = ({ onSearch, handleClick }: SearchProp) => (
   <div
     className="radio-item"
     style={{ display: 'flex', justifyContent: 'space-between' }}
@@ -19,6 +19,6 @@ export const Search = ({ onSearch, hasAddBtn = false }: SearchProp) => (
         style={{ width: 300, marginLeft: 14 }}
       />
     </div>
-    {hasAddBtn && <Button>添 加</Button>}
+    {handleClick && <Button onClick={handleClick}>添 加</Button>}
   </div>
 );

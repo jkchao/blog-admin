@@ -18,7 +18,7 @@ export interface TypeList {
 interface RadioSelectProps {
   typeList: TypeList[];
   onSearch: (value: string) => void;
-  hasAddBtn?: boolean;
+  handleClick?: () => void;
 }
 
 export const RadioSelect = ({ typeList, ...props }: RadioSelectProps) => (

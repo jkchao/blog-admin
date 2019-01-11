@@ -1,13 +1,13 @@
 import React from 'react';
 import { RadioSelect } from '@/components/RadioSelect';
 import { Table, notification, Divider, Popconfirm } from 'antd';
-import { ColumnProps } from 'antd/lib/table';
 import { Query, Mutation } from 'react-apollo';
 import { GET_LINKS } from './query';
 import { PaginationProps } from 'antd/lib/pagination';
 import { DELETE_LINK } from './mutation';
 import Column from 'antd/lib/table/Column';
 import { DeleteLink } from './DeleteLink';
+import { Model } from './Model';
 
 export interface LinksItem {
   _id: string;
@@ -28,13 +28,15 @@ interface LinksState {
   offset: number;
   limit: number;
   keyword: string;
+  visible: boolean;
 }
 
 export default class Links extends React.Component<{}, LinksState> {
   state = {
     offset: 0,
     limit: 10,
-    keyword: ''
+    keyword: '',
+    visible: false
   };
 
   pageChange = (page: number) => {
@@ -57,11 +59,28 @@ export default class Links extends React.Component<{}, LinksState> {
     });
   };
 
+  handleClick = () => {
+    this.setState({
+      visible: true
+    });
+  };
+
+  handleCancel = () => {
+    this.setState({
+      visible: false
+    });
+  };
+
   render() {
-    const { offset, limit, keyword } = this.state;
+    const { offset, limit, keyword, visible } = this.state;
     return (
       <div>
-        <RadioSelect typeList={[]} onSearch={this.search} hasAddBtn />
+        <RadioSelect
+          typeList={[]}
+          onSearch={this.search}
+          handleClick={this.handleClick}
+        />
+        <Model visible={visible} onCancel={this.handleCancel} />
 
         <div className="content">
           <Query<Response>
