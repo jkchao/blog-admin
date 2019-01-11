@@ -80,7 +80,7 @@ export default class Links extends React.Component<{}, LinksState> {
           onSearch={this.search}
           handleClick={this.handleClick}
         />
-        <Model visible={visible} onCancel={this.handleCancel} />
+        <Model visible={visible} handleCancel={this.handleCancel} />
 
         <div className="content">
           <Query<Response>
