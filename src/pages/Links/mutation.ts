@@ -7,3 +7,13 @@ export const DELETE_LINK = gql`
     }
   }
 `;
+
+export const CREATE_LINK = gql`
+  mutation createLink($url: String!, $name: String!) {
+    createLink(linkInfo: { url: $url, name: $name }) {
+      _id
+      url
+      name
+    }
+  }
+`;

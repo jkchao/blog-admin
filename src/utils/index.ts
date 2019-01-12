@@ -1,4 +1,3 @@
-import { urlToList } from './pathToList';
-import { checkLogin } from './isLogin';
-
-export { urlToList, checkLogin };
+export { urlToList } from './pathToList';
+export { checkLogin } from './isLogin';
+export { deleteCache } from './deleteCache';

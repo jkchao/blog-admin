@@ -2,28 +2,25 @@ import React from 'react';
 import { Mutation } from 'react-apollo';
 import { Popconfirm } from 'antd';
 import { LinksItem } from '.';
+import { deleteCache } from '@/utils';
 
 interface DeleteLinkProps {
   record: LinksItem;
   refetch: () => void;
   handleError: (message: string) => void;
-  type: string;
+  mutation: string;
 }
 
 export const DeleteLink = ({
   record,
   refetch,
-  type,
+  mutation,
   handleError
 }: DeleteLinkProps) => (
   <Mutation
-    mutation={type}
+    mutation={mutation}
     update={cache => {
-      // @ts-ignore
-      Object.keys(cache.data.data).forEach(key => {
-        // @ts-ignore
-        key.match(/^DocsItem/) && cache.data.delete(key);
-      });
+      deleteCache(cache, /^LinksItem/);
       refetch();
     }}
   >
@@ -38,7 +35,7 @@ export const DeleteLink = ({
             })
           }
         >
-          <a href="javascript:;">{loading ? 'loading' : 'delete'}</a>
+          <a href="javascript:;">delete</a>
         </Popconfirm>
       );
     }}
