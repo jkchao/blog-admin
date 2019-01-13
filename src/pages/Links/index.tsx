@@ -4,7 +4,7 @@ import { Table, notification, Divider, Popconfirm } from 'antd';
 import { Query } from 'react-apollo';
 import { GET_LINKS } from './query';
 import { PaginationProps } from 'antd/lib/pagination';
-import { DELETE_LINK, CREATE_LINK } from './mutation';
+import { DELETE_LINK, CREATE_LINK, UPDATE_LINK } from './mutation';
 import Column from 'antd/lib/table/Column';
 import { DeleteLink } from './DeleteLink';
 import { LinkModel } from './LinkModel';
@@ -30,6 +30,10 @@ interface LinksState {
   keyword: string;
   visible: boolean;
   title: 'Create' | 'Update';
+  name: string;
+  url: string;
+  _id: string;
+  mutation: string;
 }
 
 export default class Links extends React.Component<{}, LinksState> {
@@ -38,7 +42,11 @@ export default class Links extends React.Component<{}, LinksState> {
     limit: 10,
     keyword: '',
     title: 'Create' as 'Create',
-    visible: false
+    visible: false,
+    name: '',
+    url: '',
+    _id: '',
+    mutation: CREATE_LINK
   };
 
   pageChange = (page: number) => {
@@ -64,7 +72,10 @@ export default class Links extends React.Component<{}, LinksState> {
   handleClick = () => {
     this.setState({
       visible: true,
-      title: 'Create'
+      title: 'Create',
+      name: '',
+      url: '',
+      mutation: CREATE_LINK
     });
   };
 
@@ -77,12 +88,14 @@ export default class Links extends React.Component<{}, LinksState> {
   updateRecord = (record: LinksItem) => {
     this.setState({
       visible: true,
-      title: 'Update'
+      title: 'Update',
+      mutation: UPDATE_LINK,
+      ...record
     });
   };
 
   render() {
-    const { offset, limit, keyword, visible, title } = this.state;
+    const { offset, limit, keyword, ...rest } = this.state;
     return (
       <div>
         <RadioSelect
@@ -151,12 +164,10 @@ export default class Links extends React.Component<{}, LinksState> {
                   </Table>
 
                   <LinkModel
-                    title={title}
-                    visible={visible}
                     handleCancel={this.handleCancel}
-                    mutation={CREATE_LINK}
                     refetch={refetch}
                     handleError={this.handleError}
+                    {...rest}
                   />
                 </>
               );

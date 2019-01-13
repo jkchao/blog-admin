@@ -17,3 +17,13 @@ export const CREATE_LINK = gql`
     }
   }
 `;
+
+export const UPDATE_LINK = gql`
+  mutation updateLink($_id: ObjectID!, $url: String, $name: String) {
+    updateLink(linkInfo: { _id: $_id, url: $url, name: $name }) {
+      _id
+      url
+      name
+    }
+  }
+`;

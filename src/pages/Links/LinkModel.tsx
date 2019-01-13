@@ -11,6 +11,9 @@ interface LinkModelProps extends FormComponentProps {
   mutation: string;
   handleError: (message: string) => void;
   title: 'Create' | 'Update';
+  name?: string;
+  url?: string;
+  _id?: string;
 }
 
 class LinkModelComponent extends PureComponent<LinkModelProps> {
@@ -18,7 +21,10 @@ class LinkModelComponent extends PureComponent<LinkModelProps> {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         await createLink({
-          variables: values
+          variables:
+            this.props.title === 'Create'
+              ? values
+              : { ...values, _id: this.props._id }
         });
         this.props.handleCancel();
       }
@@ -35,6 +41,8 @@ class LinkModelComponent extends PureComponent<LinkModelProps> {
       handleCancel,
       mutation,
       refetch,
+      name,
+      url,
       ...modalProps
     } = this.props;
     const formItemLayout = {
@@ -77,11 +85,13 @@ class LinkModelComponent extends PureComponent<LinkModelProps> {
               <Form>
                 <Form.Item label="name" {...formItemLayout}>
                   {getFieldDecorator('name', {
+                    initialValue: name,
                     rules: [{ required: true, message: 'name is required' }]
                   })(<Input placeholder="name" />)}
                 </Form.Item>
                 <Form.Item label="url" {...formItemLayout}>
                   {getFieldDecorator('url', {
+                    initialValue: url,
                     rules: [{ required: true, message: 'url is required' }]
                   })(<Input placeholder="url" />)}
                 </Form.Item>
