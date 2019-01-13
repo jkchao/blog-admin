@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Modal, Form, Input, Button } from 'antd';
 import { FormComponentProps } from 'antd/lib/form/Form';
-import { LinksItem } from '.';
-import { Omit } from 'antd/lib/_util/type';
 import { Mutation, MutationFn } from 'react-apollo';
 import { deleteCache } from '@/utils';
 
@@ -12,9 +10,10 @@ interface LinkModelProps extends FormComponentProps {
   refetch: () => void;
   mutation: string;
   handleError: (message: string) => void;
+  title: 'Create' | 'Update';
 }
 
-class LinkModel extends PureComponent<LinkModelProps> {
+class LinkModelComponent extends PureComponent<LinkModelProps> {
   handleOk = (createLink: MutationFn): void => {
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
@@ -46,8 +45,12 @@ class LinkModel extends PureComponent<LinkModelProps> {
       <Mutation
         mutation={mutation}
         update={cache => {
-          deleteCache(cache, /^LinksItem/);
-          refetch();
+          if (this.props.title === 'Create') {
+            deleteCache(cache, /^LinksItem/);
+            refetch();
+          } else {
+            // ..
+          }
         }}
       >
         {(createLink, { loading, error }) => {
@@ -55,7 +58,6 @@ class LinkModel extends PureComponent<LinkModelProps> {
           return (
             <Modal
               {...modalProps}
-              title="添加链接"
               maskClosable={false}
               onCancel={this.handleCancel}
               footer={[
@@ -73,7 +75,7 @@ class LinkModel extends PureComponent<LinkModelProps> {
               ]}
             >
               <Form>
-                <Form.Item label="姓名" {...formItemLayout}>
+                <Form.Item label="name" {...formItemLayout}>
                   {getFieldDecorator('name', {
                     rules: [{ required: true, message: 'name is required' }]
                   })(<Input placeholder="name" />)}
@@ -92,4 +94,4 @@ class LinkModel extends PureComponent<LinkModelProps> {
   }
 }
 
-export const CreateLink = Form.create()(LinkModel);
+export const LinkModel = Form.create()(LinkModelComponent);

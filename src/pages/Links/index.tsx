@@ -1,14 +1,13 @@
 import React from 'react';
 import { RadioSelect } from '@/components/RadioSelect';
 import { Table, notification, Divider, Popconfirm } from 'antd';
-import { Query, Mutation } from 'react-apollo';
+import { Query } from 'react-apollo';
 import { GET_LINKS } from './query';
 import { PaginationProps } from 'antd/lib/pagination';
 import { DELETE_LINK, CREATE_LINK } from './mutation';
 import Column from 'antd/lib/table/Column';
 import { DeleteLink } from './DeleteLink';
-import { CreateLink } from './CreateLink';
-import { Omit } from 'antd/lib/_util/type';
+import { LinkModel } from './LinkModel';
 
 export interface LinksItem {
   _id: string;
@@ -30,6 +29,7 @@ interface LinksState {
   limit: number;
   keyword: string;
   visible: boolean;
+  title: 'Create' | 'Update';
 }
 
 export default class Links extends React.Component<{}, LinksState> {
@@ -37,6 +37,7 @@ export default class Links extends React.Component<{}, LinksState> {
     offset: 0,
     limit: 10,
     keyword: '',
+    title: 'Create' as 'Create',
     visible: false
   };
 
@@ -62,7 +63,8 @@ export default class Links extends React.Component<{}, LinksState> {
 
   handleClick = () => {
     this.setState({
-      visible: true
+      visible: true,
+      title: 'Create'
     });
   };
 
@@ -72,8 +74,15 @@ export default class Links extends React.Component<{}, LinksState> {
     });
   };
 
+  updateRecord = (record: LinksItem) => {
+    this.setState({
+      visible: true,
+      title: 'Update'
+    });
+  };
+
   render() {
-    const { offset, limit, keyword, visible } = this.state;
+    const { offset, limit, keyword, visible, title } = this.state;
     return (
       <div>
         <RadioSelect
@@ -122,7 +131,12 @@ export default class Links extends React.Component<{}, LinksState> {
                       render={(text, record: LinksItem) => {
                         return (
                           <>
-                            <a href="javascript:;">edit</a>
+                            <a
+                              href="javascript:;"
+                              onClick={() => this.updateRecord(record)}
+                            >
+                              edit
+                            </a>
                             <Divider type="vertical" />
                             <DeleteLink
                               record={record}
@@ -136,7 +150,8 @@ export default class Links extends React.Component<{}, LinksState> {
                     />
                   </Table>
 
-                  <CreateLink
+                  <LinkModel
+                    title={title}
                     visible={visible}
                     handleCancel={this.handleCancel}
                     mutation={CREATE_LINK}
