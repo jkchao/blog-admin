@@ -1,33 +1,16 @@
-import React from 'react';
-import styles from './index.module.scss';
-
-import { Form, Icon, Input, Button, notification } from 'antd';
-import { FormComponentProps } from 'antd/lib/form';
-import { RouteComponentProps } from 'react-router';
-import { LoginButton } from './Button';
-import { LOGIN } from './query';
+import { Form, Icon, Input, notification } from 'antd';
 import ApolloClient from 'apollo-client';
+import React from 'react';
 
-export interface Variables {
-  username: string;
-  password: string;
-}
-
-interface LoginState {
-  loading: boolean;
-}
-
-interface Response {
-  login: {
-    lifeTime: number;
-    token: string;
-  };
-}
-
-interface UserFormProps
-  extends FormComponentProps,
-    RouteComponentProps,
-    Variables {}
+import { LoginButton } from './Button';
+import styles from './index.module.scss';
+import {
+  LoginState,
+  Response,
+  UserFormProps,
+  Variables
+} from './login.interface';
+import { LOGIN } from './query';
 
 class Login extends React.Component<UserFormProps, LoginState> {
   state = {

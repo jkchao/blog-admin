@@ -1,19 +1,19 @@
-import React, { PureComponent } from 'react';
-import { Modal, Form, Input, Button } from 'antd';
+import { Button, Form, Input, Modal } from 'antd';
 import { FormComponentProps } from 'antd/lib/form/Form';
+import React, { PureComponent } from 'react';
 import { Mutation, MutationFn } from 'react-apollo';
+
 import { deleteCache } from '@/utils';
 
-interface LinkModelProps extends FormComponentProps {
+import { LinksItem } from './link.interface';
+
+interface LinkModelProps extends FormComponentProps, Partial<LinksItem> {
   visible: boolean;
   handleCancel: () => void;
   refetch: () => void;
   mutation: string;
   handleError: (message: string) => void;
   title: 'Create' | 'Update';
-  name?: string;
-  url?: string;
-  _id?: string;
 }
 
 class LinkModelComponent extends PureComponent<LinkModelProps> {

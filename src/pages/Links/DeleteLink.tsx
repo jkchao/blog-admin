@@ -1,8 +1,10 @@
+import { Popconfirm } from 'antd';
 import React from 'react';
 import { Mutation } from 'react-apollo';
-import { Popconfirm } from 'antd';
-import { LinksItem } from '.';
+
 import { deleteCache } from '@/utils';
+
+import { LinksItem } from './link.interface';
 
 interface DeleteLinkProps {
   record: LinksItem;
