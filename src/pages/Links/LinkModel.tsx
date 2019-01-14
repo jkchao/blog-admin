@@ -92,7 +92,13 @@ class LinkModelComponent extends PureComponent<LinkModelProps> {
                 <Form.Item label="url" {...formItemLayout}>
                   {getFieldDecorator('url', {
                     initialValue: url,
-                    rules: [{ required: true, message: 'url is required' }]
+                    rules: [
+                      { required: true, message: 'url is required' },
+                      {
+                        pattern: /^((https|http):\/\/)+[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/,
+                        message: 'url 不正确'
+                      }
+                    ]
                   })(<Input placeholder="url" />)}
                 </Form.Item>
               </Form>

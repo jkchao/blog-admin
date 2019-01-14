@@ -3,6 +3,7 @@ import { Input, Button } from 'antd';
 
 interface SearchProp {
   onSearch: (value: string) => void;
+  // 点击添加按钮时的回调，没有则没有添加功能
   handleClick?: () => void;
 }
 

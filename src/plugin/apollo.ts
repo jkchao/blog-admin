@@ -1,10 +1,8 @@
 import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
-import {
-  InMemoryCache,
-  defaultDataIdFromObject,
-  IdGetterObj
-} from 'apollo-cache-inmemory';
+import { setContext } from 'apollo-link-context';
+
+import { InMemoryCache } from 'apollo-cache-inmemory';
 import { onError } from 'apollo-link-error';
 import { ApolloLink } from 'apollo-link';
 
@@ -26,7 +24,17 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   }
 });
 
+const authLink = setContext((_, { headers }) => {
+  const store = JSON.parse(window.localStorage.getItem('TOKEN') || '{}');
+  return {
+    headers: {
+      ...headers,
+      authorization: store.token ? `Bearer ${store.token}` : ''
+    }
+  };
+});
+
 export const client = new ApolloClient({
-  link: ApolloLink.from([errorLink, httpLink]),
+  link: ApolloLink.from([errorLink, authLink, httpLink]),
   cache: new InMemoryCache()
 });

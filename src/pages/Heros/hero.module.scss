@@ -1,0 +1,14 @@
+.form-list {
+  display: flex;
+
+  div {
+    width: 40%;
+
+    .form-label {
+      display: inline-block;
+      width: 70px;
+      color: #99a9bf;
+      line-height: 40px;
+    }
+  }
+}
