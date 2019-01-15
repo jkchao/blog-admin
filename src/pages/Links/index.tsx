@@ -6,11 +6,11 @@ import { Query } from 'react-apollo';
 
 import { RadioSelect } from '@/components/RadioSelect';
 
-import { DeleteLink } from './DeleteLink';
 import { LinksItem, LinksState, Response } from './link.interface';
-import { LinkModel } from './LinkModel';
+import { LinkModal } from './LinkModal';
 import { CREATE_LINK, DELETE_LINK, UPDATE_LINK } from './mutation';
 import { GET_LINKS } from './query';
+import { MutationComponent } from '@/components/Mutation';
 
 export default class Links extends React.Component<{}, LinksState> {
   state = {
@@ -134,19 +134,31 @@ export default class Links extends React.Component<{}, LinksState> {
                               edit
                             </a>
                             <Divider type="vertical" />
-                            <DeleteLink
-                              record={record}
-                              refetch={refetch}
+                            <MutationComponent
                               mutation={DELETE_LINK}
-                              handleError={this.handleError}
-                            />
+                              refetch={refetch}
+                              ItemName={/^LinksItem/}
+                            >
+                              {mutation => (
+                                <Popconfirm
+                                  title="Sure to delete?"
+                                  onConfirm={() =>
+                                    mutation({
+                                      variables: { _id: record._id }
+                                    })
+                                  }
+                                >
+                                  <a href="javascript:;">delete</a>
+                                </Popconfirm>
+                              )}
+                            </MutationComponent>
                           </>
                         );
                       }}
                     />
                   </Table>
 
-                  <LinkModel
+                  <LinkModal
                     handleCancel={this.handleCancel}
                     refetch={refetch}
                     handleError={this.handleError}

@@ -10,8 +10,11 @@ import { RadioSelect, TypeList } from '@/components/RadioSelect';
 import { HerosItem, HerosState, Response } from './heros.interface';
 import { GET_HEROS } from './query';
 
-import styles from './hero.module.scss';
 import { RadioChangeEvent } from 'antd/lib/radio';
+import { ExandedRowRender } from './ExpandedRowRender';
+import ApolloClient from 'apollo-client';
+import { UPDATE_HERO } from './mutation';
+import { MutationComponent } from '@/components/Mutation';
 
 export default class Heros extends React.Component<{}, HerosState> {
   state = {
@@ -48,44 +51,23 @@ export default class Heros extends React.Component<{}, HerosState> {
     });
   };
 
+  updateHeros = async (
+    client: ApolloClient<any>,
+    record: HerosItem,
+    state: string
+  ) => {
+    const result = await client.mutate({
+      mutation: UPDATE_HERO,
+      variables: {
+        _id: record._id,
+        state
+      }
+    });
+    console.log(result);
+  };
+
   render() {
-    const { offset, limit, keyword, state, ...rest } = this.state;
-
-    const expandedRowRender = (rocord: HerosItem) => (
-      <>
-        <div className={styles['form-list']}>
-          <div>
-            <span className={styles['form-label']}>ip: </span>
-            <span>{rocord.ip}</span>
-          </div>
-          <div>
-            <span className={styles['form-label']}>地址: </span>
-            <span>
-              {rocord.country} {rocord.city}
-            </span>
-          </div>
-        </div>
-
-        <div className={styles['form-list']}>
-          <div>
-            <span className={styles['form-label']}>浏览器: </span>
-            <span>{rocord.ip}</span>
-          </div>
-          <div>
-            <span className={styles['form-label']}>系统: </span>
-            <span>
-              {rocord.country} {rocord.city}
-            </span>
-          </div>
-        </div>
-        <div className={styles['form-list']}>
-          <div>
-            <span className={styles['form-label']}>内容: </span>
-            <span>{rocord.content}</span>
-          </div>
-        </div>
-      </>
-    );
+    const { offset, limit, keyword, state } = this.state;
 
     const typeList: TypeList[] = [
       {
@@ -114,7 +96,7 @@ export default class Heros extends React.Component<{}, HerosState> {
             variables={{ offset, limit, keyword, state }}
             notifyOnNetworkStatusChange
           >
-            {({ data, loading, error, networkStatus, refetch }) => {
+            {({ data, loading, error, networkStatus, refetch, client }) => {
               error && this.handleError(error.message);
 
               const result = (data && data.getHeros) || { docs: [], total: 0 };
@@ -133,7 +115,7 @@ export default class Heros extends React.Component<{}, HerosState> {
                     loading={loading || networkStatus === 4}
                     rowKey="_id"
                     pagination={pagination}
-                    expandedRowRender={expandedRowRender}
+                    expandedRowRender={ExandedRowRender}
                   >
                     <Column
                       key="name"
@@ -147,7 +129,12 @@ export default class Heros extends React.Component<{}, HerosState> {
                       dataIndex="create_at"
                       render={text => dayjs(text).format('YYYY-MM-DD hh:mm:ss')}
                     />
-                    <Column key="state" title="State" dataIndex="state" />
+                    <Column
+                      key="state"
+                      title="State"
+                      dataIndex="state"
+                      width="300px"
+                    />
 
                     <Column
                       title="Action"
@@ -156,22 +143,57 @@ export default class Heros extends React.Component<{}, HerosState> {
                       render={(text, record: HerosItem) => {
                         return (
                           <>
-                            {record.state !== 'FAIL' && (
-                              <a href="javascript:;">不通过</a>
+                            {record.state !== 'SUCCESS' && (
+                              <MutationComponent
+                                mutation={UPDATE_HERO}
+                                refetch={refetch}
+                                ItemName={/^HerosItem/}
+                              >
+                                {mutation => (
+                                  <a
+                                    href="javascript:;"
+                                    onClick={() =>
+                                      mutation({
+                                        variables: {
+                                          _id: record._id,
+                                          state: 'SUCCESS'
+                                        }
+                                      })
+                                    }
+                                  >
+                                    通过
+                                  </a>
+                                )}
+                              </MutationComponent>
                             )}
                             {record.state === 'TODO' && (
                               <Divider type="vertical" />
                             )}
-                            {record.state !== 'SUCCESS' && (
-                              <a href="javascript:;">通过</a>
+
+                            {record.state !== 'FAIL' && (
+                              <MutationComponent
+                                mutation={UPDATE_HERO}
+                                refetch={refetch}
+                                ItemName={/^HerosItem/}
+                              >
+                                {mutation => (
+                                  <a
+                                    href="javascript:;"
+                                    onClick={() =>
+                                      mutation({
+                                        variables: {
+                                          _id: record._id,
+                                          state: 'FAIL'
+                                        }
+                                      })
+                                    }
+                                  >
+                                    不通过
+                                  </a>
+                                )}
+                              </MutationComponent>
                             )}
                             <Divider type="vertical" />
-                            {/* <DeleteLink
-                              record={record}
-                              refetch={refetch}
-                              mutation={DELETE_LINK}
-                              handleError={this.handleError}
-                            /> */}
                           </>
                         );
                       }}

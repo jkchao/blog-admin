@@ -110,4 +110,4 @@ class LinkModelComponent extends PureComponent<LinkModelProps> {
   }
 }
 
-export const LinkModel = Form.create()(LinkModelComponent);
+export const LinkModal = Form.create()(LinkModelComponent);
