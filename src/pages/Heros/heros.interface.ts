@@ -1,5 +1,6 @@
 export interface HerosItem {
   _id: string;
+  state: 'TODO' | 'SUCCESS' | 'FAIL';
   name: string;
   content: string;
   ip: string;
@@ -23,5 +24,5 @@ export interface HerosState extends Partial<HerosItem> {
   offset: number;
   limit: number;
   keyword: string;
-  state: 'TODO' | 'SUCCESS' | 'FAIL';
+  [index: string]: any;
 }

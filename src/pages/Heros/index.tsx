@@ -5,12 +5,13 @@ import React from 'react';
 import { Query } from 'react-apollo';
 import dayjs from 'dayjs';
 
-import { RadioSelect } from '@/components/RadioSelect';
+import { RadioSelect, TypeList } from '@/components/RadioSelect';
 
 import { HerosItem, HerosState, Response } from './heros.interface';
 import { GET_HEROS } from './query';
 
 import styles from './hero.module.scss';
+import { RadioChangeEvent } from 'antd/lib/radio';
 
 export default class Heros extends React.Component<{}, HerosState> {
   state = {
@@ -37,6 +38,13 @@ export default class Heros extends React.Component<{}, HerosState> {
       message: 'GraphQL error',
       description: message,
       duration: 5
+    });
+  };
+
+  onChange = (e: RadioChangeEvent, typeName: string) => {
+    console.log(e.target.value, typeName);
+    this.setState({
+      [typeName]: e.target.value
     });
   };
 
@@ -79,9 +87,26 @@ export default class Heros extends React.Component<{}, HerosState> {
       </>
     );
 
+    const typeList: TypeList[] = [
+      {
+        name: '状态',
+        typeName: 'state',
+        list: [
+          { name: '待审核', id: 'TODO' },
+          { name: '审核通过', id: 'SUCCESS' },
+          { name: '审核不通过', id: 'FAIL' }
+        ],
+        defaultValue: 'TODO'
+      }
+    ];
+
     return (
       <div>
-        <RadioSelect typeList={[]} onSearch={this.search} />
+        <RadioSelect
+          typeList={typeList}
+          onSearch={this.search}
+          onChange={this.onChange}
+        />
 
         <div className="content">
           <Query<Response>
@@ -131,7 +156,15 @@ export default class Heros extends React.Component<{}, HerosState> {
                       render={(text, record: HerosItem) => {
                         return (
                           <>
-                            <a href="javascript:;">edit</a>
+                            {record.state !== 'FAIL' && (
+                              <a href="javascript:;">不通过</a>
+                            )}
+                            {record.state === 'TODO' && (
+                              <Divider type="vertical" />
+                            )}
+                            {record.state !== 'SUCCESS' && (
+                              <a href="javascript:;">通过</a>
+                            )}
                             <Divider type="vertical" />
                             {/* <DeleteLink
                               record={record}
