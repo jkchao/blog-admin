@@ -1,20 +1,20 @@
 import { Divider, notification, Popconfirm, Table } from 'antd';
 import { PaginationProps } from 'antd/lib/pagination';
+import { RadioChangeEvent } from 'antd/lib/radio';
 import Column from 'antd/lib/table/Column';
+import ApolloClient from 'apollo-client';
+import dayjs from 'dayjs';
 import React from 'react';
 import { Query } from 'react-apollo';
-import dayjs from 'dayjs';
 
+import { MutationComponent } from '@/components/Mutation';
 import { RadioSelect, TypeList } from '@/components/RadioSelect';
 
-import { HerosItem, HerosState, Response } from './heros.interface';
-import { GET_HEROS } from './query';
-
-import { RadioChangeEvent } from 'antd/lib/radio';
 import { ExandedRowRender } from './ExpandedRowRender';
-import ApolloClient from 'apollo-client';
+import { HerosItem, HerosState, Response } from './heros.interface';
 import { UPDATE_HERO } from './mutation';
-import { MutationComponent } from '@/components/Mutation';
+import { GET_HEROS } from './query';
+import { HerosMutations } from './HerosMutations';
 
 export default class Heros extends React.Component<{}, HerosState> {
   state = {
@@ -144,54 +144,32 @@ export default class Heros extends React.Component<{}, HerosState> {
                         return (
                           <>
                             {record.state !== 'SUCCESS' && (
-                              <MutationComponent
+                              <HerosMutations
                                 mutation={UPDATE_HERO}
                                 refetch={refetch}
                                 ItemName={/^HerosItem/}
-                              >
-                                {mutation => (
-                                  <a
-                                    href="javascript:;"
-                                    onClick={() =>
-                                      mutation({
-                                        variables: {
-                                          _id: record._id,
-                                          state: 'SUCCESS'
-                                        }
-                                      })
-                                    }
-                                  >
-                                    通过
-                                  </a>
-                                )}
-                              </MutationComponent>
+                                variables={{
+                                  _id: record._id,
+                                  state: 'SUCCESS'
+                                }}
+                                text="通过"
+                              />
                             )}
                             {record.state === 'TODO' && (
                               <Divider type="vertical" />
                             )}
 
                             {record.state !== 'FAIL' && (
-                              <MutationComponent
+                              <HerosMutations
                                 mutation={UPDATE_HERO}
                                 refetch={refetch}
                                 ItemName={/^HerosItem/}
-                              >
-                                {mutation => (
-                                  <a
-                                    href="javascript:;"
-                                    onClick={() =>
-                                      mutation({
-                                        variables: {
-                                          _id: record._id,
-                                          state: 'FAIL'
-                                        }
-                                      })
-                                    }
-                                  >
-                                    不通过
-                                  </a>
-                                )}
-                              </MutationComponent>
+                                variables={{
+                                  _id: record._id,
+                                  state: 'FAIL'
+                                }}
+                                text="不通过"
+                              />
                             )}
                             <Divider type="vertical" />
                           </>
