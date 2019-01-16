@@ -12,7 +12,7 @@ import { RadioSelect, TypeList } from '@/components/RadioSelect';
 
 import { ExandedRowRender } from './ExpandedRowRender';
 import { HerosItem, HerosState, Response } from './heros.interface';
-import { UPDATE_HERO } from './mutation';
+import { UPDATE_HERO, DELETE_HERO } from './mutation';
 import { GET_HEROS } from './query';
 import { HerosMutations } from './HerosMutations';
 
@@ -117,29 +117,25 @@ export default class Heros extends React.Component<{}, HerosState> {
                     pagination={pagination}
                     expandedRowRender={ExandedRowRender}
                   >
-                    <Column
-                      key="name"
-                      title="Name"
-                      dataIndex="name"
-                      width="400px"
-                    />
+                    <Column key="name" title="Name" dataIndex="name" />
                     <Column
                       key="create_at"
                       title="Create_at"
                       dataIndex="create_at"
+                      width="200px"
                       render={text => dayjs(text).format('YYYY-MM-DD hh:mm:ss')}
                     />
                     <Column
                       key="state"
                       title="State"
                       dataIndex="state"
-                      width="300px"
+                      width="100px"
                     />
 
                     <Column
                       title="Action"
                       key="action"
-                      width="300px"
+                      width="200px"
                       render={(text, record: HerosItem) => {
                         return (
                           <>
@@ -152,7 +148,7 @@ export default class Heros extends React.Component<{}, HerosState> {
                                   _id: record._id,
                                   state: 'SUCCESS'
                                 }}
-                                text="通过"
+                                text="通 过"
                               />
                             )}
                             {record.state === 'TODO' && (
@@ -172,6 +168,24 @@ export default class Heros extends React.Component<{}, HerosState> {
                               />
                             )}
                             <Divider type="vertical" />
+                            <MutationComponent
+                              mutation={DELETE_HERO}
+                              refetch={refetch}
+                              ItemName={/^HerosItem/}
+                            >
+                              {mutation => (
+                                <Popconfirm
+                                  title="Sure to delete?"
+                                  onConfirm={() =>
+                                    mutation({
+                                      variables: { _id: record._id }
+                                    })
+                                  }
+                                >
+                                  <a href="javascript:;">删 除</a>
+                                </Popconfirm>
+                              )}
+                            </MutationComponent>
                           </>
                         );
                       }}

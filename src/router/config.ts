@@ -49,5 +49,11 @@ export const Menus = [
     icon: 'link',
     component: Links
   },
-  { path: '/set', title: 'Set', icon: 'setting', component: Set }
+  {
+    path: '/settings',
+    title: 'settings',
+    icon: 'setting',
+    component: Set,
+    redirect: '/settings/options'
+  }
 ];

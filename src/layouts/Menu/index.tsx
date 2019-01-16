@@ -8,6 +8,7 @@ interface MenuItem {
   path: string;
   title: string;
   icon: string;
+  redirect?: string;
   subMenu?: MenuItem[];
 }
 
@@ -17,7 +18,7 @@ type MenuProps = {
 
 const renderMenuItem = (item: MenuItem) => (
   <AntMenu.Item key={item.path}>
-    <Link to={item.path}>
+    <Link to={item.redirect || item.path}>
       {item.icon && <Icon type={item.icon} />}
       <span className="nav-text">{item.title}</span>
     </Link>

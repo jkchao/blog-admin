@@ -15,3 +15,11 @@ export const UPDATE_HERO = gql`
     }
   }
 `;
+
+export const DELETE_HERO = gql`
+  mutation deleteHero($_id: ObjectID!) {
+    deleteHero(_id: $_id) {
+      message
+    }
+  }
+`;

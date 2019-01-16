@@ -65,7 +65,7 @@ class PageLayout extends PureComponent<BaseLayoutProps, BaseLayoutState> {
       selectedKeys: string[];
       openKeys?: string[];
     } = {
-      selectedKeys: [pathname]
+      selectedKeys: [pathname, openKeys]
     };
 
     // menu  默认两级 route
