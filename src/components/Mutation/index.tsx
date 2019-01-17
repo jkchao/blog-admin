@@ -9,6 +9,8 @@ interface Props {
   children: (fn: MutationFn) => React.ReactNode;
 }
 
+// 需要 deleteCache 的 mutation
+
 export const MutationComponent = ({
   mutation,
   refetch,
