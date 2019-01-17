@@ -6,13 +6,11 @@ export const GET_OPTIONS = gql`
       _id
       sub_title
       title
-      meta {
-        likes
-      }
       email
       icp
       descript
       keyword
+      url
     }
   }
 `;

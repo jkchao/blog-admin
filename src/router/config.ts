@@ -7,7 +7,7 @@ const Comments = lazy(() => import('@/pages/Comments'));
 const Heros = lazy(() => import('@/pages/Heros'));
 const Links = lazy(() => import('@/pages/Links'));
 const Tags = lazy(() => import('@/pages/Tags'));
-const Set = lazy(() => import('@/pages/Set'));
+const Set = lazy(() => import('@/pages/Settings'));
 
 export const Menus = [
   {

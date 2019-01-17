@@ -4,24 +4,7 @@ import { Radio } from 'antd';
 import styles from './index.module.scss';
 import { Search } from './Search';
 import { RadioChangeEvent } from 'antd/lib/radio';
-interface Item {
-  name: string;
-  id: number | string;
-}
-
-export interface TypeList {
-  name: string;
-  typeName: string;
-  list: Item[];
-  defaultValue: string;
-}
-
-interface RadioSelectProps {
-  typeList: TypeList[];
-  onSearch: (value: string) => void;
-  handleClick?: () => void;
-  onChange?: (e: RadioChangeEvent, typeName: string) => void;
-}
+import { RadioSelectProps } from './index.interface';
 
 export const RadioSelect = ({
   typeList,
