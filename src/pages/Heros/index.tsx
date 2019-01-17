@@ -11,9 +11,9 @@ import { MutationComponent } from '@/components/Mutation';
 import { RadioSelect, TypeList } from '@/components/RadioSelect';
 
 import { ExandedRowRender } from './ExpandedRowRender';
-import { HerosItem, HerosState, Response } from './heros.interface';
-import { UPDATE_HERO, DELETE_HERO } from './mutation';
-import { GET_HEROS } from './query';
+import { HerosItem, HerosState, Response } from './index.interface';
+import { UPDATE_HERO, DELETE_HERO } from './index.mutation';
+import { GET_HEROS } from './index.query';
 import { HerosMutations } from './HerosMutations';
 
 export default class Heros extends React.Component<{}, HerosState> {

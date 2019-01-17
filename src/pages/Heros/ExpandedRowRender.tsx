@@ -1,6 +1,6 @@
 import React from 'react';
-import { HerosItem } from './heros.interface';
-import styles from './heros.module.scss';
+import { HerosItem } from './index.interface';
+import styles from './index.module.scss';
 
 export const ExandedRowRender = (record: HerosItem) => (
   <>

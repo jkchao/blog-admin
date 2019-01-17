@@ -1,9 +1,11 @@
+import { Button, Form, Input } from 'antd';
 import React from 'react';
-import { Form, Input, Button } from 'antd';
-import { OptionsComponetProps } from './set.interface';
+
+import { OptionsComponetProps } from './index.interface';
+import styles from './index.module.scss';
 
 const { TextArea } = Input;
-import styles from './Options.module.scss';
+
 class OptionsComponent extends React.Component<OptionsComponetProps> {
   render() {
     const { getFieldDecorator } = this.props.form;

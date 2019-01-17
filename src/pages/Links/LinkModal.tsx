@@ -5,7 +5,7 @@ import { Mutation, MutationFn } from 'react-apollo';
 
 import { deleteCache } from '@/utils';
 
-import { LinksItem } from './link.interface';
+import { LinksItem } from './index.interface';
 
 interface LinkModelProps extends FormComponentProps, Partial<LinksItem> {
   visible: boolean;

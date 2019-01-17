@@ -1,5 +1,4 @@
 import { RouteComponentProps } from 'react-router';
-import { FormComponentProps } from 'antd/lib/form';
 
 export interface SetState {
   selectKey: string;
@@ -9,11 +8,3 @@ export interface SetState {
 }
 
 export interface SetProps extends RouteComponentProps {}
-
-export interface OptionsProps {
-  title: string;
-}
-
-export interface OptionsComponetProps
-  extends FormComponentProps,
-    Partial<OptionsProps> {}

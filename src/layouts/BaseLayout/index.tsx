@@ -1,6 +1,6 @@
 import React from 'react';
 import { Query } from 'react-apollo';
-import { GET_INFO } from './query';
+import { GET_INFO } from './index.query';
 import { PageLoading } from '@/components/PageLoading';
 import { Alert } from 'antd';
 import { ContentLayout } from './Layout';

@@ -6,10 +6,10 @@ import { Query } from 'react-apollo';
 
 import { RadioSelect } from '@/components/RadioSelect';
 
-import { LinksItem, LinksState, Response } from './link.interface';
+import { LinksItem, LinksState, Response } from './index.interface';
 import { LinkModal } from './LinkModal';
-import { CREATE_LINK, DELETE_LINK, UPDATE_LINK } from './mutation';
-import { GET_LINKS } from './query';
+import { CREATE_LINK, DELETE_LINK, UPDATE_LINK } from './index.mutation';
+import { GET_LINKS } from './index.query';
 import { MutationComponent } from '@/components/Mutation';
 
 export default class Links extends React.Component<{}, LinksState> {

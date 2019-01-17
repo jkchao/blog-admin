@@ -9,8 +9,8 @@ import {
   Response,
   UserFormProps,
   Variables
-} from './login.interface';
-import { LOGIN } from './query';
+} from './index.interface';
+import { LOGIN } from './index.query';
 
 class Login extends React.Component<UserFormProps, LoginState> {
   state = {

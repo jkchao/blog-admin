@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './index.module.scss';
 import { Menu } from 'antd';
-import { SetState, SetProps } from './set.interface';
-import { withRouter, Redirect } from 'react-router';
+import { SetState, SetProps } from './index.interface';
+import { withRouter } from 'react-router';
 import { Route } from 'react-router-dom';
 
 import { ClickParam } from 'antd/lib/menu';
