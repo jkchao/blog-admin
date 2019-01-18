@@ -1,13 +1,7 @@
 import React from 'react';
-import { Mutation, MutationFn } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import { deleteCache } from '@/utils';
-
-interface Props {
-  mutation: string;
-  refetch: () => void;
-  ItemName: RegExp;
-  children: (fn: MutationFn) => React.ReactNode;
-}
+import { MutationProps } from './index.interface';
 
 // 需要 deleteCache 的 mutation
 
@@ -16,7 +10,7 @@ export const MutationComponent = ({
   refetch,
   children,
   ItemName
-}: Props) => {
+}: MutationProps) => {
   return (
     <Mutation
       mutation={mutation}
@@ -25,8 +19,8 @@ export const MutationComponent = ({
         refetch();
       }}
     >
-      {(mutation, { loading, error }) => {
-        return children(mutation);
+      {(mutation, { loading }) => {
+        return children(mutation, loading);
       }}
     </Mutation>
   );
