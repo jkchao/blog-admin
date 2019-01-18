@@ -11,6 +11,7 @@ import { LinkModal } from './LinkModal';
 import { CREATE_LINK, DELETE_LINK, UPDATE_LINK } from './index.mutation';
 import { GET_LINKS } from './index.query';
 import { MutationComponent } from '@/components/Mutation';
+import { TextButton } from '@/components/TextButton';
 
 export default class Links extends React.PureComponent<{}, LinksState> {
   state = {
@@ -125,19 +126,19 @@ export default class Links extends React.PureComponent<{}, LinksState> {
                       render={(text, record: LinksItem) => {
                         return (
                           <>
-                            <a
-                              href="javascript:;"
+                            <TextButton
                               onClick={() => this.updateRecord(record)}
                             >
                               edit
-                            </a>
+                            </TextButton>
+
                             <Divider type="vertical" />
                             <MutationComponent
                               mutation={DELETE_LINK}
                               refetch={refetch}
                               ItemName={/^LinksItem/}
                             >
-                              {mutation => (
+                              {(mutation, loading) => (
                                 <Popconfirm
                                   title="Sure to delete?"
                                   onConfirm={() =>
@@ -146,7 +147,9 @@ export default class Links extends React.PureComponent<{}, LinksState> {
                                     })
                                   }
                                 >
-                                  <a href="javascript:;">delete</a>
+                                  <TextButton disabled={loading}>
+                                    delete
+                                  </TextButton>
                                 </Popconfirm>
                               )}
                             </MutationComponent>
