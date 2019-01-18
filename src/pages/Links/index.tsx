@@ -6,13 +6,13 @@ import { Query } from 'react-apollo';
 
 import { RadioSelect } from '@/components/RadioSelect';
 
-import { LinksItem, LinksState, Response } from './index.interface';
+import { LinksItem, LinksState, ResponseData } from './index.interface';
 import { LinkModal } from './LinkModal';
 import { CREATE_LINK, DELETE_LINK, UPDATE_LINK } from './index.mutation';
 import { GET_LINKS } from './index.query';
 import { MutationComponent } from '@/components/Mutation';
 
-export default class Links extends React.Component<{}, LinksState> {
+export default class Links extends React.PureComponent<{}, LinksState> {
   state = {
     offset: 0,
     limit: 10,
@@ -78,9 +78,10 @@ export default class Links extends React.Component<{}, LinksState> {
         />
 
         <div className="content">
-          <Query<Response>
+          <Query<ResponseData>
             query={GET_LINKS}
             variables={{ offset, limit, keyword }}
+            errorPolicy="all"
             notifyOnNetworkStatusChange
           >
             {({ data, loading, error, networkStatus, refetch }) => {

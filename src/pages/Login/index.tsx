@@ -12,7 +12,7 @@ import {
 } from './index.interface';
 import { LOGIN } from './index.query';
 
-class Login extends React.Component<UserFormProps, LoginState> {
+class Login extends React.PureComponent<UserFormProps, LoginState> {
   state = {
     loading: false
   };

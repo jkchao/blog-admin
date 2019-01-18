@@ -12,7 +12,7 @@ const OptionsComponent = (props: OptionsComponetProps) => {
   const { getFieldDecorator } = props.form;
   return (
     <div className={styles['view']}>
-      <Query<ResponseData> query={GET_OPTIONS}>
+      <Query<ResponseData> query={GET_OPTIONS} errorPolicy="all">
         {({ data, loading, error }) => {
           if (error) {
             notification.error({
