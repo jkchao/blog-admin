@@ -36,14 +36,6 @@ export default class Heros extends React.PureComponent<{}, HerosState> {
     });
   };
 
-  handleError = (message: string) => {
-    notification.error({
-      message: 'GraphQL error',
-      description: message,
-      duration: 5
-    });
-  };
-
   onChange = (e: RadioChangeEvent, typeName: string) => {
     console.log(e.target.value, typeName);
     this.setState({
@@ -79,12 +71,9 @@ export default class Heros extends React.PureComponent<{}, HerosState> {
           <Query<ResponseData>
             query={GET_HEROS}
             variables={{ offset, limit, keyword, state }}
-            errorPolicy="all"
             notifyOnNetworkStatusChange
           >
-            {({ data, loading, error, networkStatus, refetch, client }) => {
-              error && this.handleError(error.message);
-
+            {({ data, loading, networkStatus, refetch }) => {
               const result = (data && data.getHeros) || { docs: [], total: 0 };
 
               const pagination: PaginationProps = {

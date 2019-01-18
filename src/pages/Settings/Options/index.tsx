@@ -1,7 +1,11 @@
 import { Button, Form, Input, Spin, notification } from 'antd';
 import React from 'react';
 
-import { OptionsComponetProps, ResponseData } from './index.interface';
+import {
+  OptionsComponetProps,
+  ResponseData,
+  Options as OptionsInterface
+} from './index.interface';
 import styles from './index.module.scss';
 import { Query } from 'react-apollo';
 import { GET_OPTIONS } from './index.query';
@@ -12,24 +16,17 @@ const OptionsComponent = (props: OptionsComponetProps) => {
   const { getFieldDecorator } = props.form;
   return (
     <div className={styles['view']}>
-      <Query<ResponseData> query={GET_OPTIONS} errorPolicy="all">
-        {({ data, loading, error }) => {
-          if (error) {
-            notification.error({
-              message: 'GraphQL error',
-              description: error.message,
-              duration: 5
-            });
-          }
-
-          const options = data!.getOptions || {};
+      <Query<ResponseData> query={GET_OPTIONS}>
+        {({ data, loading }) => {
+          const options: Partial<OptionsInterface> =
+            (data && data.getOptions) || {};
 
           return (
             <Spin spinning={loading}>
               <Form>
                 <Form.Item label="标题">
                   {getFieldDecorator('title', {
-                    initialValue: options!.title,
+                    initialValue: options.title,
                     rules: [
                       {
                         type: 'email',
@@ -45,7 +42,7 @@ const OptionsComponent = (props: OptionsComponetProps) => {
 
                 <Form.Item label="副标题">
                   {getFieldDecorator('sub_title', {
-                    initialValue: options!.sub_title,
+                    initialValue: options.sub_title,
                     rules: [
                       {
                         type: 'email',

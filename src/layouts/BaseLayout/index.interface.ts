@@ -1,3 +1,5 @@
+import { RouteComponentProps } from 'react-router';
+
 export interface User {
   name: string;
   username: string;
@@ -8,4 +10,15 @@ export interface User {
 
 export interface ResponseData {
   getInfo: User;
+}
+
+export interface BaseLayoutProps extends RouteComponentProps {
+  useInfo: {
+    getInfo?: User;
+  };
+}
+
+export interface BaseLayoutState {
+  collapsed: boolean;
+  currentUser?: User;
 }

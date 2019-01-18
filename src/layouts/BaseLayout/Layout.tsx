@@ -11,22 +11,11 @@ import logo from '@/assets/images/logo.png';
 import styles from './index.module.scss';
 
 import { ClickParam } from 'antd/lib/menu';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { withRouter } from 'react-router';
 import { BreadcrumbView } from '@/components/Breadcrumb';
-import { User } from './index.interface';
+import { User, BaseLayoutProps, BaseLayoutState } from './index.interface';
 
 const { Sider, Content } = Layout;
-
-interface BaseLayoutProps extends RouteComponentProps {
-  useInfo?: {
-    getInfo?: User;
-  };
-}
-
-interface BaseLayoutState {
-  collapsed: boolean;
-  currentUser?: User;
-}
 
 class PageLayout extends PureComponent<BaseLayoutProps, BaseLayoutState> {
   state = {

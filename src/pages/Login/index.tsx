@@ -23,31 +23,29 @@ class Login extends React.PureComponent<UserFormProps, LoginState> {
         this.setState({
           loading: true
         });
-        const {
-          data: { login },
-          errors
-        } = await client.query<Response, Variables>({
-          query: LOGIN,
-          variables: values,
-          errorPolicy: 'all'
-        });
-        this.setState({
-          loading: false
-        });
 
-        errors &&
-          notification.error({
-            message: 'GraphQL error',
-            description: errors.map(
-              ({ message }) => `Message: ${message.message}`
-            ),
-            duration: 5
+        try {
+          const {
+            data: { login }
+          } = await client.query<Response, Variables>({
+            query: LOGIN,
+            variables: values,
+            errorPolicy: 'all'
           });
 
-        if (login) {
-          window.localStorage.setItem('TOKEN', JSON.stringify(login));
-          const path = this.props.location.state.from.pathname;
-          this.props.history.push(path || '/dashboard');
+          this.setState({
+            loading: false
+          });
+
+          if (login) {
+            window.localStorage.setItem('TOKEN', JSON.stringify(login));
+            const path = this.props.location.state.from.pathname;
+            this.props.history.push(path || '/dashboard');
+          }
+        } catch (error) {
+          this.setState({
+            loading: false
+          });
         }
       }
     });

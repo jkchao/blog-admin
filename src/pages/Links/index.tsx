@@ -81,12 +81,9 @@ export default class Links extends React.PureComponent<{}, LinksState> {
           <Query<ResponseData>
             query={GET_LINKS}
             variables={{ offset, limit, keyword }}
-            errorPolicy="all"
             notifyOnNetworkStatusChange
           >
-            {({ data, loading, error, networkStatus, refetch }) => {
-              error && this.handleError(error.message);
-
+            {({ data, loading, networkStatus, refetch }) => {
               const result = (data && data.getLinks) || { docs: [], total: 0 };
 
               const pagination: PaginationProps = {

@@ -33,7 +33,6 @@ const LinkModelComponent = (props: LinkModelProps) => {
     refetch,
     name,
     url,
-    handleError,
     ...modalProps
   } = props;
 
@@ -55,7 +54,6 @@ const LinkModelComponent = (props: LinkModelProps) => {
       }}
     >
       {(createLink, { loading, error }) => {
-        error && handleError(error.message);
         return (
           <Modal
             {...modalProps}
