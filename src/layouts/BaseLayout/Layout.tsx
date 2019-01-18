@@ -13,7 +13,7 @@ import styles from './index.module.scss';
 import { ClickParam } from 'antd/lib/menu';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { BreadcrumbView } from '@/components/Breadcrumb';
-import { User } from '.';
+import { User } from './index.interface';
 
 const { Sider, Content } = Layout;
 

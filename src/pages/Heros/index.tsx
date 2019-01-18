@@ -2,22 +2,21 @@ import { Divider, notification, Popconfirm, Table } from 'antd';
 import { PaginationProps } from 'antd/lib/pagination';
 import { RadioChangeEvent } from 'antd/lib/radio';
 import Column from 'antd/lib/table/Column';
-import ApolloClient from 'apollo-client';
 import dayjs from 'dayjs';
 import React from 'react';
 import { Query } from 'react-apollo';
 
 import { MutationComponent } from '@/components/Mutation';
 import { RadioSelect } from '@/components/RadioSelect';
-
-import { ExandedRowRender } from './ExpandedRowRender';
-import { HerosItem, HerosState, Response } from './index.interface';
-import { UPDATE_HERO, DELETE_HERO } from './index.mutation';
-import { GET_HEROS } from './index.query';
-import { HerosMutations } from './HerosMutations';
 import { TypeList } from '@/components/RadioSelect/index.interface';
 
-export default class Heros extends React.Component<{}, HerosState> {
+import { ExandedRowRender } from './ExpandedRowRender';
+import { HerosMutations } from './HerosMutations';
+import { HerosItem, HerosState, ResponseData } from './index.interface';
+import { DELETE_HERO, UPDATE_HERO } from './index.mutation';
+import { GET_HEROS } from './index.query';
+
+export default class Heros extends React.PureComponent<{}, HerosState> {
   state = {
     offset: 0,
     limit: 10,
@@ -52,21 +51,6 @@ export default class Heros extends React.Component<{}, HerosState> {
     });
   };
 
-  updateHeros = async (
-    client: ApolloClient<any>,
-    record: HerosItem,
-    state: string
-  ) => {
-    const result = await client.mutate({
-      mutation: UPDATE_HERO,
-      variables: {
-        _id: record._id,
-        state
-      }
-    });
-    console.log(result);
-  };
-
   render() {
     const { offset, limit, keyword, state } = this.state;
 
@@ -92,9 +76,10 @@ export default class Heros extends React.Component<{}, HerosState> {
         />
 
         <div className="content">
-          <Query<Response>
+          <Query<ResponseData>
             query={GET_HEROS}
             variables={{ offset, limit, keyword, state }}
+            errorPolicy="all"
             notifyOnNetworkStatusChange
           >
             {({ data, loading, error, networkStatus, refetch, client }) => {

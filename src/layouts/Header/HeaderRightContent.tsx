@@ -2,7 +2,7 @@ import React from 'react';
 import { Menu, Icon, Dropdown, Avatar } from 'antd';
 import styles from './index.module.scss';
 import { ClickParam } from 'antd/lib/menu';
-import { User } from '../BaseLayout';
+import { User } from '../BaseLayout/index.interface';
 
 interface HeaderProps {
   onMenuClick: (param: ClickParam) => void;

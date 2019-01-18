@@ -2,33 +2,23 @@ import React from 'react';
 import { Query } from 'react-apollo';
 import { GET_INFO } from './index.query';
 import { PageLoading } from '@/components/PageLoading';
-import { Alert } from 'antd';
+import { notification } from 'antd';
 import { ContentLayout } from './Layout';
-
-export interface User {
-  name: string;
-  username: string;
-  password: string;
-  slogan: string;
-  gravatar: string;
-}
+import { ResponseData } from './index.interface';
 
 const BaseLayout = () => (
-  <Query<{ getInfo: User }> query={GET_INFO}>
+  <Query<ResponseData> query={GET_INFO} errorPolicy="all">
     {({ data, loading, error }) => {
       if (loading) {
         return <PageLoading />;
       }
 
       if (error) {
-        return (
-          <Alert
-            message="Error Text"
-            description={error.message}
-            type="error"
-            closable
-          />
-        );
+        notification.error({
+          message: 'GraphQL error',
+          description: error.message,
+          duration: 5
+        });
       }
 
       return <ContentLayout useInfo={data} />;

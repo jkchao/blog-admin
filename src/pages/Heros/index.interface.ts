@@ -11,7 +11,7 @@ export interface HerosItem {
   create_at: Date;
 }
 
-export interface Response {
+export interface ResponseData {
   getHeros: {
     limit: number;
     total: number;
