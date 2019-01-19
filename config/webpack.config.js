@@ -604,32 +604,12 @@ module.exports = function(webpackEnv) {
 
         new DllReferencePlugin({
           // 描述 polyfill 动态链接库的文件内容
-          manifest: require('../dist/apollo.manifest.json'),
+          manifest: require('../dist/vendor.manifest.json'),
         }),
 
-        new DllReferencePlugin({
-          // 描述 polyfill 动态链接库的文件内容
-          manifest: require('../dist/react.manifest.json'),
-        }),
-
-        new DllReferencePlugin({
-          // 描述 polyfill 动态链接库的文件内容
-          manifest: require('../dist/graphql.manifest.json'),
-        }),
-
-        // // 将 dll 文件放入 html 中
+        // 将 dll 文件放入 html 中
         new AddAssetHtmlPlugin({
-          filepath: path.resolve(__dirname, '../dist/react.dll.js'),
-          includeSourcemap: false
-        }),
-
-        new AddAssetHtmlPlugin({
-          filepath: path.resolve(__dirname, '../dist/apollo.dll.js'),
-          includeSourcemap: false
-        }),
-
-        new AddAssetHtmlPlugin({
-          filepath: path.resolve(__dirname, '../dist/graphql.dll.js'),
+          filepath: path.resolve(__dirname, '../dist/vendor.dll.js'),
           includeSourcemap: false
         }),
 

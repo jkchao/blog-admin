@@ -5,10 +5,8 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 module.exports = {
   // JS 执行入口文件
   entry: {
-    // 把 React 相关模块的放到一个单独的动态链接库
-    react: ['react', 'react-dom', 'react-router-dom', 'react-apollo'],
-    apollo: ['apollo-boost', 'apollo-link-context'],
-    graphql: ['graphql']
+    // 把相关模块的放到一个单独的动态链接库
+    vendor: ['react', 'react-dom', 'react-router-dom', 'react-apollo', 'apollo-boost', 'apollo-link-context', 'graphql']
   },
   output: {
     // 输出的动态链接库的文件名称，[name] 代表当前动态链接库的名称，
