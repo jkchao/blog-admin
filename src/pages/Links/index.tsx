@@ -122,7 +122,7 @@ export default class Links extends React.PureComponent<{}, LinksState> {
                     <Column
                       title="Action"
                       key="action"
-                      width="300px"
+                      width="200px"
                       render={(text, record: LinksItem) => {
                         return (
                           <>

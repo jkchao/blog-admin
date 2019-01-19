@@ -1,4 +1,4 @@
-import { Divider, notification, Popconfirm, Table } from 'antd';
+import { Divider, Popconfirm, Table } from 'antd';
 import { PaginationProps } from 'antd/lib/pagination';
 import { RadioChangeEvent } from 'antd/lib/radio';
 import Column from 'antd/lib/table/Column';
@@ -15,6 +15,7 @@ import { HerosMutations } from './HerosMutations';
 import { HerosItem, HerosState, ResponseData } from './index.interface';
 import { DELETE_HERO, UPDATE_HERO } from './index.mutation';
 import { GET_HEROS } from './index.query';
+import { TextButton } from '@/components/TextButton';
 
 export default class Heros extends React.PureComponent<{}, HerosState> {
   state = {
@@ -157,7 +158,9 @@ export default class Heros extends React.PureComponent<{}, HerosState> {
                                     })
                                   }
                                 >
-                                  <a href="javascript:;">删 除</a>
+                                  <TextButton disabled={loading}>
+                                    delete
+                                  </TextButton>
                                 </Popconfirm>
                               )}
                             </MutationComponent>
