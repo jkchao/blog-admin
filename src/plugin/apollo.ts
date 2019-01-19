@@ -21,7 +21,9 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
     notification.error({
       message: 'GraphQL error',
-      description: graphQLErrors[0].message,
+      description:
+        (graphQLErrors[0].message && graphQLErrors[0].message.message) ||
+        '未知错误',
       duration: 5
     });
   }
