@@ -1,6 +1,10 @@
+import { Omit } from 'react-router';
+
+type State = 'TODO' | 'SUCCESS' | 'FAIL';
+
 export interface HerosItem {
   _id: string;
-  state: 'TODO' | 'SUCCESS' | 'FAIL';
+  state: State;
   name: string;
   content: string;
   ip: string;
@@ -20,9 +24,15 @@ export interface ResponseData {
   };
 }
 
-export interface HerosState extends Partial<HerosItem> {
+export interface QueryVariables {
   offset: number;
   limit: number;
   keyword: string;
+  state: State;
+}
+
+export interface HerosState
+  extends QueryVariables,
+    Omit<Partial<HerosItem>, 'state'> {
   [index: string]: any;
 }

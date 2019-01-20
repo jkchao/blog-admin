@@ -1,8 +1,9 @@
-import { MutationFn } from 'react-apollo';
+import { MutationFn, OperationVariables } from 'react-apollo';
 
-export interface MutationProps {
+export interface MutationProps<T = any, V = OperationVariables> {
   mutation: string;
-  refetch: () => void;
   ItemName: RegExp;
-  children: (fn: MutationFn, loading: boolean) => React.ReactNode;
+  refetch?: () => void;
+  shouldDeleteCache?: boolean;
+  children: (fn: MutationFn<T, V>, loading: boolean) => React.ReactNode;
 }

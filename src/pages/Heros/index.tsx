@@ -12,7 +12,12 @@ import { TypeList } from '@/components/RadioSelect/index.interface';
 
 import { ExandedRowRender } from './ExpandedRowRender';
 import { HerosMutations } from './HerosMutations';
-import { HerosItem, HerosState, ResponseData } from './index.interface';
+import {
+  HerosItem,
+  HerosState,
+  ResponseData,
+  QueryVariables
+} from './index.interface';
 import { DELETE_HERO, UPDATE_HERO } from './index.mutation';
 import { GET_HEROS } from './index.query';
 import { TextButton } from '@/components/TextButton';
@@ -38,7 +43,6 @@ export default class Heros extends React.PureComponent<{}, HerosState> {
   };
 
   onChange = (e: RadioChangeEvent, typeName: string) => {
-    console.log(e.target.value, typeName);
     this.setState({
       [typeName]: e.target.value
     });
@@ -69,7 +73,7 @@ export default class Heros extends React.PureComponent<{}, HerosState> {
         />
 
         <div className="content">
-          <Query<ResponseData>
+          <Query<ResponseData, QueryVariables>
             query={GET_HEROS}
             variables={{ offset, limit, keyword, state }}
             notifyOnNetworkStatusChange
@@ -144,7 +148,7 @@ export default class Heros extends React.PureComponent<{}, HerosState> {
                               />
                             )}
                             <Divider type="vertical" />
-                            <MutationComponent
+                            <MutationComponent<{}>
                               mutation={DELETE_HERO}
                               refetch={refetch}
                               ItemName={/^HerosItem/}

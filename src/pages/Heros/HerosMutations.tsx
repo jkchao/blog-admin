@@ -1,14 +1,16 @@
 import React from 'react';
 import { MutationComponent } from '@/components/Mutation';
 
+interface Variables {
+  _id: string;
+  state: 'FAIL' | 'SUCCESS';
+}
+
 interface Props {
   mutation: string;
   refetch: () => void;
   ItemName: RegExp;
-  variables: {
-    _id: string;
-    state: 'FAIL' | 'SUCCESS';
-  };
+  variables: Variables;
   text: string;
 }
 
@@ -17,7 +19,7 @@ export const HerosMutations = ({
   variables,
   ...mutationsProps
 }: Props) => (
-  <MutationComponent {...mutationsProps}>
+  <MutationComponent<{}, Variables> {...mutationsProps}>
     {mutation => (
       <a href="javascript:;" onClick={() => mutation({ variables })}>
         {text}

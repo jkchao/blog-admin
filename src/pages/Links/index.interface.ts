@@ -1,4 +1,5 @@
 import { FormComponentProps } from 'antd/lib/form';
+import { Omit } from 'react-router';
 
 export interface LinksItem {
   _id: string;
@@ -15,16 +16,23 @@ export interface ResponseData {
   };
 }
 
-export interface LinksState extends Partial<LinksItem> {
+export interface QueryVariables {
   offset: number;
   limit: number;
   keyword: string;
+}
+
+export interface LinksState
+  extends QueryVariables,
+    MakeKeyOptional<LinksItem, '_id'> {
   visible: boolean;
   title: 'Create' | 'Update';
   mutation: string;
 }
 
-export interface LinkModelProps extends FormComponentProps, Partial<LinksItem> {
+export interface LinkModelProps
+  extends FormComponentProps,
+    MakeKeyOptional<LinksItem, '_id'> {
   visible: boolean;
   handleCancel: () => void;
   refetch: () => void;

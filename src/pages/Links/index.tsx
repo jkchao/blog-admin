@@ -6,7 +6,12 @@ import { Query } from 'react-apollo';
 
 import { RadioSelect } from '@/components/RadioSelect';
 
-import { LinksItem, LinksState, ResponseData } from './index.interface';
+import {
+  LinksItem,
+  LinksState,
+  ResponseData,
+  QueryVariables
+} from './index.interface';
 import { LinkModal } from './LinkModal';
 import { CREATE_LINK, DELETE_LINK, UPDATE_LINK } from './index.mutation';
 import { GET_LINKS } from './index.query';
@@ -20,7 +25,9 @@ export default class Links extends React.PureComponent<{}, LinksState> {
     keyword: '',
     title: 'Create' as 'Create',
     visible: false,
-    mutation: CREATE_LINK
+    mutation: CREATE_LINK,
+    name: '',
+    url: ''
   };
 
   pageChange = (page: number) => {
@@ -59,12 +66,14 @@ export default class Links extends React.PureComponent<{}, LinksState> {
     });
   };
 
-  updateRecord = (record: LinksItem) => {
+  updateRecord = ({ _id, name, url }: LinksItem) => {
     this.setState({
       visible: true,
       title: 'Update',
       mutation: UPDATE_LINK,
-      ...record
+      _id,
+      name,
+      url
     });
   };
 
@@ -79,7 +88,7 @@ export default class Links extends React.PureComponent<{}, LinksState> {
         />
 
         <div className="content">
-          <Query<ResponseData>
+          <Query<ResponseData, QueryVariables>
             query={GET_LINKS}
             variables={{ offset, limit, keyword }}
             notifyOnNetworkStatusChange
@@ -133,7 +142,7 @@ export default class Links extends React.PureComponent<{}, LinksState> {
                             </TextButton>
 
                             <Divider type="vertical" />
-                            <MutationComponent
+                            <MutationComponent<{}, { _id: string }>
                               mutation={DELETE_LINK}
                               refetch={refetch}
                               ItemName={/^LinksItem/}

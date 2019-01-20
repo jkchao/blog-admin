@@ -1,27 +1,24 @@
 import React from 'react';
-import { Mutation } from 'react-apollo';
+import { Mutation, OperationVariables, MutationFn } from 'react-apollo';
 import { deleteCache } from '@/utils';
 import { MutationProps } from './index.interface';
 
-// 需要 deleteCache 的 mutation
-
-export const MutationComponent = ({
+export const MutationComponent = <T extends {} = {}, V = OperationVariables>({
   mutation,
   refetch,
   children,
-  ItemName
-}: MutationProps) => {
-  return (
-    <Mutation
-      mutation={mutation}
-      update={cache => {
-        deleteCache(cache, ItemName);
-        refetch();
-      }}
-    >
-      {(mutation, { loading }) => {
-        return children(mutation, loading);
-      }}
-    </Mutation>
-  );
-};
+  ItemName,
+  shouldDeleteCache
+}: MutationProps<T, V>) => (
+  <Mutation<T, V>
+    mutation={mutation}
+    update={cache => {
+      shouldDeleteCache && deleteCache(cache, ItemName);
+      refetch && refetch();
+    }}
+  >
+    {(mutation, { loading }) => {
+      return children(mutation, loading);
+    }}
+  </Mutation>
+);

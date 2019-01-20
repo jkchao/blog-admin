@@ -1,10 +1,9 @@
 import { Button, Form, Input, Modal } from 'antd';
 import React from 'react';
-import { Mutation, MutationFn } from 'react-apollo';
-
-import { deleteCache } from '@/utils';
+import { MutationFn } from 'react-apollo';
 
 import { LinkModelProps } from './index.interface';
+import { MutationComponent } from '@/components/Mutation';
 
 const handleOk = (
   createLink: MutationFn,
@@ -42,18 +41,13 @@ const LinkModelComponent = (props: LinkModelProps) => {
   };
 
   return (
-    <Mutation
+    <MutationComponent<{}>
       mutation={mutation}
-      update={cache => {
-        if (props.title === 'Create') {
-          // 创建的时候，需要删除对应键的缓存
-          // 然后重新请求
-          deleteCache(cache, /^LinksItem/);
-          refetch();
-        }
-      }}
+      ItemName={/^LinksItem/}
+      refetch={refetch}
+      shouldDeleteCache={props.title === 'Create'}
     >
-      {(createLink, { loading, error }) => {
+      {(createLink, loading) => {
         return (
           <Modal
             {...modalProps}
@@ -96,7 +90,7 @@ const LinkModelComponent = (props: LinkModelProps) => {
           </Modal>
         );
       }}
-    </Mutation>
+    </MutationComponent>
   );
 };
 

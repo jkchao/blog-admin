@@ -7,7 +7,7 @@ interface SearchProp {
   handleClick?: () => void;
 }
 
-export const Search = ({ onSearch, handleClick }: SearchProp) => (
+export const Search: React.SFC<SearchProp> = ({ onSearch, handleClick }) => (
   <div
     className="radio-item"
     style={{ display: 'flex', justifyContent: 'space-between' }}
