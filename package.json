@@ -16,8 +16,9 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
-    "build:dll": "rm -rf dist && webpack --config config/webpack.dll.config.js",
+    "build": "npm run build:dll:production node scripts/build.js",
+    "build:dll:development": "rm -rf dist && webpack --config config/webpack.dll.config.js --mode=development",
+    "build:dll:production": "rm -rf dist && webpack --config config/webpack.dll.config.js --mode=production",
     "test": "node scripts/test.js",
     "precommit": "lint-staged",
     "lint": "tslint -c tslint.json -p tsconfig.json"
