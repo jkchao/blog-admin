@@ -16,23 +16,21 @@ export interface ResponseData {
   };
 }
 
+export type MutationVariables = MakeKeyOptional<LinksItem, '_id'>;
+
 export interface QueryVariables {
   offset: number;
   limit: number;
   keyword: string;
 }
 
-export interface LinksState
-  extends QueryVariables,
-    MakeKeyOptional<LinksItem, '_id'> {
+export interface LinksState extends QueryVariables, MutationVariables {
   visible: boolean;
   title: 'Create' | 'Update';
   mutation: string;
 }
 
-export interface LinkModelProps
-  extends FormComponentProps,
-    MakeKeyOptional<LinksItem, '_id'> {
+export interface LinkModelProps extends FormComponentProps, MutationVariables {
   visible: boolean;
   handleCancel: () => void;
   refetch: () => void;

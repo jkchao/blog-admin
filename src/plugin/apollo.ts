@@ -23,12 +23,11 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
       message: 'GraphQL error',
       description:
         (graphQLErrors[0].message && graphQLErrors[0].message.message) ||
+        graphQLErrors[0].message ||
         '未知错误',
       duration: 5
     });
-  }
-
-  if (networkError) {
+  } else if (networkError) {
     console.log(`[Network error]: ${networkError}`);
     notification.error({
       message: 'Network error',

@@ -148,7 +148,7 @@ export default class Heros extends React.PureComponent<{}, HerosState> {
                               />
                             )}
                             <Divider type="vertical" />
-                            <MutationComponent<{}>
+                            <MutationComponent<{}, { _id: string }>
                               mutation={DELETE_HERO}
                               refetch={refetch}
                               ItemName={/^HerosItem/}

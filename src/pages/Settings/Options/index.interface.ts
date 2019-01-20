@@ -1,6 +1,7 @@
 import { FormComponentProps } from 'antd/lib/form';
 
 export interface Options {
+  _id: string;
   title: string;
   descript: string;
   email: string;

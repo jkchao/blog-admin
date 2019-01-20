@@ -2,14 +2,14 @@ import { Button, Form, Input, Modal } from 'antd';
 import React from 'react';
 import { MutationFn } from 'react-apollo';
 
-import { LinkModelProps } from './index.interface';
+import { LinkModelProps, MutationVariables } from './index.interface';
 import { MutationComponent } from '@/components/Mutation';
 
 const handleOk = (
-  createLink: MutationFn,
+  createLink: MutationFn<{}, MutationVariables>,
   { form: { validateFields }, title, handleCancel, _id }: LinkModelProps
 ) => {
-  validateFields(async (err, values) => {
+  validateFields(async (err, values: MutationVariables) => {
     if (!err) {
       await createLink({
         variables: title === 'Create' ? values : { ...values, _id }
@@ -41,7 +41,7 @@ const LinkModelComponent = (props: LinkModelProps) => {
   };
 
   return (
-    <MutationComponent<{}>
+    <MutationComponent<{}, MutationVariables>
       mutation={mutation}
       ItemName={/^LinksItem/}
       refetch={refetch}
