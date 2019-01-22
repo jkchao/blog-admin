@@ -1,88 +1,99 @@
-import React, { Fragment } from 'react';
-import { Form, Input, Button, Upload } from 'antd';
+import React from 'react';
+import { Form, Input, Button } from 'antd';
 import { AccountComponetProps } from './index.interface';
 const Item = Form.Item;
 
 import styles from './index.module.scss';
+import { Query } from 'react-apollo';
+import { GET_INFO } from './index.query';
 
-const AvatarView = ({ avatar }: { avatar: string }) => (
-  <Fragment>
-    <div className={styles['avatar-title']}>三毛</div>
-    <div className={styles.avatar}>
-      <img src={avatar} alt="avatar" />
-    </div>
-    <Upload fileList={[]}>
-      <div className={styles['button-view']}>
-        <Button icon="upload">Change avatar</Button>
-      </div>
-    </Upload>
-  </Fragment>
-);
+import { ResponseData, User } from '@/layouts/BaseLayout/index.interface';
+import { AvatarView } from './AvatarView';
+
+const submit = () => {
+  // ..
+};
 
 const AccountComponent = ({
   form: { getFieldDecorator }
 }: AccountComponetProps) => {
   return (
-    <div className={styles.view}>
-      <div className={styles.left}>
-        <Form>
-          <Item label="昵称">
-            {getFieldDecorator('name', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Please input your name!'
-                }
-              ]
-            })(<Input />)}
-          </Item>
+    <Query<ResponseData> query={GET_INFO}>
+      {({ data }) => {
+        const result = (data && data.getInfo) || ({} as Partial<User>);
 
-          <Item label="个性签名">{getFieldDecorator('slogan')(<Input />)}</Item>
+        return (
+          <div className={styles.view}>
+            <div className={styles.left}>
+              <Form onSubmit={submit}>
+                <Item label="昵称">
+                  {getFieldDecorator('name', {
+                    initialValue: result.name,
+                    rules: [
+                      {
+                        required: true,
+                        message: 'Please input your name!'
+                      }
+                    ]
+                  })(<Input />)}
+                </Item>
 
-          <Item label="原密码">
-            {getFieldDecorator('oldPassword', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Please input oldPassword'
-                }
-              ]
-            })(<Input />)}
-          </Item>
+                <Item label="个性签名">
+                  {getFieldDecorator('slogan', {
+                    initialValue: result.slogan
+                  })(<Input />)}
+                </Item>
 
-          <Item label="新密码">
-            {getFieldDecorator('password', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Please input new password'
-                }
-              ]
-            })(<Input />)}
-          </Item>
+                <Item label="原密码">
+                  {getFieldDecorator('oldPassword', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'Please input oldPassword'
+                      }
+                    ]
+                  })(<Input placeholder="原密码" />)}
+                </Item>
 
-          <Item label="确认密码">
-            {getFieldDecorator('title', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Please input your password!'
-                }
-              ]
-            })(<Input />)}
-          </Item>
+                <Item label="新密码">
+                  {getFieldDecorator('password', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'Please input new password'
+                      }
+                    ]
+                  })(<Input placeholder="新密码" />)}
+                </Item>
 
-          <Item>
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Item>
-        </Form>
-      </div>
-      <div className={styles.right}>
-        <AvatarView avatar="https://avatars3.githubusercontent.com/u/22933931?s=460&v=4" />
-      </div>
-    </div>
+                <Item label="确认密码">
+                  {getFieldDecorator('title', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'Please input your password!'
+                      }
+                    ]
+                  })(<Input placeholder="确认密码" />)}
+                </Item>
+
+                <Item>
+                  <Button type="primary" htmlType="submit">
+                    Submit
+                  </Button>
+                </Item>
+              </Form>
+            </div>
+            <div className={styles.right}>
+              <AvatarView
+                avatar={result.gravatar || ''}
+                username={result.username || ''}
+              />
+            </div>
+          </div>
+        );
+      }}
+    </Query>
   );
 };
 
