@@ -44,6 +44,8 @@ const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
+const lessRegex = /\.less$/;
+const lessModuleRegex = /\.module\.less$/;
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
@@ -108,12 +110,25 @@ module.exports = function(webpackEnv) {
       },
     ].filter(Boolean);
     if (preProcessor) {
-      loaders.push({
-        loader: require.resolve(preProcessor),
-        options: {
-          sourceMap: isEnvProduction && shouldUseSourceMap,
-        },
-      });
+
+      // 配置 ant 主题
+      if (preProcessor === 'less-loader') {
+        loaders.push({
+          loader: require.resolve(preProcessor),
+          options: {
+            modifyVars: require(paths.appTheme),
+            javascriptEnabled: true,
+            sourceMap: isEnvProduction && shouldUseSourceMap
+          }
+        });
+      } else {
+        loaders.push({
+          loader: require.resolve(preProcessor),
+          options: {
+            sourceMap: isEnvProduction && shouldUseSourceMap,
+          },
+        });
+      }
     }
     return loaders;
   };
@@ -453,6 +468,26 @@ module.exports = function(webpackEnv) {
                 'sass-loader'
               ),
             },
+
+            // 添加对 ant less 的解析
+            {
+              test: lessRegex,
+              exclude: lessModuleRegex,
+              use: getStyleLoaders(
+                {
+                  importLoaders: 2,
+                  sourceMap: isEnvProduction && shouldUseSourceMap
+                },
+                'less-loader'
+              ),
+              // Don't consider CSS imports dead code even if the
+              // containing package claims to have no side effects.
+              // Remove this when webpack adds a warning or an error for this.
+              // See https://github.com/webpack/webpack/issues/6571
+              sideEffects: true
+            },
+
+
             // "file" loader makes sure those assets get served by WebpackDevServer.
             // When you `import` an asset, you get its (virtual) filename.
             // In production, they would get copied to the `build` folder.

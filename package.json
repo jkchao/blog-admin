@@ -2,18 +2,6 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "antd": "^3.11.6",
-    "apollo-boost": "^0.1.23",
-    "apollo-link-context": "^1.0.12",
-    "dayjs": "^1.8.0",
-    "graphql": "^14.0.2",
-    "react": "^16.7.0",
-    "react-apollo": "^2.3.3",
-    "react-app-polyfill": "^0.2.0",
-    "react-dom": "^16.7.0",
-    "react-router-dom": "^4.3.1"
-  },
   "scripts": {
     "start": "node scripts/start.js",
     "build": "npm run build:dll:production node scripts/build.js",
@@ -40,6 +28,19 @@
     "not ie <= 11",
     "not op_mini all"
   ],
+
+  "dependencies": {
+    "antd": "^3.11.6",
+    "apollo-boost": "^0.1.23",
+    "apollo-link-context": "^1.0.12",
+    "dayjs": "^1.8.0",
+    "graphql": "^14.0.2",
+    "react": "^16.7.0",
+    "react-apollo": "^2.3.3",
+    "react-app-polyfill": "^0.2.0",
+    "react-dom": "^16.7.0",
+    "react-router-dom": "^4.3.1"
+  },
   "devDependencies": {
     "@babel/core": "7.1.6",
     "@svgr/webpack": "2.4.1",
@@ -78,6 +79,8 @@
     "jest": "23.6.0",
     "jest-pnp-resolver": "1.0.1",
     "jest-resolve": "23.6.0",
+    "less": "^3.9.0",
+    "less-loader": "^4.1.0",
     "lint-staged": "^8.1.0",
     "mini-css-extract-plugin": "0.4.3",
     "node-sass": "^4.11.0",
