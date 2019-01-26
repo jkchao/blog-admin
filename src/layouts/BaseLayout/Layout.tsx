@@ -34,7 +34,7 @@ class PageLayout extends PureComponent<BaseLayoutProps, BaseLayoutState> {
       this.props.history.push('/set');
     } else {
       window.localStorage.setItem('TOKEN', JSON.stringify('{}'));
-      this.props.history.push('login', {
+      this.props.history.push('/login', {
         from: this.props.location
       });
     }
