@@ -13,15 +13,13 @@
 
   .avatar-title {
     height: 22px;
-    // font-size: @font-size-base;
-    // color: @heading-color;
     line-height: 22px;
     margin-bottom: 8px;
   }
 
   .avatar {
     width: 144px;
-    height: 144px;
+    height: auto;
     margin-bottom: 12px;
     overflow: hidden;
     img {

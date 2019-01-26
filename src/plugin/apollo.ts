@@ -28,7 +28,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
       duration: 5
     });
   } else if (networkError) {
-    console.log(`[Network error]: ${networkError}`);
     notification.error({
       message: 'Network error',
       description: networkError.message,

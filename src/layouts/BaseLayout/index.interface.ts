@@ -1,6 +1,7 @@
 import { RouteComponentProps } from 'react-router';
 
 export interface User {
+  _id: string;
   name: string;
   username: string;
   password: string;

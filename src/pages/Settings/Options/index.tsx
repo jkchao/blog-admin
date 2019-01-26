@@ -1,4 +1,4 @@
-import { Button, Form, Input, Spin } from 'antd';
+import { Button, Form, Input, Spin, message } from 'antd';
 import React from 'react';
 
 import {
@@ -20,9 +20,11 @@ const submit = (
 ) => {
   validateFields(async (err, values) => {
     if (!err) {
-      mutation({
+      await mutation({
         variables: { ...values, _id }
       });
+
+      message.success('success');
     }
   });
 };

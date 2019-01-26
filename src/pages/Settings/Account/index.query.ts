@@ -13,3 +13,11 @@ export const GET_INFO = gql`
     }
   }
 `;
+
+export const GET_QINIU = gql`
+  query {
+    getQiniu {
+      token
+    }
+  }
+`;
