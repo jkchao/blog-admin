@@ -20,6 +20,8 @@ class AccountComponent extends React.Component<
   AccountComponetProps,
   { confirmDirty: boolean }
 > {
+  private gravatar = '';
+
   state = {
     confirmDirty: false
   };
@@ -35,7 +37,8 @@ class AccountComponent extends React.Component<
         await mutation({
           variables: {
             ...values,
-            _id
+            _id,
+            gravatar: this.gravatar
           }
         });
         message.success('success');
@@ -59,6 +62,10 @@ class AccountComponent extends React.Component<
       form.validateFields(['confirm'], { force: true });
     }
     callback();
+  };
+
+  onChangeAvatar = (avatar: string) => {
+    this.gravatar = avatar;
   };
 
   compareToFirstPassword = (
@@ -172,6 +179,7 @@ class AccountComponent extends React.Component<
                         avatar={result.gravatar || ''}
                         username={result.username || ''}
                         token={res.token}
+                        onChangeAvatar={this.onChangeAvatar}
                       />
                     );
                   }}

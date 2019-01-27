@@ -28,7 +28,6 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-
   "dependencies": {
     "antd": "^3.11.6",
     "apollo-boost": "^0.1.23",

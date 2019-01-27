@@ -2,8 +2,6 @@ const path = require('path');
 const DllPlugin = require('webpack/lib/DllPlugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-console.log(process.env)
-
 module.exports = {
   // JS 执行入口文件
   entry: {

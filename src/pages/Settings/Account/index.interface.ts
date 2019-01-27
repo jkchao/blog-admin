@@ -3,6 +3,11 @@ import { User } from '@/layouts/BaseLayout/index.interface';
 
 export interface AccountComponetProps extends FormComponentProps {}
 
+export interface AccountComponetState {
+  confirmDirty: boolean;
+  gravatar: string;
+}
+
 export interface Variables extends User {
   oldPassword: string;
 }

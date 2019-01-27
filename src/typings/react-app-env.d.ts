@@ -7,6 +7,8 @@ declare namespace NodeJS {
     NODE_ENV: 'development' | 'production' | 'test';
     PUBLIC_URL: string;
     REACT_APP_APOLLO_PATH: string;
+    REACT_APP_QINNIU_UPLOAD: string;
+    REACT_APP_STATIC_SITE: string;
   }
 }
 
