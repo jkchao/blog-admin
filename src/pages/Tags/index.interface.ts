@@ -1,21 +1,23 @@
 import { FormComponentProps } from 'antd/lib/form';
 
-export interface LinksItem {
+export interface TagsItem {
   _id: string;
   name: string;
-  url: string;
+  descript: string;
+  // sort: number;
+  count: number;
 }
 
 export interface ResponseData {
-  getLinks: {
+  getTags: {
     limit: number;
     total: number;
     offset: number;
-    docs: LinksItem[];
+    docs: TagsItem[];
   };
 }
 
-export type MutationVariables = MakeKeyOptional<LinksItem, '_id'>;
+export type MutationVariables = MakeKeyOptional<TagsItem, '_id' | 'count'>;
 
 export interface QueryVariables {
   offset: number;
@@ -23,13 +25,13 @@ export interface QueryVariables {
   keyword: string;
 }
 
-export interface LinksState extends QueryVariables, MutationVariables {
+export interface TagsState extends QueryVariables, MutationVariables {
   visible: boolean;
   title: 'Create' | 'Update';
   mutation: string;
 }
 
-export interface LinkModelProps extends FormComponentProps, MutationVariables {
+export interface TagModelProps extends FormComponentProps, MutationVariables {
   visible: boolean;
   handleCancel: () => void;
   refetch: () => void;

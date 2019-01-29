@@ -7,11 +7,6 @@ export const UPDATE_HERO = gql`
       state
       name
       content
-      agent
-      country
-      range
-      city
-      create_at
     }
   }
 `;

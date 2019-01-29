@@ -31,7 +31,7 @@ class PageLayout extends PureComponent<BaseLayoutProps, BaseLayoutState> {
 
   onMenuClick = ({ key }: ClickParam) => {
     if (key === 'set') {
-      this.props.history.push('/set');
+      this.props.history.push('/settings/options');
     } else {
       window.localStorage.setItem('TOKEN', JSON.stringify('{}'));
       this.props.history.push('/login', {

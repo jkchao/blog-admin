@@ -4,30 +4,33 @@ import Column from 'antd/lib/table/Column';
 import React from 'react';
 import { Query } from 'react-apollo';
 
-import { RadioSelect } from '@/components/RadioSelect';
-
-import {
-  LinksItem,
-  LinksState,
-  ResponseData,
-  QueryVariables
-} from './index.interface';
-import { LinkModal } from './LinkModal';
-import { CREATE_LINK, DELETE_LINK, UPDATE_LINK } from './index.mutation';
-import { GET_LINKS } from './index.query';
 import { MutationComponent } from '@/components/Mutation';
+import { RadioSelect } from '@/components/RadioSelect';
 import { TextButton } from '@/components/TextButton';
 
-export default class Links extends React.PureComponent<{}, LinksState> {
+import {
+  QueryVariables,
+  ResponseData,
+  TagsItem,
+  TagsState
+} from './index.interface';
+import { CREATE_TAG, DELETE_TAG, UPDATE_TAG } from './index.mutation';
+import { GET_TAGS } from './index.query';
+import { TagModal } from './TagModal';
+
+// TODO:拖拽排序
+
+export default class Tags extends React.PureComponent<{}, TagsState> {
   state = {
     offset: 0,
     limit: 10,
     keyword: '',
     title: 'Create' as 'Create',
     visible: false,
-    mutation: CREATE_LINK,
+    mutation: CREATE_TAG,
     name: '',
-    url: ''
+    descript: ''
+    // sort: [],
   };
 
   pageChange = (page: number) => {
@@ -55,8 +58,8 @@ export default class Links extends React.PureComponent<{}, LinksState> {
       visible: true,
       title: 'Create',
       name: '',
-      url: '',
-      mutation: CREATE_LINK
+      descript: '',
+      mutation: CREATE_TAG
     });
   };
 
@@ -66,14 +69,14 @@ export default class Links extends React.PureComponent<{}, LinksState> {
     });
   };
 
-  updateRecord = ({ _id, name, url }: LinksItem) => {
+  updateRecord = ({ _id, name, descript }: TagsItem) => {
     this.setState({
       visible: true,
       title: 'Update',
-      mutation: UPDATE_LINK,
+      mutation: UPDATE_TAG,
       _id,
       name,
-      url
+      descript
     });
   };
 
@@ -89,12 +92,12 @@ export default class Links extends React.PureComponent<{}, LinksState> {
 
         <div className="content">
           <Query<ResponseData, QueryVariables>
-            query={GET_LINKS}
+            query={GET_TAGS}
             variables={{ offset, limit, keyword }}
             notifyOnNetworkStatusChange
           >
             {({ data, loading, networkStatus, refetch }) => {
-              const result = (data && data.getLinks) || { docs: [], total: 0 };
+              const result = (data && data.getTags) || { docs: [], total: 0 };
 
               const pagination: PaginationProps = {
                 total: result.total,
@@ -105,7 +108,7 @@ export default class Links extends React.PureComponent<{}, LinksState> {
 
               return (
                 <>
-                  <Table<LinksItem>
+                  <Table<TagsItem>
                     dataSource={result.docs}
                     loading={loading || networkStatus === 4}
                     rowKey="_id"
@@ -118,21 +121,18 @@ export default class Links extends React.PureComponent<{}, LinksState> {
                       width="300px"
                     />
                     <Column
-                      key="url"
-                      title="Url"
-                      dataIndex="url"
-                      render={text => (
-                        <a href={text} target="_blank">
-                          {text}
-                        </a>
-                      )}
+                      key="descript"
+                      title="descript"
+                      dataIndex="descript"
                     />
+
+                    <Column key="count" title="Count" dataIndex="count" />
 
                     <Column
                       title="Action"
                       key="action"
                       width="200px"
-                      render={(text, record: LinksItem) => {
+                      render={(text, record: TagsItem) => {
                         return (
                           <>
                             <TextButton
@@ -143,9 +143,9 @@ export default class Links extends React.PureComponent<{}, LinksState> {
 
                             <Divider type="vertical" />
                             <MutationComponent<{}, { _id: string }>
-                              mutation={DELETE_LINK}
+                              mutation={DELETE_TAG}
                               refetch={refetch}
-                              ItemName={/^LinksItem/}
+                              ItemName={/^TagsItem/}
                             >
                               {(mutation, loading) => (
                                 <Popconfirm
@@ -168,7 +168,7 @@ export default class Links extends React.PureComponent<{}, LinksState> {
                     />
                   </Table>
 
-                  <LinkModal
+                  <TagModal
                     handleCancel={this.handleCancel}
                     refetch={refetch}
                     handleError={this.handleError}

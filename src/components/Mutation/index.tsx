@@ -8,7 +8,7 @@ export const MutationComponent = <T extends {} = {}, V = OperationVariables>({
   refetch,
   children,
   ItemName,
-  shouldDeleteCache
+  shouldDeleteCache = true
 }: MutationProps<T, V>) => (
   <Mutation<T, V>
     mutation={mutation}
