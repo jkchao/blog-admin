@@ -1,5 +1,4 @@
 import { Divider, notification, Popconfirm, Table } from 'antd';
-import { PaginationProps } from 'antd/lib/pagination';
 import Column from 'antd/lib/table/Column';
 import React from 'react';
 import { Query } from 'react-apollo';
@@ -22,8 +21,6 @@ import { TagModal } from './TagModal';
 
 export default class Tags extends React.PureComponent<{}, TagsState> {
   state = {
-    offset: 0,
-    limit: 10,
     keyword: '',
     title: 'Create' as 'Create',
     visible: false,
@@ -31,12 +28,6 @@ export default class Tags extends React.PureComponent<{}, TagsState> {
     name: '',
     descript: ''
     // sort: [],
-  };
-
-  pageChange = (page: number) => {
-    this.setState({
-      offset: Number(`${(page - 1) * 10}`)
-    });
   };
 
   search = (keyword: string) => {
@@ -81,7 +72,7 @@ export default class Tags extends React.PureComponent<{}, TagsState> {
   };
 
   render() {
-    const { offset, limit, keyword, ...rest } = this.state;
+    const { keyword, ...rest } = this.state;
     return (
       <div>
         <RadioSelect
@@ -93,18 +84,11 @@ export default class Tags extends React.PureComponent<{}, TagsState> {
         <div className="content">
           <Query<ResponseData, QueryVariables>
             query={GET_TAGS}
-            variables={{ offset, limit, keyword }}
+            variables={{ offset: 0, limit: 100, keyword }}
             notifyOnNetworkStatusChange
           >
             {({ data, loading, networkStatus, refetch }) => {
               const result = (data && data.getTags) || { docs: [], total: 0 };
-
-              const pagination: PaginationProps = {
-                total: result.total,
-                pageSize: limit,
-                onChange: this.pageChange,
-                showTotal: total => `共 ${total} 条`
-              };
 
               return (
                 <>
@@ -112,7 +96,7 @@ export default class Tags extends React.PureComponent<{}, TagsState> {
                     dataSource={result.docs}
                     loading={loading || networkStatus === 4}
                     rowKey="_id"
-                    pagination={pagination}
+                    pagination={false}
                   >
                     <Column
                       key="name"

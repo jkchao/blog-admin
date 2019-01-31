@@ -1,4 +1,5 @@
 import { FormComponentProps } from 'antd/lib/form';
+import { Omit } from 'react-router';
 
 export interface TagsItem {
   _id: string;
@@ -25,7 +26,9 @@ export interface QueryVariables {
   keyword: string;
 }
 
-export interface TagsState extends QueryVariables, MutationVariables {
+export interface TagsState
+  extends Omit<QueryVariables, 'offset' | 'limit'>,
+    MutationVariables {
   visible: boolean;
   title: 'Create' | 'Update';
   mutation: string;
