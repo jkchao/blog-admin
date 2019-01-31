@@ -180,7 +180,10 @@ export default class Comments extends React.PureComponent<{}, CommentsState> {
                               />
                             )}
                             <Divider type="vertical" />
-                            <MutationComponent<{}, { _id: string }>
+                            <MutationComponent<
+                              {},
+                              { _id: string; post_id: number }
+                            >
                               mutation={DELETE_COMMENT}
                               refetch={refetch}
                               ItemName={/^CommentsItem/}
@@ -190,12 +193,15 @@ export default class Comments extends React.PureComponent<{}, CommentsState> {
                                   title="Sure to delete?"
                                   onConfirm={() =>
                                     mutation({
-                                      variables: { _id: record._id }
+                                      variables: {
+                                        _id: record._id,
+                                        post_id: record.post_id
+                                      }
                                     })
                                   }
                                 >
                                   <TextButton disabled={loading}>
-                                    delete
+                                    Delete
                                   </TextButton>
                                 </Popconfirm>
                               )}
