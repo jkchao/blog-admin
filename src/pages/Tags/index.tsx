@@ -36,14 +36,6 @@ export default class Tags extends React.PureComponent<{}, TagsState> {
     });
   };
 
-  handleError = (message: string) => {
-    notification.error({
-      message: 'GraphQL error',
-      description: message,
-      duration: 5
-    });
-  };
-
   handleClick = () => {
     this.setState({
       visible: true,
@@ -155,7 +147,6 @@ export default class Tags extends React.PureComponent<{}, TagsState> {
                   <TagModal
                     handleCancel={this.handleCancel}
                     refetch={refetch}
-                    handleError={this.handleError}
                     {...rest}
                   />
                 </>
