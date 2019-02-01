@@ -1,4 +1,5 @@
 import { Omit } from 'react-router';
+import { FormComponentProps } from 'antd/lib/form';
 
 type State = 'TODO' | 'SUCCESS' | 'FAIL';
 
@@ -39,8 +40,22 @@ export interface QueryVariables {
   state: State;
 }
 
+export interface ChangeStateMutationVariables
+  extends Pick<CommentsItem, '_id' | 'state'> {}
+
+export interface ModalMutationsVariables
+  extends Pick<CommentsItem, 'content' | '_id' | 'author'> {}
+
 export interface CommentsState
   extends QueryVariables,
     Omit<Partial<CommentsItem>, 'state'> {
   [index: string]: any;
+}
+
+export interface CommentsModalProps
+  extends FormComponentProps,
+    ModalMutationsVariables {
+  visible: boolean;
+  handleCancel: () => void;
+  mutation: string;
 }

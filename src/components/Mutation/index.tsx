@@ -14,7 +14,7 @@ export const MutationComponent = <T extends {} = {}, V = OperationVariables>({
     mutation={mutation}
     update={cache => {
       shouldDeleteCache && deleteCache(cache, ItemName);
-      refetch && refetch();
+      shouldDeleteCache && refetch && refetch();
     }}
   >
     {(mutation, { loading }) => {

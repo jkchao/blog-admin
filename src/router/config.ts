@@ -35,13 +35,13 @@ export const Menus = [
       }
     ]
   },
-  { path: '/tag', title: 'Tags', icon: 'tags', component: Tags },
   {
     path: '/comment',
     title: 'Comment',
     icon: 'message',
     component: Comments
   },
+  { path: '/tag', title: 'Tags', icon: 'tags', component: Tags },
   { path: '/heros', title: 'Heros', icon: 'fire', component: Heros },
   {
     path: '/links',
