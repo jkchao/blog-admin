@@ -6,12 +6,12 @@ import { LinkModelProps, MutationVariables } from './index.interface';
 import { MutationComponent } from '@/components/Mutation';
 
 const handleOk = (
-  createLink: MutationFn<{}, MutationVariables>,
+  mutationLink: MutationFn<{}, MutationVariables>,
   { form: { validateFields }, title, handleCancel, _id }: LinkModelProps
 ) => {
   validateFields(async (err, values: MutationVariables) => {
     if (!err) {
-      await createLink({
+      await mutationLink({
         variables: title === 'Create' ? values : { ...values, _id }
       });
       handleCancel();

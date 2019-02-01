@@ -42,14 +42,6 @@ export default class Links extends React.PureComponent<{}, LinksState> {
     });
   };
 
-  handleError = (message: string) => {
-    notification.error({
-      message: 'GraphQL error',
-      description: message,
-      duration: 5
-    });
-  };
-
   handleClick = () => {
     this.setState({
       visible: true,
@@ -171,7 +163,6 @@ export default class Links extends React.PureComponent<{}, LinksState> {
                   <LinkModal
                     handleCancel={this.handleCancel}
                     refetch={refetch}
-                    handleError={this.handleError}
                     {...rest}
                   />
                 </>

@@ -34,6 +34,5 @@ export interface LinkModelProps extends FormComponentProps, MutationVariables {
   handleCancel: () => void;
   refetch: () => void;
   mutation: string;
-  handleError: (message: string) => void;
   title: 'Create' | 'Update';
 }
