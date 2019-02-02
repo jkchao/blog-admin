@@ -48,5 +48,8 @@ const authLink = setContext((_, { headers }) => {
 
 export const client = new ApolloClient({
   link: ApolloLink.from([errorLink, authLink, httpLink]),
-  cache: new InMemoryCache()
+  cache: new InMemoryCache({
+    dataIdFromObject: (object: { id?: string; _id?: string }) =>
+      object._id || object.id
+  })
 });
