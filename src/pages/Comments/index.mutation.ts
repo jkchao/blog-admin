@@ -1,13 +1,28 @@
 import gql from 'graphql-tag';
 
 export const UPDATE_COMMENT = gql`
-  mutation updateComment($_id: ObjectID!, $state: State, $content: String) {
+  mutation updateComment(
+    $_id: ObjectID!
+    $state: State
+    $content: String
+    $author: AuthorInput
+  ) {
     updateComment(
-      commentInfo: { _id: $_id, state: $state, content: $content }
+      commentInfo: {
+        _id: $_id
+        state: $state
+        content: $content
+        author: $author
+      }
     ) {
       _id
       state
       content
+      author {
+        name
+        site
+        email
+      }
     }
   }
 `;

@@ -49,6 +49,8 @@ export interface ModalMutationsVariables
 export interface CommentsState
   extends QueryVariables,
     Omit<Partial<CommentsItem>, 'state'> {
+  visible: boolean;
+  content: string;
   [index: string]: any;
 }
 

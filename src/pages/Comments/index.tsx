@@ -22,9 +22,18 @@ import {
 import { DELETE_COMMENT, UPDATE_COMMENT } from './index.mutation';
 import { GET_COMMENTS } from './index.query';
 import { TextButton } from '@/components/TextButton';
+import { ComponentsModal } from './CommentModal';
 
 export default class Comments extends React.PureComponent<{}, CommentsState> {
   state = {
+    _id: '',
+    visible: false,
+    content: '',
+    author: {
+      name: '',
+      email: '',
+      site: ''
+    },
     offset: 0,
     limit: 10,
     keyword: '',
@@ -49,8 +58,23 @@ export default class Comments extends React.PureComponent<{}, CommentsState> {
     });
   };
 
+  handleCancel = () => {
+    this.setState({
+      visible: false
+    });
+  };
+
+  updateRecord = ({ _id, content, author }: CommentsItem) => {
+    this.setState({
+      visible: true,
+      _id,
+      content,
+      author
+    });
+  };
+
   render() {
-    const { offset, limit, keyword, state } = this.state;
+    const { offset, limit, keyword, state, ...rest } = this.state;
 
     const typeList: TypeList[] = [
       {
@@ -147,10 +171,17 @@ export default class Comments extends React.PureComponent<{}, CommentsState> {
                     <Column
                       title="Action"
                       key="action"
-                      width="200px"
+                      width="300px"
                       render={(text, record: CommentsItem) => {
                         return (
                           <>
+                            <TextButton
+                              onClick={() => this.updateRecord(record)}
+                            >
+                              edit
+                            </TextButton>
+
+                            <Divider type="vertical" />
                             {record.state !== 'SUCCESS' && (
                               <CommentsMutations
                                 mutation={UPDATE_COMMENT}
@@ -211,6 +242,12 @@ export default class Comments extends React.PureComponent<{}, CommentsState> {
                       }}
                     />
                   </Table>
+
+                  <ComponentsModal
+                    handleCancel={this.handleCancel}
+                    mutation={UPDATE_COMMENT}
+                    {...rest}
+                  />
                 </>
               );
             }}
