@@ -17,11 +17,6 @@
       "git add"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "browserslist": [
     ">0.2%",
     "not dead",
@@ -45,6 +40,8 @@
   },
   "devDependencies": {
     "@babel/core": "7.1.6",
+    "@commitlint/cli": "^7.5.2",
+    "@commitlint/config-angular": "^7.5.0",
     "@svgr/webpack": "2.4.1",
     "@types/jest": "23.3.10",
     "@types/node": "10.12.18",
