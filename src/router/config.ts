@@ -1,8 +1,8 @@
 import { lazy } from 'react';
 
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
-const ArticlesList = lazy(() => import('@/pages/Articles/List'));
-const ArticlesRelease = lazy(() => import('@/pages/Articles/Release'));
+const ArticlesList = lazy(() => import('@/pages/ArticleList'));
+const ArticlesRelease = lazy(() => import('@/pages/ArticleRelease'));
 const Comments = lazy(() => import('@/pages/Comments'));
 const Heros = lazy(() => import('@/pages/Heros'));
 const Links = lazy(() => import('@/pages/Links'));

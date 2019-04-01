@@ -14,7 +14,6 @@ export function checkLogin(): boolean {
   const lifeTime =
     JSON.parse(window.localStorage.getItem('TOKEN') || '').lifeTime * 1000;
   const nowTime = new Date().getTime();
-  console.log(lifeTime, nowTime);
   if (nowTime > lifeTime) return false;
   return true;
 }

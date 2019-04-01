@@ -15,7 +15,9 @@ export const BaseRouters = () => (
         );
         return menu.component
           ? route(menu)
-          : menu.subMenu.map(item => route(item));
+          : // TODO: fix it
+            // @ts-ignore
+            menu.subMenu.map(item => route(item));
       })}
 
       <Route component={NotFound} />
